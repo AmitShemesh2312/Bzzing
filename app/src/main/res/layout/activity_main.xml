@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context=".MainActivity">
+
+
+    <ImageView
+        android:id="@+id/wallpaper"
+        android:layout_width="100dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/bzzing_logo" />
+
+    <TextView
+        android:id="@+id/textName"
+        android:layout_width="118dp"
+        android:layout_height="57dp"
+        android:layout_marginTop="32dp"
+        android:text="Name:"
+        android:textColor="#000000"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.194"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/typeName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:imeOptions="actionDone"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.283"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textName" />
+
+
+    <Button
+        android:id="@+id/btnCreateRoom"
+        android:layout_width="140dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="250dp"
+        android:layout_marginEnd="40dp"
+        android:backgroundTint="#3F51B5"
+        android:onClick="roomChoice"
+        android:text="Create a Room!"
+        android:textAllCaps="false"
+        android:textSize="16sp"
+        app:cornerRadius="100dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnJoinRoom"
+        android:layout_width="140dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="250dp"
+        android:backgroundTint="#3F51B5"
+        android:onClick="roomChoice"
+        android:text="Join a Room!"
+        android:textAllCaps="false"
+        android:textColorHint="#AC395E"
+        android:textSize="16sp"
+        app:cornerRadius="100dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnNextPage"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginEnd="28dp"
+        android:layout_marginBottom="32dp"
+        android:backgroundTint="#6200EA"
+        android:text=">"
+        android:textAlignment="center"
+        android:textSize="60sp"
+        app:cornerRadius="100dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <EditText
+        android:id="@+id/typeRoomCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="16dp"
+        android:allowUndo="false"
+        android:ems="10"
+        android:inputType="number"
+        android:hint="Enter Room Code"
+        android:imeOptions="actionDone"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnJoinRoom" />
+
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

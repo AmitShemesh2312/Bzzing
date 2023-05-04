@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FragmentSongPicker"
+    android:background="@drawable/purple_background">
+
+    <TextView
+        android:id="@+id/turnText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="28dp"
+        android:fontFamily="@font/medium"
+        android:gravity="center"
+        android:text="Your Turn!"
+        android:textColor="#DFD2FF"
+        android:textSize="34sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/chooseText"
+        android:layout_width="wrap_content"
+        android:layout_height="56dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="24dp"
+        android:text="Choose a Song to"
+        android:textColor="#FFDFD2FF"
+        android:textSize="26dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/turnText"
+        android:fontFamily="@font/medium"/>
+
+    <TextView
+        android:id="@+id/humText"
+        android:layout_width="wrap_content"
+        android:layout_height="56dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/medium"
+        android:text="Hum..."
+        android:textColor="#151515"
+        android:textSize="26dp"
+        app:layout_constraintStart_toEndOf="@+id/chooseText"
+        app:layout_constraintTop_toBottomOf="@+id/turnText" />
+
+    <TableLayout
+        android:id="@+id/table"
+        android:layout_width="414dp"
+        android:layout_height="490dp"
+        android:layout_marginTop="100dp"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TableRow
+            android:id="@+id/firstRow"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/image0"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/corner_radius"
+                android:clipToOutline="true"
+                android:onClick="songChoice"
+                android:src="@drawable/black"
+                android:tag="0" />
+
+
+            <ImageView
+                android:id="@+id/image1"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                android:layout_marginLeft="20dp"
+                android:background="@drawable/corner_radius"
+                android:clipToOutline="true"
+                android:onClick="songChoice"
+                android:src="@drawable/black"
+                android:tag="1" />
+        </TableRow>
+
+
+        <TableRow
+            android:id="@+id/secondRow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/name0"
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:fontFamily="@font/varelaround_regular"
+                android:onClick="songChoice"
+                android:tag="0"
+                android:text="Song name"
+                android:textColor="#DFD2FF"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/name1"
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:fontFamily="@font/varelaround_regular"
+                android:onClick="songChoice"
+                android:tag="1"
+                android:text="Song name"
+                android:textColor="#DFD2FF"
+                android:textSize="16dp" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/thirdRow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/singer0"
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginRight="20dp"
+                android:fontFamily="@font/varelaround_regular"
+                android:onClick="songChoice"
+                android:tag="0"
+                android:text="Singer Name" />
+
+            <TextView
+                android:id="@+id/singer1"
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/varelaround_regular"
+                android:onClick="songChoice"
+                android:tag="1"
+                android:text="Singer Name" />
+        </TableRow>
+
+
+        <TableRow
+            android:id="@+id/fourthRow"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="30dp"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/image2"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/corner_radius"
+                android:clipToOutline="true"
+                android:onClick="songChoice"
+                android:src="@drawable/black"
+                android:tag="2" />
+
+            <ImageView
+                android:id="@+id/image3"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                android:layout_marginLeft="20dp"
+                android:background="@drawable/corner_radius"
+                android:clipToOutline="true"
+                android:onClick="songChoice"
+                android:src="@drawable/black"
+                android:tag="3" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/fifthRow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/name2"
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:fontFamily="@font/varelaround_regular"
+                android:onClick="songChoice"
+                android:tag="2"
+                android:text="Song Name"
+                android:textColor="#DFD2FF"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/name3"
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:fontFamily="@font/varelaround_regular"
+                android:onClick="songChoice"
+                android:tag="3"
+                android:text="Song Name"
+                android:textColor="#DFD2FF"
+                android:textSize="16dp" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/sixthRow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/singer2"
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginRight="20dp"
+                android:fontFamily="@font/varelaround_regular"
+                android:onClick="songChoice"
+                android:tag="2"
+                android:text="Singer Name" />
+
+            <TextView
+                android:id="@+id/singer3"
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/varelaround_regular"
+                android:onClick="songChoice"
+                android:tag="3"
+                android:text="Singer Name" />
+        </TableRow>
+    </TableLayout>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="152dp"
+        android:layout_height="58dp"
+        android:layout_marginStart="232dp"
+        android:layout_marginTop="710dp"
+        android:backgroundTint="#3F51B5"
+        android:onClick="startHum"
+        android:text="Bzzing It!"
+        android:textAllCaps="false"
+        android:textSize="20sp"
+        app:cornerRadius="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
