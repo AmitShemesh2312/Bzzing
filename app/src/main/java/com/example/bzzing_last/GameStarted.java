@@ -275,6 +275,19 @@ public class GameStarted extends AppCompatActivity implements GameStartedHandler
         return index;
     }
 
+    public int getNotPlayersIndex()
+    {
+        ArrayList<Player> arr = AppUtilities.gameRoom.getNot_players();
+        int index = -1;
+        for (int i = 0; i < arr.size(); i++) {
+            if (arr.get(i).getName().equals(name)) {
+                index = i;
+            }
+        }
+        return index;
+
+    }
+
 
     public void moveIntent()//הפעולה מפסיקה את אנימצית הטעינה ומעבירה intent
     {
@@ -325,6 +338,7 @@ public class GameStarted extends AppCompatActivity implements GameStartedHandler
     public void songGuess(View view) {
         if (chosen) {
             AppUtilities.gameRoom.getPlayers().get(getPlayerIndex()).setSongGuess(songName);
+            //AppUtilities.gameRoom.getNot_players().get(getNotPlayersIndex()).setSongGuess(songName);
             database.updateAll();
             Intent intent = new Intent(this, AfterHumming.class);
             intent.putExtra("name", name);
