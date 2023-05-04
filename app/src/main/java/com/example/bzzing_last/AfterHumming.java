@@ -51,7 +51,6 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
                 textView.setText(AppUtilities.gameRoom.getPlayers().get(i).getName());
                 textView.setTextColor(Color.parseColor("#126C08"));
                 num++;
-                Toast.makeText(this, "hey", Toast.LENGTH_SHORT).show();
             }
         }
     }
