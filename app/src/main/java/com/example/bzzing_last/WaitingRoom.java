@@ -46,7 +46,7 @@ public class WaitingRoom extends AppCompatActivity implements WaitingRoomHandler
         readyButton = true;
         name = getIntent().getStringExtra("name");
 
-        database.listenToDocumentChanges(this);
+        database.listenToDocumentChangess(this);
 
         showRoomCode();
     }
@@ -187,6 +187,7 @@ public class WaitingRoom extends AppCompatActivity implements WaitingRoomHandler
 
     public void goToGameStarted()//הפעולה מעבירה intent
     {
+        database.stopListeningDocumentChanges();
         Intent intent = new Intent(this, GameStarted.class);
         intent.putExtra("name", name);
         startActivity(intent);

@@ -23,10 +23,7 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
         name = getIntent().getStringExtra("name");
 
 
-        if(AppUtilities.gameRoom.getActivePlayer().equals(name))
-            writeNamesIfPlayer();
-        else
-            writeNamesIfNotPlayer();
+        writeNames();
     }
 
     public void writeNamesIfPlayer() {
@@ -37,6 +34,23 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
                 textView.setText(AppUtilities.gameRoom.getPlayers().get(i).getName());
                 textView.setTextColor(Color.parseColor("#CF2500"));
                 num++;
+            }
+        }
+    }
+
+    public void writeNames()
+    {
+        GameRoom gameRoom = AppUtilities.gameRoom;
+        for (int i = 0; i < gameRoom.getNot_players().size(); i++) {
+            int id = getResources().getIdentifier("player_name" + i, "id", getPackageName());
+            TextView textView = findViewById(id);
+            textView.setText(gameRoom.getNot_players().get(i).getName());
+            if(!gameRoom.getNot_players().get(i).getSongGuess().equals(""))
+            {
+                textView.setTextColor(Color.parseColor("#126C08"));
+            }
+            else {
+                textView.setTextColor(Color.parseColor("#CF2500"));
             }
         }
     }

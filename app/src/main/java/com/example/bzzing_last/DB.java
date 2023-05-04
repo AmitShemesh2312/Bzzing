@@ -18,6 +18,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.ServerTimestamp;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -37,8 +38,7 @@ public class DB {
     StorageReference storageRef;
 
 
-    public DB()
-    {
+    public DB() {
         db = FirebaseFirestore.getInstance();
     }
 
@@ -50,17 +50,17 @@ public class DB {
         this.waitingRoom = waitingRoom;
     }
 
-    public void setGameStarted(GameStartedHandler gameStarted){
+    public void setGameStarted(GameStartedHandler gameStarted) {
         this.gameStarted = gameStarted;
         this.storageRef = FirebaseStorage.getInstance().getReference();
     }
 
-    public void setAfterUploadHumming(AfterHummingHandler afterHumming)
-    {
+    public void setAfterUploadHumming(AfterHummingHandler afterHumming) {
         this.afterHumming = afterHumming;
     }
 
 
+    private static final String TAG = "DB";
 
 
     public void updateGameRoom()//הפעולה מעדכנת את הGameRoom וקוראת בהתאם לactivity או לgameStarted
@@ -71,18 +71,16 @@ public class DB {
                 .update(gameRoom.GameRoomToHashMap()).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        if(task.isSuccessful())
-                            if (activity!=null)
+                        if (task.isSuccessful())
+                            if (activity != null)
                                 activity.handleUpdateGameRoom(true);
-                        else
-                            if(activity!=null)
+                            else if (activity != null)
                                 activity.handleUpdateGameRoom(false);
                     }
                 });
     }
 
-    public void updateAll()
-    {
+    public void updateAll() {
         GameRoom gameRoom = AppUtilities.gameRoom;
         db.collection("GameRooms")
                 .document(gameRoom.getRoomCode())
@@ -96,7 +94,7 @@ public class DB {
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        if(activity!=null)
+                        if (activity != null)
                             activity.handleAddGameRoom(task.isSuccessful());
                         else
                             activity.handleAddGameRoom(false);
@@ -123,13 +121,11 @@ public class DB {
                             if (document.exists()) {
                                 if (activity != null)
                                     activity.handleFindGameRoomByNumber("", new GameRoom((HashMap<String, Object>) document.getData()));
-                            }
-                            else {
+                            } else {
                                 if (activity != null)
                                     activity.handleFindGameRoomByNumber("gameRoomNotExist", null);
                             }
-                        }
-                        else {
+                        } else {
                             if (activity != null)
                                 activity.handleFindGameRoomByNumber("failed", null);
                         }
@@ -137,7 +133,7 @@ public class DB {
                 });
     }
 
-    public void roomExist(String roomCode){//בודקת אם חדר המשחק קיים ומחזירה הודעה בהתאם
+    public void roomExist(String roomCode) {//בודקת אם חדר המשחק קיים ומחזירה הודעה בהתאם
         DocumentReference docRef = db.collection("GameRooms").document(roomCode);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -145,16 +141,12 @@ public class DB {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        if(activity!=null)
+                        if (activity != null)
                             activity.roomExistResult(true, roomCode);
-                    }
-                    else
-                        if(activity!=null)
-                            activity.roomExistResult(false, roomCode);
-                }
-                else
-                    if(activity!=null)
+                    } else if (activity != null)
                         activity.roomExistResult(false, roomCode);
+                } else if (activity != null)
+                    activity.roomExistResult(false, roomCode);
             }
         });
     }
@@ -162,19 +154,15 @@ public class DB {
 
     public void listenToDocumentChanges(Activity ac) {//הפעולה מאזינה לכל שינוי הקורה בdatabase
         GameRoom gameRoom = AppUtilities.gameRoom;
-        if(gameRoom != null)
-        {
+        if (gameRoom != null) {
             db.collection("GameRooms").document(gameRoom.getRoomCode()).addSnapshotListener(ac, new EventListener<DocumentSnapshot>() {
                 @Override
                 public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                    if(error!=null)
-                    {
+                    if (error != null) {
                         return;
                     }
-                    if(value!=null)
-                    {
-                        if(waitingRoom != null)
-                        {
+                    if (value != null) {
+                        if (waitingRoom != null) {
                             waitingRoom.updateDocumentChanges(new GameRoom((HashMap<String, Object>) value.getData()));
                         }
                     }
@@ -183,6 +171,32 @@ public class DB {
         }
     }
 
+    private ListenerRegistration listenerRegistration;
+
+    public void listenToDocumentChangess(Activity ac) {
+        GameRoom gameRoom = AppUtilities.gameRoom;
+        if (gameRoom != null) {
+            listenerRegistration = db.collection("GameRooms").document(gameRoom.getRoomCode()).addSnapshotListener(ac, new EventListener<DocumentSnapshot>() {
+                @Override
+                public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                    if (error != null) {
+                        return;
+                    }
+                    if (value != null) {
+                        if (waitingRoom != null) {
+                            waitingRoom.updateDocumentChanges(new GameRoom((HashMap<String, Object>) value.getData()));
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    public void stopListeningDocumentChanges() {
+        if (listenerRegistration != null) {
+            listenerRegistration.remove();
+        }
+    }
 
 
     public void uploadHum(GameStarted gameStarted, int n)//הפעולה מעלה את קטע הקול לfirebase Storage
@@ -199,12 +213,9 @@ public class DB {
         fileRef.putFile(uri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                if(task.isSuccessful())
-                {
+                if (task.isSuccessful()) {
                     gameStarted.moveIntent();
-                }
-                else
-                {
+                } else {
                     Toast.makeText(gameStarted, "Can't upload humming. Hum again!", Toast.LENGTH_SHORT).show();
                     gameStarted.timer();
                 }
@@ -256,31 +267,49 @@ public class DB {
     }
 
 
-
-
     public void listenToChoosingChanges(Activity ac) {
         GameRoom gameRoom = AppUtilities.gameRoom;
         if (gameRoom != null) {
             db.collection("GameRooms").document(gameRoom.getRoomCode())
                     .addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                        @Override
-                        public void onEvent(@Nullable DocumentSnapshot value,
-                                            @Nullable FirebaseFirestoreException error) {
-                            if (error != null) {
-                                return;
-                            }
-                            if (value != null && value.exists()) {
-                                if(gameStarted != null)
-                                {
-                                    Map<String, Object> data = value.getData();
-                                    if (data != null) {
-                                            gameStarted.updateDocumentChanges(new GameRoom((HashMap<String, Object>) value.getData()));
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                                             @Override
+                                             public void onEvent(@Nullable DocumentSnapshot value,
+                                                                 @Nullable FirebaseFirestoreException error) {
+                                                 if (error != null) {
+                                                     return;
+                                                 }
+                                                 if (value != null && value.exists()) {
+                                                     if (gameStarted != null) {
+                                                         Map<String, Object> data = value.getData();
+                                                         if (data != null) {
+                                                             gameStarted.updateDocumentChanges(new GameRoom((HashMap<String, Object>) value.getData()));
+                                                         }
+                                                     }
+                                                 }
+                                             }
+                                         }
                     );
         }
+    }
+
+    public void getUpdatedGameRoom() {
+
+        db.collection("GameRooms").document(AppUtilities.gameRoom.getRoomCode())
+                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document != null && document.exists()) {
+                                AppUtilities.gameRoom = new GameRoom((HashMap<String, Object>) document.getData());
+                            } else {
+                                Log.d(TAG, "No such document");
+                            }
+                        } else {
+                            Log.d(TAG, "get failed with ", task.getException());
+                        }
+                    }
+                });
+
     }
 }

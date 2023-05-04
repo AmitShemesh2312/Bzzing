@@ -52,7 +52,6 @@ public class GameStarted extends AppCompatActivity implements GameStartedHandler
     private Dialog dialog;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,20 +65,26 @@ public class GameStarted extends AppCompatActivity implements GameStartedHandler
         name = getIntent().getStringExtra("name");
 
 
-
         database.listenToChoosingChanges(this);
 
-        setRules();
+        GameRoom gameRoom = AppUtilities.gameRoom;
+        String activePlayer = gameRoom.getPlayers().get(gameRoom.getRounds()).getName();
+        if (name.equals(activePlayer))
+        {
+            gameRoom.setActivePlayer(activePlayer);
+            setRules();
+        }
+        else
+            database.listenToStorageChanges(this);
     }
 
-    public void setRules()
-    {
+    public void setRules() {
         GameRoom gameRoom = AppUtilities.gameRoom;
-        gameRoom.setActivePlayer(gameRoom.getPlayers().get(gameRoom.getRounds()).getName());
+        String activePlayer = gameRoom.getPlayers().get(gameRoom.getRounds()).getName();
         for (int i = 0; i < gameRoom.getPlayers().size(); i++) {
-            if(!name.equals(gameRoom.getPlayers().get(i).getName()))
+            if(!gameRoom.getPlayers().get(i).getName().equals(activePlayer))
             {
-                gameRoom.addNotPlayer(gameRoom.getPlayers().get(i));
+                AppUtilities.gameRoom.addNotPlayer(gameRoom.getPlayers().get(i));
             }
         }
         database.updateAll();
@@ -88,19 +93,14 @@ public class GameStarted extends AppCompatActivity implements GameStartedHandler
 
 
     public void fragmentSongPicker() { //אם השם שהתקבל בעזרת intent שווה לשם של שחקן, לשחקן יועבר fragment
-        if (name.equals(AppUtilities.gameRoom.getPlayers().get(AppUtilities.gameRoom.getRounds()).getName()))
-            fragmentManager.beginTransaction().replace(R.id.fragmentContainerView, FragmentSongPicker.class, null).commit();
-        else
-            database.listenToStorageChanges(this);
-
+        fragmentManager.beginTransaction().replace(R.id.fragmentContainerView, FragmentSongPicker.class, null).commit();
     }
 
 
     public void hear(View view) {
-        if(mediaPlayer == null)
+        if (mediaPlayer == null)
             database.getHumming(AppUtilities.gameRoom.getRounds());
-        else
-        {
+        else {
             mediaPlayer.stop();
             mediaPlayer = null;
         }
@@ -179,13 +179,14 @@ public class GameStarted extends AppCompatActivity implements GameStartedHandler
         }.start();
     }
 
-    public String getSongName() {return songName;}
-
+    public String getSongName() {
+        return songName;
+    }
 
 
     public void Record()//הפעולה מתחילה הקלטה
     {
-        try{
+        try {
             mediaRecorder = new MediaRecorder();
             mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
             mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
@@ -194,15 +195,13 @@ public class GameStarted extends AppCompatActivity implements GameStartedHandler
             mediaRecorder.prepare();
             mediaRecorder.start();
 
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public String getRecordingFilePath()
-    {
-        ContextWrapper contextWrapper =  new ContextWrapper(getApplicationContext());
+    public String getRecordingFilePath() {
+        ContextWrapper contextWrapper = new ContextWrapper(getApplicationContext());
         File musicDirectory = contextWrapper.getExternalFilesDir(Environment.DIRECTORY_MUSIC);
         File file = new File(musicDirectory, "Humming.mp3");
         return file.getPath();
@@ -230,19 +229,17 @@ public class GameStarted extends AppCompatActivity implements GameStartedHandler
                 countdownTimer.setText(time);
 
                 halfSeconds++;
-                if(halfSeconds % 5 == 1)
-                {
+                if (halfSeconds % 5 == 1) {
                     if (imageView.getVisibility() == View.INVISIBLE) {
                         imageView.setVisibility(View.VISIBLE);
-                    }
-                    else {
+                    } else {
                         imageView.setVisibility(View.INVISIBLE);
                     }
                 }
             }
 
             @Override
-                public void onFinish() {
+            public void onFinish() {
                 stopRecord();
                 TextView countdownTimer = findViewById(R.id.countdown_timer);
                 countdownTimer.setText("0.0");
@@ -291,17 +288,15 @@ public class GameStarted extends AppCompatActivity implements GameStartedHandler
         startActivity(intent);
     }
 
-    public void fragmentChoose()
-    {
+    public void fragmentChoose() {
         fragmentManager.beginTransaction().replace(R.id.fragmentContainerView, FragmentGuessingSong.class, null).commit();
     }
 
 
     public void chosenGuessedSong(View view) {
-        if(chosen)
-        {
+        if (chosen) {
             ObjectAnimator animatorX = ObjectAnimator.ofFloat(pic, "scaleX", 1.2f, 1.0f);
-            ObjectAnimator animatorY= ObjectAnimator.ofFloat(pic, "scaleY", 1.2f, 1.0f);
+            ObjectAnimator animatorY = ObjectAnimator.ofFloat(pic, "scaleY", 1.2f, 1.0f);
             animatorX.setDuration(400);
             animatorY.setDuration(400);
             animatorY.start();
@@ -328,23 +323,20 @@ public class GameStarted extends AppCompatActivity implements GameStartedHandler
     }
 
     public void songGuess(View view) {
-        if(chosen)
-        {
+        if (chosen) {
             AppUtilities.gameRoom.getPlayers().get(getPlayerIndex()).setSongGuess(songName);
+            database.updateAll();
             Intent intent = new Intent(this, AfterHumming.class);
             intent.putExtra("name", name);
             startActivity(intent);
-        }
-        else
+        } else
             Toast.makeText(this, "Guess The Song!", Toast.LENGTH_SHORT).show();
     }
 
 
-    public void updateDocumentChanges(GameRoom g)
-    {
+    public void updateDocumentChanges(GameRoom g) {
         AppUtilities.gameRoom = g;
     }
-
 
 
     public void onBackPressed() {//הפעולה חוסמת את אפשרות הלחיצה על כפתור החזור
