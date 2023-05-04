@@ -15,7 +15,6 @@ public class GameRoom{
     private String roomCode;
     private boolean everybodyReady = false;
     private ArrayList<Song> songs = new ArrayList<>();
-    private ArrayList<Song> chosenSongs = null;
 
     private String currentSong = "";
 
@@ -24,6 +23,8 @@ public class GameRoom{
 
 
     private String activePlayer = "";
+
+    private ArrayList<Player> not_players = new ArrayList<>();
 
 
     public GameRoom() {
@@ -109,6 +110,15 @@ public class GameRoom{
         this.activePlayer = activePlayer;
     }
 
+    public ArrayList<Player> getNot_players()
+    {
+        return not_players;
+    }
+    public void setNot_players(ArrayList<Player> not_players)
+    {
+        this.not_players = not_players;
+    }
+
 
 
     public HashMap<String,Object> GameRoomToHashMap()
@@ -123,6 +133,7 @@ public class GameRoom{
         map.put("currentSong", currentSong);
         map.put("uploadFinished", uploadFinished);
         map.put("activePlayer", activePlayer);
+        map.put("not_players", not_players);
 
         return map;
     }
@@ -154,6 +165,12 @@ public class GameRoom{
         this.uploadFinished = Boolean.parseBoolean(map.get("uploadFinished").toString());
 
         this.activePlayer = map.get("activePlayer").toString();
+
+        this.not_players = new ArrayList<>();
+        ArrayList<HashMap<Integer,Object>> np = (ArrayList<HashMap<Integer,Object>>)map.get("not_players");
+        for (int i = 0; i < np.size(); i++) {
+            this.not_players.add(new Player(np.get(i)));
+        }
     }
 
     public void addPlayer(Player p)
@@ -161,4 +178,8 @@ public class GameRoom{
         this.players.add(p);
     }//מוסיף שחקן לרשימת השחקנים
 
+    public void addNotPlayer(Player p)
+    {
+        this.not_players.add(p);
+    }
 }

@@ -65,12 +65,24 @@ public class GameStarted extends AppCompatActivity implements GameStartedHandler
 
         name = getIntent().getStringExtra("name");
 
-        AppUtilities.gameRoom.setActivePlayer(AppUtilities.gameRoom.getPlayers().get(AppUtilities.gameRoom.getRounds()).getName());
 
-        database.updateAll();
 
         database.listenToChoosingChanges(this);
 
+        setRules();
+    }
+
+    public void setRules()
+    {
+        GameRoom gameRoom = AppUtilities.gameRoom;
+        gameRoom.setActivePlayer(gameRoom.getPlayers().get(gameRoom.getRounds()).getName());
+        for (int i = 0; i < gameRoom.getPlayers().size(); i++) {
+            if(!name.equals(gameRoom.getPlayers().get(i).getName()))
+            {
+                gameRoom.addNotPlayer(gameRoom.getPlayers().get(i));
+            }
+        }
+        database.updateAll();
         fragmentSongPicker();
     }
 
