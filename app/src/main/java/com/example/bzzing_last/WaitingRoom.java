@@ -136,6 +136,7 @@ public class WaitingRoom extends AppCompatActivity implements WaitingRoomHandler
     public void updateDocumentChanges(GameRoom g) {//אם לא כולם מוכנים, הפעולה תעדכן את הGameRoom
         GameRoom gameRoom = AppUtilities.gameRoom;
 
+
         if (!gameRoom.getEverybodyReady()) {
             AppUtilities.gameRoom = g;
 

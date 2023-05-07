@@ -55,20 +55,6 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
         }
     }
 
-    public void writeNamesIfNotPlayer()
-    {
-        for (int i = 0; i < AppUtilities.gameRoom.getPlayers().size(); i++) {
-            if(AppUtilities.gameRoom.getPlayers().get(i).getName().equals(name))
-            {
-                int id = getResources().getIdentifier("player_name" + num, "id", getPackageName());
-                TextView textView = findViewById(id);
-                textView.setText(AppUtilities.gameRoom.getPlayers().get(i).getName());
-                textView.setTextColor(Color.parseColor("#126C08"));
-                num++;
-            }
-        }
-    }
-
     public int get_player_position() {
         GameRoom gameRoom = AppUtilities.gameRoom;
         int position = -1;
