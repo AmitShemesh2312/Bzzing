@@ -1,5 +1,6 @@
 package com.example.bzzing_last;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -25,7 +26,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.core.SyncTree;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.File;
 import java.io.IOException;
@@ -71,23 +77,17 @@ public class GameStarted extends AppCompatActivity implements GameStartedHandler
         String activePlayer = gameRoom.getPlayers().get(gameRoom.getRounds()).getName();
         if (name.equals(activePlayer))
         {
-            gameRoom.setActivePlayer(activePlayer);
-            setRules();
+            AppUtilities.gameRoom.setActivePlayer(activePlayer);
+            setRule();
         }
         else
             database.listenToStorageChanges(this);
     }
 
-    public void setRules() {
+    public void setRule() {
         GameRoom gameRoom = AppUtilities.gameRoom;
-        String activePlayer = gameRoom.getPlayers().get(gameRoom.getRounds()).getName();
-        for (int i = 0; i < gameRoom.getPlayers().size(); i++) {
-            if(!gameRoom.getPlayers().get(i).getName().equals(activePlayer))
-            {
-                AppUtilities.gameRoom.addNotPlayer(gameRoom.getPlayers().get(i));
-            }
-        }
-        database.updateAll();
+        gameRoom.setActivePlayer(gameRoom.getPlayers().get(gameRoom.getRounds()).getName());
+        database.updateField("activePlayer");
         fragmentSongPicker();
     }
 
@@ -155,7 +155,7 @@ public class GameStarted extends AppCompatActivity implements GameStartedHandler
             chosen = false;
             fragmentManager.beginTransaction().replace(R.id.fragmentContainerView, FragmentHumming.class, null).commit();
             AppUtilities.gameRoom.setCurrentSong(songName);
-            database.updateAll();
+            database.updateField("currentSong");
             timer();
         } else
             Toast.makeText(this, "Choose a Song To Hum!", Toast.LENGTH_SHORT).show();
@@ -275,24 +275,13 @@ public class GameStarted extends AppCompatActivity implements GameStartedHandler
         return index;
     }
 
-    public int getNotPlayersIndex()
-    {
-        ArrayList<Player> arr = AppUtilities.gameRoom.getNot_players();
-        int index = -1;
-        for (int i = 0; i < arr.size(); i++) {
-            if (arr.get(i).getName().equals(name)) {
-                index = i;
-            }
-        }
-        return index;
 
-    }
 
 
     public void moveIntent()//הפעולה מפסיקה את אנימצית הטעינה ומעבירה intent
     {
         AppUtilities.gameRoom.setUploadFinished(true);
-        database.updateAll();
+        database.updateField("uploadFinished");
 
         dialog.dismiss();
         dialog = null;
@@ -338,8 +327,12 @@ public class GameStarted extends AppCompatActivity implements GameStartedHandler
     public void songGuess(View view) {
         if (chosen) {
             AppUtilities.gameRoom.getPlayers().get(getPlayerIndex()).setSongGuess(songName);
-            //AppUtilities.gameRoom.getNot_players().get(getNotPlayersIndex()).setSongGuess(songName);
-            database.updateAll();
+            database.updateField("players");
+
+
+//            AppUtilities.gameRoom.getPlayers().get(getPlayerIndex()).setSongGuess(songName);
+//            //AppUtilities.gameRoom.getNot_players().get(getNotPlayersIndex()).setSongGuess(songName);
+//            database.updateAll();
             Intent intent = new Intent(this, AfterHumming.class);
             intent.putExtra("name", name);
             startActivity(intent);

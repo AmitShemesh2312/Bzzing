@@ -1,11 +1,9 @@
 package com.example.bzzing_last;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -13,20 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
 
-
-import org.checkerframework.checker.units.qual.A;
-import org.w3c.dom.Text;
-
-import java.util.List;
-import java.util.Random;
 import java.util.ArrayList;
 
 public class WaitingRoom extends AppCompatActivity implements WaitingRoomHandler {
@@ -46,7 +31,7 @@ public class WaitingRoom extends AppCompatActivity implements WaitingRoomHandler
         readyButton = true;
         name = getIntent().getStringExtra("name");
 
-        database.listenToDocumentChangess(this);
+        database.listenToDocumentChanges(this);
 
         showRoomCode();
     }
@@ -140,10 +125,13 @@ public class WaitingRoom extends AppCompatActivity implements WaitingRoomHandler
         if (!gameRoom.getEverybodyReady()) {
             AppUtilities.gameRoom = g;
 
-            everybodyReady();
+            if(g.getPlayers().get(0).getName().equals(name))
+                everybodyReady();
 
             showPlayer();
         }
+        else
+            goToGameStarted();
     }
 
 
@@ -165,7 +153,7 @@ public class WaitingRoom extends AppCompatActivity implements WaitingRoomHandler
                     readyButton = true;
                 }
             }
-            database.updateAll();
+            database.updateField("players");
         } else
             Toast.makeText(this, "Bring Another Friend!", Toast.LENGTH_SHORT).show();
     }
@@ -181,7 +169,7 @@ public class WaitingRoom extends AppCompatActivity implements WaitingRoomHandler
         }
         if (allReady) {
             gameRoom.setEverybodyReady(true);
-            database.updateAll();
+            database.updateField("everybodyReady");
             goToGameStarted();
         }
     }

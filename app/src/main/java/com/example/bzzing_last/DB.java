@@ -1,7 +1,6 @@
 package com.example.bzzing_last;
 
 import android.app.Activity;
-import android.net.EthernetNetworkSpecifier;
 import android.net.Uri;
 import android.util.Log;
 import android.widget.Toast;
@@ -19,7 +18,6 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
-import com.google.firebase.firestore.ServerTimestamp;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -87,6 +85,15 @@ public class DB {
                 .update(gameRoom.GameRoomToHashMap());
     }
 
+    public void updateField(String field) {
+        GameRoom gameRoom = AppUtilities.gameRoom;
+        db.collection("GameRooms")
+                .document(gameRoom.getRoomCode())
+                .update(gameRoom.getField(field));
+    }
+
+
+
     public void addGameRoom() {//הפעולה מוסיפה GameRoom לdatabase
         GameRoom gameRoom = AppUtilities.gameRoom;
         db.collection("GameRooms").document(gameRoom.getRoomCode())
@@ -152,28 +159,11 @@ public class DB {
     }
 
 
-    public void listenToDocumentChanges(Activity ac) {//הפעולה מאזינה לכל שינוי הקורה בdatabase
-        GameRoom gameRoom = AppUtilities.gameRoom;
-        if (gameRoom != null) {
-            db.collection("GameRooms").document(gameRoom.getRoomCode()).addSnapshotListener(ac, new EventListener<DocumentSnapshot>() {
-                @Override
-                public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                    if (error != null) {
-                        return;
-                    }
-                    if (value != null) {
-                        if (waitingRoom != null) {
-                            waitingRoom.updateDocumentChanges(new GameRoom((HashMap<String, Object>) value.getData()));
-                        }
-                    }
-                }
-            });
-        }
-    }
+
 
     private ListenerRegistration listenerRegistration;
 
-    public void listenToDocumentChangess(Activity ac) {
+    public void listenToDocumentChanges(Activity ac) {
         GameRoom gameRoom = AppUtilities.gameRoom;
         if (gameRoom != null) {
             listenerRegistration = db.collection("GameRooms").document(gameRoom.getRoomCode()).addSnapshotListener(ac, new EventListener<DocumentSnapshot>() {

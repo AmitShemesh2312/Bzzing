@@ -1,5 +1,9 @@
         package com.example.bzzing_last;
 
+import android.util.Log;
+
+import com.google.android.material.tabs.TabLayout;
+
 import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
@@ -24,7 +28,6 @@ public class GameRoom{
 
     private String activePlayer = "";
 
-    private ArrayList<Player> not_players = new ArrayList<>();
 
 
     public GameRoom() {
@@ -101,7 +104,7 @@ public class GameRoom{
     }
 
     public void setUploadFinished(boolean uploadFinished){this.uploadFinished = uploadFinished;}
-    public boolean getUploadFinished(){return getUploadFinished();}
+    public boolean getUploadFinished(){return uploadFinished;}
 
     public String getActivePlayer() {
         return activePlayer;
@@ -110,13 +113,50 @@ public class GameRoom{
         this.activePlayer = activePlayer;
     }
 
-    public ArrayList<Player> getNot_players()
+
+
+
+
+
+    public HashMap<String, Object> getField(String field)
     {
-        return not_players;
+        HashMap<String, Object> map = new HashMap<>();
+
+        switch (field){
+            case "currentSong":
+                map.put(field, currentSong);
+                break;
+
+            case "activePlayer":
+                map.put(field, activePlayer);
+                break;
+
+
+
+            case "uploadFinished":
+                map.put(field, uploadFinished);
+                break;
+
+            case "players":
+                map.put(field, players);
+                break;
+
+            case "everybodyReady":
+                map.put(field, everybodyReady);
+        }
+
+        return map;
     }
-    public void setNot_players(ArrayList<Player> not_players)
+
+
+    public ArrayList<String> getNotPlayers()
     {
-        this.not_players = not_players;
+        ArrayList<String> arr = new ArrayList<>();
+        for (int i = 0; i < players.size(); i++) {
+            if(i != getRounds())
+                arr.add(players.get(i).getName());
+        }
+        return arr;
     }
 
 
@@ -133,10 +173,10 @@ public class GameRoom{
         map.put("currentSong", currentSong);
         map.put("uploadFinished", uploadFinished);
         map.put("activePlayer", activePlayer);
-        map.put("not_players", not_players);
 
         return map;
     }
+
 
     public GameRoom(HashMap<String,Object> map)
     {
@@ -166,11 +206,7 @@ public class GameRoom{
 
         this.activePlayer = map.get("activePlayer").toString();
 
-        this.not_players = new ArrayList<>();
-        ArrayList<HashMap<Integer,Object>> np = (ArrayList<HashMap<Integer,Object>>)map.get("not_players");
-        for (int i = 0; i < np.size(); i++) {
-            this.not_players.add(new Player(np.get(i)));
-        }
+
     }
 
     public void addPlayer(Player p)
@@ -178,8 +214,5 @@ public class GameRoom{
         this.players.add(p);
     }//מוסיף שחקן לרשימת השחקנים
 
-    public void addNotPlayer(Player p)
-    {
-        this.not_players.add(p);
-    }
+
 }

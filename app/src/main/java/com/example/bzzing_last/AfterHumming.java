@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class AfterHumming extends AppCompatActivity implements AfterHummingHandler {
 
     DB database = new DB();
@@ -26,32 +28,21 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
         writeNames();
     }
 
-    public void writeNamesIfPlayer() {
-        for (int i = 0; i < AppUtilities.gameRoom.getPlayers().size(); i++) {
-            if (!name.equals(AppUtilities.gameRoom.getPlayers().get(i).getName())) {
-                int id = getResources().getIdentifier("player_name" + num, "id", getPackageName());
-                TextView textView = findViewById(id);
-                textView.setText(AppUtilities.gameRoom.getPlayers().get(i).getName());
-                textView.setTextColor(Color.parseColor("#CF2500"));
-                num++;
-            }
-        }
-    }
 
     public void writeNames()
     {
-        GameRoom gameRoom = AppUtilities.gameRoom;
-        for (int i = 0; i < gameRoom.getNot_players().size(); i++) {
+        ArrayList<String> not_players = AppUtilities.gameRoom.getNotPlayers();
+        for (int i = 0; i < not_players.size(); i++) {
             int id = getResources().getIdentifier("player_name" + i, "id", getPackageName());
             TextView textView = findViewById(id);
-            textView.setText(gameRoom.getNot_players().get(i).getName());
-            if(!gameRoom.getNot_players().get(i).getSongGuess().equals(""))
-            {
-                textView.setTextColor(Color.parseColor("#126C08"));
-            }
-            else {
-                textView.setTextColor(Color.parseColor("#CF2500"));
-            }
+            textView.setText(not_players.get(i));
+//            if(!not_players.get(i).getSongGuess().equals(""))
+//            {
+//                textView.setTextColor(Color.parseColor("#126C08"));
+//            }
+//            else {
+//                textView.setTextColor(Color.parseColor("#CF2500"));
+//            }
         }
     }
 
