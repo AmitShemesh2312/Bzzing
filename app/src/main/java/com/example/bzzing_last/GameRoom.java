@@ -24,9 +24,9 @@ public class GameRoom{
 
     private boolean uploadFinished = false;
 
-
-
     private String activePlayer = "";
+
+    private Boolean everybodyDone = false;
 
 
 
@@ -113,6 +113,9 @@ public class GameRoom{
         this.activePlayer = activePlayer;
     }
 
+    public Boolean getEverybodyDone(){ return everybodyDone;}
+    public void setEverybodyDone(boolean everybodyDone){ this.everybodyDone = everybodyDone;}
+
 
 
 
@@ -143,18 +146,21 @@ public class GameRoom{
 
             case "everybodyReady":
                 map.put(field, everybodyReady);
+
+            case "everybodyDone":
+                map.put(field, everybodyDone);
         }
 
         return map;
     }
 
 
-    public ArrayList<String> getNotPlayers()
+    public ArrayList<NotPlayer> getNotPlayers()
     {
-        ArrayList<String> arr = new ArrayList<>();
+        ArrayList<NotPlayer> arr = new ArrayList<>();
         for (int i = 0; i < players.size(); i++) {
             if(i != getRounds())
-                arr.add(players.get(i).getName());
+                arr.add(new NotPlayer(players.get(i).getName(), players.get(i).getSongGuess()));
         }
         return arr;
     }
@@ -173,6 +179,7 @@ public class GameRoom{
         map.put("currentSong", currentSong);
         map.put("uploadFinished", uploadFinished);
         map.put("activePlayer", activePlayer);
+        map.put("everybodyDone", everybodyDone);
 
         return map;
     }
@@ -206,7 +213,23 @@ public class GameRoom{
 
         this.activePlayer = map.get("activePlayer").toString();
 
+        this.everybodyDone = Boolean.getBoolean(map.get("everybodyDone").toString());
 
+
+    }
+
+
+    public int getPlayerIndex(String name)//הפעולה מחזירה איזה מקום השחקן במערך השחקנים
+    {
+        ArrayList<Player> arr = AppUtilities.gameRoom.getPlayers();
+
+        int index = -1;
+        for (int i = 0; i < arr.size(); i++) {
+            if (arr.get(i).getName().equals(name)) {
+                index = i;
+            }
+        }
+        return index;
     }
 
     public void addPlayer(Player p)

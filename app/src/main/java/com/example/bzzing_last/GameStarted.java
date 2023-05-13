@@ -259,21 +259,9 @@ public class GameStarted extends AppCompatActivity implements GameStartedHandler
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
 
-        database.uploadHum(this, getPlayerIndex());
+        database.uploadHum(this, AppUtilities.gameRoom.getPlayerIndex(name));
     }
 
-    public int getPlayerIndex()//הפעולה מחזירה איזה מקום השחקן במערך השחקנים
-    {
-        ArrayList<Player> arr = AppUtilities.gameRoom.getPlayers();
-
-        int index = -1;
-        for (int i = 0; i < arr.size(); i++) {
-            if (arr.get(i).getName().equals(name)) {
-                index = i;
-            }
-        }
-        return index;
-    }
 
 
 
@@ -291,6 +279,7 @@ public class GameStarted extends AppCompatActivity implements GameStartedHandler
     }
 
     public void fragmentChoose() {
+        database.stopListeningStorageChanges();
         fragmentManager.beginTransaction().replace(R.id.fragmentContainerView, FragmentGuessingSong.class, null).commit();
     }
 
@@ -326,10 +315,11 @@ public class GameStarted extends AppCompatActivity implements GameStartedHandler
 
     public void songGuess(View view) {
         if (chosen) {
-            AppUtilities.gameRoom.getPlayers().get(getPlayerIndex()).setSongGuess(songName);
+            AppUtilities.gameRoom.getPlayers().get(AppUtilities.gameRoom.getPlayerIndex(name)).setSongGuess(songName);
             database.updateField("players");
 
 
+            database.stopListeningChooseChanges();
             Intent intent = new Intent(this, AfterHumming.class);
             intent.putExtra("name", name);
             startActivity(intent);

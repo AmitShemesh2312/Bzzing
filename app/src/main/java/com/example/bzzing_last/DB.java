@@ -35,6 +35,11 @@ public class DB {
     AfterHummingHandler afterHumming;
     StorageReference storageRef;
 
+    private ListenerRegistration documentChanges;
+    private ListenerRegistration storageChanges;
+    private ListenerRegistration chooseChanges;
+    private ListenerRegistration endChanges;
+
 
     public DB() {
         db = FirebaseFirestore.getInstance();
@@ -151,8 +156,6 @@ public class DB {
     }
 
 
-    private ListenerRegistration documentChanges;
-
     public void listenToDocumentChanges(Activity ac) {
         GameRoom gameRoom = AppUtilities.gameRoom;
         documentChanges = db.collection("GameRooms").document(gameRoom.getRoomCode()).addSnapshotListener(ac, new EventListener<DocumentSnapshot>() {
@@ -222,53 +225,87 @@ public class DB {
 
     public void listenToStorageChanges(Activity ac) {
         GameRoom gameRoom = AppUtilities.gameRoom;
-        if (gameRoom != null) {
-            db.collection("GameRooms").document(gameRoom.getRoomCode())
-                    .addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                        @Override
-                        public void onEvent(@Nullable DocumentSnapshot value,
-                                            @Nullable FirebaseFirestoreException error) {
-                            if (error != null) {
-                                return;
-                            }
-                            if (value != null && value.exists()) {
-                                Map<String, Object> data = value.getData();
-                                if (data != null) {
-                                    Boolean uploadFinished = (Boolean) data.get("uploadFinished");
-                                    if (uploadFinished != null && uploadFinished) {
-                                        gameStarted.fragmentChoose();
-                                    }
+        storageChanges = db.collection("GameRooms").document(gameRoom.getRoomCode())
+                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable DocumentSnapshot value,
+                                        @Nullable FirebaseFirestoreException error) {
+                        if (error != null) {
+                            return;
+                        }
+                        if (value != null && value.exists()) {
+                            Map<String, Object> data = value.getData();
+                            if (data != null) {
+                                Boolean uploadFinished = (Boolean) data.get("uploadFinished");
+                                if (uploadFinished != null && uploadFinished) {
+                                    gameStarted.fragmentChoose();
                                 }
                             }
                         }
-                    });
+                    }
+                });
+    }
+
+    public void stopListeningStorageChanges() {
+        if (storageChanges != null) {
+            storageChanges.remove();
         }
     }
 
 
     public void listenToChoosingChanges(Activity ac) {
         GameRoom gameRoom = AppUtilities.gameRoom;
-        if (gameRoom != null) {
-            db.collection("GameRooms").document(gameRoom.getRoomCode())
-                    .addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                                             @Override
-                                             public void onEvent(@Nullable DocumentSnapshot value,
-                                                                 @Nullable FirebaseFirestoreException error) {
-                                                 if (error != null) {
-                                                     return;
-                                                 }
-                                                 if (value != null && value.exists()) {
-                                                     if (gameStarted != null) {
-                                                         Map<String, Object> data = value.getData();
-                                                         if (data != null) {
-                                                             gameStarted.updateDocumentChanges(new GameRoom((HashMap<String, Object>) value.getData()));
-                                                         }
-                                                     }
-                                                 }
-                                             }
-                                         }
-                    );
+        chooseChanges = db.collection("GameRooms").document(gameRoom.getRoomCode())
+                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable DocumentSnapshot value,
+                                        @Nullable FirebaseFirestoreException error) {
+                        if (error != null) {
+                            return;
+                        }
+                        if (value != null && value.exists()) {
+                            if (gameStarted != null) {
+                                Map<String, Object> data = value.getData();
+                                if (data != null) {
+                                    gameStarted.updateDocumentChanges(new GameRoom((HashMap<String, Object>) value.getData()));
+                                }
+                            }
+                        }
+                    }
+                });
+    }
+
+    public void stopListeningChooseChanges() {
+        if (chooseChanges != null) {
+            chooseChanges.remove();
         }
     }
 
+    public void listenToEndChanges(Activity ac) {
+        GameRoom gameRoom = AppUtilities.gameRoom;
+        endChanges = db.collection("GameRooms").document(gameRoom.getRoomCode())
+                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable DocumentSnapshot value,
+                                        @Nullable FirebaseFirestoreException error) {
+                        if (error != null) {
+                            return;
+                        }
+                        if (value != null && value.exists()) {
+                            if (afterHumming != null) {
+                                Map<String, Object> data = value.getData();
+                                if (data != null) {
+                                    afterHumming.updateDocumentChanges(new GameRoom((HashMap<String, Object>) value.getData()));
+                                }
+                            }
+                        }
+                    }
+                });
+    }
+
+    public void stopListeningEndChanges() {
+        if (chooseChanges != null) {
+            chooseChanges.remove();
+        }
+    }
 }

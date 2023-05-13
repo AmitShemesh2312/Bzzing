@@ -13,7 +13,6 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
 
     DB database = new DB();
     String name;
-    int num = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +20,8 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
         setContentView(R.layout.activity_after_humming);
 
         database.setAfterUploadHumming(this);
+
+        database.listenToEndChanges(this);
 
         name = getIntent().getStringExtra("name");
 
@@ -31,27 +32,67 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
 
     public void writeNames()
     {
-        ArrayList<String> not_players = AppUtilities.gameRoom.getNotPlayers();
+        ArrayList<NotPlayer> not_players = AppUtilities.gameRoom.getNotPlayers();
         for (int i = 0; i < not_players.size(); i++) {
             int id = getResources().getIdentifier("player_name" + i, "id", getPackageName());
             TextView textView = findViewById(id);
-            textView.setText(not_players.get(i));
-//            if(!not_players.get(i).getSongGuess().equals(""))
-//            {
-//                textView.setTextColor(Color.parseColor("#126C08"));
-//            }
-//            else {
-//                textView.setTextColor(Color.parseColor("#CF2500"));
-//            }
+            textView.setText(not_players.get(i).getName());
+            if(!not_players.get(i).getSongGuess().equals(""))
+            {
+                textView.setTextColor(Color.parseColor("#126C08"));
+            }
+            else {
+                textView.setTextColor(Color.parseColor("#CF2500"));
+            }
         }
     }
 
-    public int get_player_position() {
+    public void updateDocumentChanges(GameRoom g)
+    {
+        if(!AppUtilities.gameRoom.getEverybodyDone())
+        {
+            AppUtilities.gameRoom = g;
+
+            writeNames();
+
+            if(g.getPlayers().get(0).getName().equals(name))
+                checkIfEverybodyDone();
+        }
+        else
+            songReveal();
+
+    }
+
+    public void checkIfEverybodyDone()
+    {
         GameRoom gameRoom = AppUtilities.gameRoom;
-        int position = -1;
-        for (int i = 0; i < gameRoom.getPlayers().size(); i++)
-            if (gameRoom.getPlayers().get(i).getName().equals(name))
-                position = i;
-        return position;
+        boolean everybodyDone = true;
+
+        for (int i = 0; i < gameRoom.getNotPlayers().size(); i++) {
+            if (gameRoom.getNotPlayers().get(i).getSongGuess().equals(""))
+                everybodyDone = false;
+        }
+        if (everybodyDone) {
+            gameRoom.setEverybodyDone(true);
+            database.updateField("everybodyDone");
+            songReveal();
+        }
+    }
+
+    public void songReveal()
+    {
+        ArrayList<NotPlayer> not_players = AppUtilities.gameRoom.getNotPlayers();
+        for (int i = 0; i < not_players.size(); i++) {
+            int id = getResources().getIdentifier("player_name" + i, "id", getPackageName());
+            TextView textView = findViewById(id);
+            textView.setText(not_players.get(i).getName());
+            if(!not_players.get(i).getSongGuess().equals(""))
+            {
+                textView.setTextColor(Color.parseColor("#161616"));
+            }
+            else {
+                textView.setTextColor(Color.parseColor("#161616"));
+            }
+        }
     }
 }

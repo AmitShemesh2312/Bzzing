@@ -104,19 +104,6 @@ public class WaitingRoom extends AppCompatActivity implements WaitingRoomHandler
     }*/
 
 
-    public int getPlayerIndex()//הפעולה מחזירה איזה מקום השחקן במערך השחקנים
-    {
-        ArrayList<Player> arr = AppUtilities.gameRoom.getPlayers();
-
-        int index = -1;
-        for (int i = 0; i < arr.size(); i++) {
-            if (arr.get(i).getName().equals(name)) {
-                index = i;
-            }
-        }
-        return index;
-    }
-
     @Override
     public void updateDocumentChanges(GameRoom g) {//אם לא כולם מוכנים, הפעולה תעדכן את הGameRoom
         GameRoom gameRoom = AppUtilities.gameRoom;
@@ -138,7 +125,7 @@ public class WaitingRoom extends AppCompatActivity implements WaitingRoomHandler
     public void imReady(View view) {//כאשר שחקן לוחץ על הכפתור, אם מספר השחקנים גדול מ1 הפעולה תעדכן את הכפתור ואת הdatabase
         GameRoom gameRoom = AppUtilities.gameRoom;
         if (gameRoom.getPlayersNum() > 1) {
-            int index = getPlayerIndex();
+            int index = gameRoom.getPlayerIndex(name);
             Button b = findViewById(R.id.ready);
             if (index != -1) {
                 if (readyButton) {
