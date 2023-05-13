@@ -58,11 +58,11 @@ public class GameStarted extends AppCompatActivity implements GameStartedHandler
     private Dialog dialog;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_started);
-
 
         database.setGameStarted(this);
 
@@ -330,9 +330,6 @@ public class GameStarted extends AppCompatActivity implements GameStartedHandler
             database.updateField("players");
 
 
-//            AppUtilities.gameRoom.getPlayers().get(getPlayerIndex()).setSongGuess(songName);
-//            //AppUtilities.gameRoom.getNot_players().get(getNotPlayersIndex()).setSongGuess(songName);
-//            database.updateAll();
             Intent intent = new Intent(this, AfterHumming.class);
             intent.putExtra("name", name);
             startActivity(intent);

@@ -78,20 +78,12 @@ public class DB {
                 });
     }
 
-    public void updateAll() {
-        GameRoom gameRoom = AppUtilities.gameRoom;
-        db.collection("GameRooms")
-                .document(gameRoom.getRoomCode())
-                .update(gameRoom.GameRoomToHashMap());
-    }
-
     public void updateField(String field) {
         GameRoom gameRoom = AppUtilities.gameRoom;
         db.collection("GameRooms")
                 .document(gameRoom.getRoomCode())
                 .update(gameRoom.getField(field));
     }
-
 
 
     public void addGameRoom() {//הפעולה מוסיפה GameRoom לdatabase
@@ -159,32 +151,29 @@ public class DB {
     }
 
 
-
-
-    private ListenerRegistration listenerRegistration;
+    private ListenerRegistration documentChanges;
 
     public void listenToDocumentChanges(Activity ac) {
         GameRoom gameRoom = AppUtilities.gameRoom;
-        if (gameRoom != null) {
-            listenerRegistration = db.collection("GameRooms").document(gameRoom.getRoomCode()).addSnapshotListener(ac, new EventListener<DocumentSnapshot>() {
-                @Override
-                public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                    if (error != null) {
-                        return;
-                    }
-                    if (value != null) {
-                        if (waitingRoom != null) {
-                            waitingRoom.updateDocumentChanges(new GameRoom((HashMap<String, Object>) value.getData()));
-                        }
+        documentChanges = db.collection("GameRooms").document(gameRoom.getRoomCode()).addSnapshotListener(ac, new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (error != null) {
+                    return;
+                }
+                if (value != null) {
+                    if (waitingRoom != null) {
+                        waitingRoom.updateDocumentChanges(new GameRoom((HashMap<String, Object>) value.getData()));
                     }
                 }
-            });
-        }
+            }
+        });
     }
 
+
     public void stopListeningDocumentChanges() {
-        if (listenerRegistration != null) {
-            listenerRegistration.remove();
+        if (documentChanges != null) {
+            documentChanges.remove();
         }
     }
 
@@ -282,24 +271,4 @@ public class DB {
         }
     }
 
-    public void getUpdatedGameRoom() {
-
-        db.collection("GameRooms").document(AppUtilities.gameRoom.getRoomCode())
-                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            if (document != null && document.exists()) {
-                                AppUtilities.gameRoom = new GameRoom((HashMap<String, Object>) document.getData());
-                            } else {
-                                Log.d(TAG, "No such document");
-                            }
-                        } else {
-                            Log.d(TAG, "get failed with ", task.getException());
-                        }
-                    }
-                });
-
-    }
 }
