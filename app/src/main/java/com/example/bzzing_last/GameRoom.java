@@ -13,7 +13,7 @@ import java.util.HashMap;
 
 public class GameRoom{
     private final int maxPlayers = 4;
-    private ArrayList<Player> players;
+    private ArrayList<Player> players = new ArrayList<>();
     private int playersNum;
     private int rounds = 0;
     private String roomCode;
@@ -27,6 +27,8 @@ public class GameRoom{
     private String activePlayer = "";
 
     private Boolean everybodyDone = false;
+
+    private ArrayList<NotPlayer> notPlayers = new ArrayList<>();
 
 
 
@@ -84,7 +86,7 @@ public class GameRoom{
     }
 
     public void setRoomCode(String roomCode){ this.roomCode = roomCode; }
-    public String getRoomCode(){ return "" + roomCode; }
+    public String getRoomCode(){ return roomCode; }
 
     public void setEverybodyReady(boolean everybodyReady){ this.everybodyReady = everybodyReady; }
     public boolean getEverybodyReady(){ return everybodyReady;}
@@ -116,6 +118,9 @@ public class GameRoom{
     public Boolean getEverybodyDone(){ return everybodyDone;}
     public void setEverybodyDone(boolean everybodyDone){ this.everybodyDone = everybodyDone;}
 
+    public ArrayList<NotPlayer> getNotPlayers(){return notPlayers;}
+    public void setNotPlayers(ArrayList<NotPlayer> notPlayers){ this.notPlayers = notPlayers; }
+
 
 
 
@@ -134,8 +139,6 @@ public class GameRoom{
                 map.put(field, activePlayer);
                 break;
 
-
-
             case "uploadFinished":
                 map.put(field, uploadFinished);
                 break;
@@ -146,24 +149,21 @@ public class GameRoom{
 
             case "everybodyReady":
                 map.put(field, everybodyReady);
+                break;
 
             case "everybodyDone":
                 map.put(field, everybodyDone);
-        }
+                break;
 
+            case "notPlayers":
+                map.put(field, notPlayers);
+                break;
+        }
         return map;
     }
 
 
-    public ArrayList<NotPlayer> getNotPlayers()
-    {
-        ArrayList<NotPlayer> arr = new ArrayList<>();
-        for (int i = 0; i < players.size(); i++) {
-            if(i != getRounds())
-                arr.add(new NotPlayer(players.get(i).getName(), players.get(i).getSongGuess()));
-        }
-        return arr;
-    }
+
 
 
 
@@ -180,6 +180,7 @@ public class GameRoom{
         map.put("uploadFinished", uploadFinished);
         map.put("activePlayer", activePlayer);
         map.put("everybodyDone", everybodyDone);
+        map.put("notPlayers", notPlayers);
 
         return map;
     }
@@ -213,19 +214,33 @@ public class GameRoom{
 
         this.activePlayer = map.get("activePlayer").toString();
 
-        this.everybodyDone = Boolean.getBoolean(map.get("everybodyDone").toString());
+        this.everybodyDone = Boolean.parseBoolean(map.get("everybodyDone").toString());
 
 
+        this.notPlayers = new ArrayList<>();
+        ArrayList<HashMap<Integer,Object>> np = (ArrayList<HashMap<Integer, Object>>) map.get("notPlayers");
+        for (int i = 0; i < np.size(); i++) {
+            this.notPlayers.add(new NotPlayer(np.get(i)));
+        }
     }
 
 
     public int getPlayerIndex(String name)//הפעולה מחזירה איזה מקום השחקן במערך השחקנים
     {
-        ArrayList<Player> arr = AppUtilities.gameRoom.getPlayers();
-
         int index = -1;
-        for (int i = 0; i < arr.size(); i++) {
-            if (arr.get(i).getName().equals(name)) {
+        for (int i = 0; i < players.size(); i++) {
+            if (players.get(i).getName().equals(name)) {
+                index = i;
+            }
+        }
+        return index;
+    }
+
+    public int getNotPlayerIndex(String name)
+    {
+        int index = -1;
+        for (int i = 0; i < notPlayers.size(); i++) {
+            if (notPlayers.get(i).getName().equals(name)) {
                 index = i;
             }
         }
@@ -237,5 +252,5 @@ public class GameRoom{
         this.players.add(p);
     }//מוסיף שחקן לרשימת השחקנים
 
-
+    public void addNotPlayer(NotPlayer p){ this.notPlayers.add(p); }
 }

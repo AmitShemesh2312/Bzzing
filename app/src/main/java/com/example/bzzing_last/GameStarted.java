@@ -88,6 +88,13 @@ public class GameStarted extends AppCompatActivity implements GameStartedHandler
         GameRoom gameRoom = AppUtilities.gameRoom;
         gameRoom.setActivePlayer(gameRoom.getPlayers().get(gameRoom.getRounds()).getName());
         database.updateField("activePlayer");
+
+        for (int i = 0; i < gameRoom.getPlayers().size(); i++) {
+            if(!gameRoom.getPlayers().get(i).getName().equals(name))
+                gameRoom.addNotPlayer(new NotPlayer(gameRoom.getPlayers().get(i).getName()));
+        }
+        database.updateField("notPlayers");
+
         fragmentSongPicker();
     }
 
@@ -128,12 +135,19 @@ public class GameStarted extends AppCompatActivity implements GameStartedHandler
     public void songChoice(View view)//הפעולה מעדכנת את התכונות songName וpic לפי בחירת השיר של המשתמש ומבצעת אפקט
     {
         if (chosen) {
-            ObjectAnimator animation = ObjectAnimator.ofFloat(pic, "translationY", 0);
-            animation.setDuration(400);
-            animation.start();
-        }
+            ObjectAnimator animationX = ObjectAnimator.ofFloat(pic, "scaleX", 1.2f, 1.0f);
+            ObjectAnimator animationY = ObjectAnimator.ofFloat(pic, "scaleY", 1.2f, 1.0f);
+            animationX.setDuration(400);
+            animationY.setDuration(400);
+            animationX.start();
+            animationY.start();
 
+            ObjectAnimator animationUp = ObjectAnimator.ofFloat(pic, "translationY", 0);
+            animationUp.setDuration(400);
+            animationUp.start();
+        }
         String position = view.getTag().toString();
+
         int picId = getResources().getIdentifier("image" + position, "id", getPackageName());
 
         pic = findViewById(picId);
@@ -143,9 +157,18 @@ public class GameStarted extends AppCompatActivity implements GameStartedHandler
         songName = textView.getText().toString();
 
 
-        ObjectAnimator animation = ObjectAnimator.ofFloat(pic, "translationY", -100f);
-        animation.setDuration(400);
-        animation.start();
+        pic.setPivotX(pic.getWidth() / 2);
+        pic.setPivotY(pic.getHeight() / 2);
+        ObjectAnimator animationX = ObjectAnimator.ofFloat(pic, "scaleX", 1.0f, 1.2f);
+        ObjectAnimator animationY = ObjectAnimator.ofFloat(pic, "scaleY", 1.0f, 1.2f);
+        animationX.setDuration(400);
+        animationY.setDuration(400);
+        animationX.start();
+        animationY.start();
+
+        ObjectAnimator animationUp = ObjectAnimator.ofFloat(pic, "translationY", -30f);
+        animationUp.setDuration(400);
+        animationUp.start();
         chosen = true;
     }
 
@@ -286,40 +309,51 @@ public class GameStarted extends AppCompatActivity implements GameStartedHandler
 
     public void chosenGuessedSong(View view) {
         if (chosen) {
-            ObjectAnimator animatorX = ObjectAnimator.ofFloat(pic, "scaleX", 1.2f, 1.0f);
-            ObjectAnimator animatorY = ObjectAnimator.ofFloat(pic, "scaleY", 1.2f, 1.0f);
-            animatorX.setDuration(400);
-            animatorY.setDuration(400);
-            animatorY.start();
-            animatorX.start();
-        }
-        int position = Integer.parseInt(view.getTag().toString());
+            ObjectAnimator animationX = ObjectAnimator.ofFloat(pic, "scaleX", 1.2f, 1.0f);
+            ObjectAnimator animationY = ObjectAnimator.ofFloat(pic, "scaleY", 1.2f, 1.0f);
+            animationX.setDuration(400);
+            animationY.setDuration(400);
+            animationX.start();
+            animationY.start();
 
-        int imageId = getResources().getIdentifier("image_guess" + position, "id", getPackageName());
-        pic = findViewById(imageId);
+            ObjectAnimator animationUp = ObjectAnimator.ofFloat(pic, "translationY", 0);
+            animationUp.setDuration(400);
+            animationUp.start();
+        }
+        String position = view.getTag().toString();
+
+        int picId = getResources().getIdentifier("image_guess" + position, "id", getPackageName());
+
+        pic = findViewById(picId);
+
+        int s = getResources().getIdentifier("song_name_guess" + position, "id", getPackageName());
+        TextView textView = findViewById(s);
+        songName = textView.getText().toString();
+
 
         pic.setPivotX(pic.getWidth() / 2);
         pic.setPivotY(pic.getHeight() / 2);
+        ObjectAnimator animationX = ObjectAnimator.ofFloat(pic, "scaleX", 1.0f, 1.2f);
+        ObjectAnimator animationY = ObjectAnimator.ofFloat(pic, "scaleY", 1.0f, 1.2f);
+        animationX.setDuration(400);
+        animationY.setDuration(400);
+        animationX.start();
+        animationY.start();
 
-        ObjectAnimator animatorX = ObjectAnimator.ofFloat(pic, "scaleX", 1.0f, 1.2f);
-        ObjectAnimator animatorY = ObjectAnimator.ofFloat(pic, "scaleY", 1.0f, 1.2f);
-        animatorX.setDuration(400);
-        animatorY.setDuration(400);
-
-        animatorX.start();
-        animatorY.start();
-
-        songName = AppUtilities.gameRoom.getSongs().get(AppUtilities.gameRoom.getRounds() + position).getName();
+        ObjectAnimator animationUp = ObjectAnimator.ofFloat(pic, "translationY", -30f);
+        animationUp.setDuration(400);
+        animationUp.start();
         chosen = true;
     }
 
     public void songGuess(View view) {
         if (chosen) {
-            AppUtilities.gameRoom.getPlayers().get(AppUtilities.gameRoom.getPlayerIndex(name)).setSongGuess(songName);
-            database.updateField("players");
+            AppUtilities.gameRoom.getNotPlayers().get(AppUtilities.gameRoom.getNotPlayerIndex(name)).setSongGuess(songName);
+            database.updateField("notPlayers");
 
 
             database.stopListeningChooseChanges();
+
             Intent intent = new Intent(this, AfterHumming.class);
             intent.putExtra("name", name);
             startActivity(intent);

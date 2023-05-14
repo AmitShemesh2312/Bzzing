@@ -107,7 +107,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityHandl
         {
             AppUtilities.gameRoom = new GameRoom();
             AppUtilities.gameRoom.setPlayersNum(1);
-            AppUtilities.gameRoom.setPlayers(new ArrayList<>());
             AppUtilities.gameRoom.addPlayer(new Player(name));
 
             randomNumbers();

@@ -1,11 +1,11 @@
 package com.example.bzzing_last;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
 import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -14,17 +14,21 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
     DB database = new DB();
     String name;
 
+    private FragmentManager fragmentManager;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_after_humming);
+
+        fragmentManager = getSupportFragmentManager();
 
         database.setAfterUploadHumming(this);
 
         database.listenToEndChanges(this);
 
         name = getIntent().getStringExtra("name");
-
 
         writeNames();
     }
@@ -49,17 +53,15 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
 
     public void updateDocumentChanges(GameRoom g)
     {
+        AppUtilities.gameRoom = g;
         if(!AppUtilities.gameRoom.getEverybodyDone())
         {
-            AppUtilities.gameRoom = g;
-
-            writeNames();
-
-            if(g.getPlayers().get(0).getName().equals(name))
+            if(name.equals(g.getActivePlayer()))
                 checkIfEverybodyDone();
+            else writeNames();
         }
         else
-            songReveal();
+            fragmentSongReveal();
 
     }
 
@@ -75,11 +77,11 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
         if (everybodyDone) {
             gameRoom.setEverybodyDone(true);
             database.updateField("everybodyDone");
-            songReveal();
+            fragmentSongReveal();
         }
     }
 
-    public void songReveal()
+    public void fragmentSongReveal()
     {
         ArrayList<NotPlayer> not_players = AppUtilities.gameRoom.getNotPlayers();
         for (int i = 0; i < not_players.size(); i++) {
@@ -88,10 +90,10 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
             textView.setText(not_players.get(i).getName());
             if(!not_players.get(i).getSongGuess().equals(""))
             {
-                textView.setTextColor(Color.parseColor("#161616"));
+                textView.setTextColor(Color.parseColor("#000000"));
             }
             else {
-                textView.setTextColor(Color.parseColor("#161616"));
+                textView.setTextColor(Color.parseColor("#000000"));
             }
         }
     }

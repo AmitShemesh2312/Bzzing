@@ -9,7 +9,6 @@ public class Player implements Serializable {
     private int accuracy;
     private boolean ready;
 
-    private String songGuess;
 
 
 
@@ -18,7 +17,6 @@ public class Player implements Serializable {
         this.score = 0;
         this.accuracy = 0;
         this.ready = false;
-        this.songGuess = "";
     }
 
 
@@ -28,7 +26,6 @@ public class Player implements Serializable {
         this.score = Integer.valueOf(map.get("score").toString());
         this.accuracy = Integer.valueOf(map.get("accuracy").toString());
         this.ready = Boolean.valueOf(map.get("ready").toString());
-        this.songGuess = map.get("songGuess").toString();
     }
 
     public int getScore() {
@@ -50,13 +47,4 @@ public class Player implements Serializable {
 
     public boolean getReady(){return ready;}
     public void setReady(boolean ready){this.ready = ready;}
-
-    public String getSongGuess()
-    {
-        return songGuess;
-    }
-    public void setSongGuess(String songGuess)
-    {
-        this.songGuess = songGuess;
-    }
 }
