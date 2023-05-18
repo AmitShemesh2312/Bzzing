@@ -30,6 +30,9 @@ public class GameRoom{
 
     private ArrayList<NotPlayer> notPlayers = new ArrayList<>();
 
+    private ArrayList<String> percentSentences = new ArrayList<>();
+    private ArrayList<String> complimentsSentences = new ArrayList<>();
+
 
 
     public GameRoom() {
@@ -59,6 +62,23 @@ public class GameRoom{
 
 
         Collections.shuffle(songs);
+
+
+
+
+        percentSentences.add("Should I be a singer?");
+        percentSentences.add("How much will you give me?");
+        percentSentences.add("Please be generous!");
+        percentSentences.add("Give me 100!");
+        percentSentences.add("Rate me higher than you think");
+        Collections.shuffle(percentSentences);
+
+        complimentsSentences.add("You did great!");
+        complimentsSentences.add("You were okay");
+        complimentsSentences.add("Not that bad!");
+        complimentsSentences.add("Next time you will be better");
+        complimentsSentences.add("Good job!");
+        Collections.shuffle(complimentsSentences);
     }
 
 
@@ -121,6 +141,9 @@ public class GameRoom{
     public ArrayList<NotPlayer> getNotPlayers(){return notPlayers;}
     public void setNotPlayers(ArrayList<NotPlayer> notPlayers){ this.notPlayers = notPlayers; }
 
+    public ArrayList<String> getPercentSentences(){return percentSentences;}
+    public ArrayList<String> getComplimentsSentences(){return complimentsSentences;}
+
 
 
 
@@ -181,6 +204,8 @@ public class GameRoom{
         map.put("activePlayer", activePlayer);
         map.put("everybodyDone", everybodyDone);
         map.put("notPlayers", notPlayers);
+        map.put("percentSentences", percentSentences);
+        map.put("complimentsSentences", complimentsSentences);
 
         return map;
     }
@@ -222,6 +247,10 @@ public class GameRoom{
         for (int i = 0; i < np.size(); i++) {
             this.notPlayers.add(new NotPlayer(np.get(i)));
         }
+
+        this.percentSentences = (ArrayList<String>) map.get("percentSentences");
+        this.complimentsSentences = (ArrayList<String>) map.get("complimentsSentences");
+
     }
 
 
@@ -241,6 +270,18 @@ public class GameRoom{
         int index = -1;
         for (int i = 0; i < notPlayers.size(); i++) {
             if (notPlayers.get(i).getName().equals(name)) {
+                index = i;
+            }
+        }
+        return index;
+    }
+
+    public int getCurrentSongIndex()
+    {
+        int index = -1;
+        for (int i = 0; i < songs.size(); i++) {
+            if (songs.get(i).getName().equals(currentSong))
+            {
                 index = i;
             }
         }

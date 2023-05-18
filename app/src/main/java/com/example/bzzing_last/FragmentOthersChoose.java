@@ -1,5 +1,6 @@
 package com.example.bzzing_last;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,16 +10,17 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link FragmentSongReveal#newInstance} factory method to
+ * Use the {@link FragmentOthersChoose#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FragmentSongReveal extends Fragment {
+public class FragmentOthersChoose extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -29,7 +31,10 @@ public class FragmentSongReveal extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public FragmentSongReveal() {
+    private String sentence = AppUtilities.gameRoom.getComplimentsSentences().get(AppUtilities.gameRoom.getRounds());
+
+
+    public FragmentOthersChoose() {
         // Required empty public constructor
     }
 
@@ -39,11 +44,11 @@ public class FragmentSongReveal extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment FragmentSongReveal.
+     * @return A new instance of fragment othersChoose.
      */
     // TODO: Rename and change types and number of parameters
-    public static FragmentSongReveal newInstance(String param1, String param2) {
-        FragmentSongReveal fragment = new FragmentSongReveal();
+    public static FragmentOthersChoose newInstance(String param1, String param2) {
+        FragmentOthersChoose fragment = new FragmentOthersChoose();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -64,38 +69,31 @@ public class FragmentSongReveal extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_song_reveal, container, false);
-    }
+        return inflater.inflate(R.layout.fragment_others_choose, container, false);
 
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        GameRoom gameRoom = AppUtilities.gameRoom;
 
-        int index = gameRoom.getCurrentSongIndex();
+        ArrayList<NotPlayer> not_players = AppUtilities.gameRoom.getNotPlayers();
+        for (int i = 0; i < not_players.size(); i++)
+        {
+            int id = getResources().getIdentifier("player_name" + i, "id", getContext().getPackageName());
+            TextView textView = getView().findViewById(id);
+            textView.setText(not_players.get(i).getName());
+            if(!not_players.get(i).getSongGuess().equals(""))
+            {
+                textView.setTextColor(Color.parseColor("#126C08"));
+            }
+            else {
+                textView.setTextColor(Color.parseColor("#CF2500"));
+            }
+        }
 
-        ImageView imageView = getView().findViewById(R.id.image);
-        int id = getResources().getIdentifier(gameRoom.getSongs().get(index).getImage(), "drawable", getContext().getPackageName());
-        imageView.setImageResource(id);
-
-        TextView name = getView().findViewById(R.id.songName);
-        name.setText(gameRoom.getSongs().get(index).getName());
-
-        TextView singer = getView().findViewById(R.id.singerName);
-        singer.setText(gameRoom.getSongs().get(index).getSinger());
-
-
-
-        TextView textView = getView().findViewById(R.id.who);
-        textView.setText(gameRoom.getActivePlayer());
-        randomSentence();
-    }
-
-    private void randomSentence() {
-        GameRoom gameRoom = AppUtilities.gameRoom;
-        TextView textView = getView().findViewById(R.id.sentence);
-        textView.setText(gameRoom.getPercentSentences().get(gameRoom.getRounds()));
+        TextView compliment = getView().findViewById(R.id.compliment_sentence);
+        compliment.setText(sentence);
     }
 }

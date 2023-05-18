@@ -24,32 +24,16 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
 
         fragmentManager = getSupportFragmentManager();
 
+
         database.setAfterUploadHumming(this);
 
         database.listenToEndChanges(this);
 
         name = getIntent().getStringExtra("name");
-
-        writeNames();
     }
 
 
-    public void writeNames()
-    {
-        ArrayList<NotPlayer> not_players = AppUtilities.gameRoom.getNotPlayers();
-        for (int i = 0; i < not_players.size(); i++) {
-            int id = getResources().getIdentifier("player_name" + i, "id", getPackageName());
-            TextView textView = findViewById(id);
-            textView.setText(not_players.get(i).getName());
-            if(!not_players.get(i).getSongGuess().equals(""))
-            {
-                textView.setTextColor(Color.parseColor("#126C08"));
-            }
-            else {
-                textView.setTextColor(Color.parseColor("#CF2500"));
-            }
-        }
-    }
+
 
     public void updateDocumentChanges(GameRoom g)
     {
@@ -58,7 +42,6 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
         {
             if(name.equals(g.getActivePlayer()))
                 checkIfEverybodyDone();
-            else writeNames();
         }
         else
             fragmentSongReveal();
@@ -83,18 +66,7 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
 
     public void fragmentSongReveal()
     {
-        ArrayList<NotPlayer> not_players = AppUtilities.gameRoom.getNotPlayers();
-        for (int i = 0; i < not_players.size(); i++) {
-            int id = getResources().getIdentifier("player_name" + i, "id", getPackageName());
-            TextView textView = findViewById(id);
-            textView.setText(not_players.get(i).getName());
-            if(!not_players.get(i).getSongGuess().equals(""))
-            {
-                textView.setTextColor(Color.parseColor("#000000"));
-            }
-            else {
-                textView.setTextColor(Color.parseColor("#000000"));
-            }
-        }
+        if(!name.equals(AppUtilities.gameRoom.getActivePlayer()))
+            fragmentManager.beginTransaction().replace(R.id.fragmentContainerView, FragmentSongReveal.class, null).commit();
     }
 }
