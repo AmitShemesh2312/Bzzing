@@ -16,6 +16,7 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
     DB database = new DB();
     String name;
 
+    private FragmentOthersChoose fragmentOthersChoose;
     private FragmentManager fragmentManager;
 
 
@@ -33,7 +34,7 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
 
         name = getIntent().getStringExtra("name");
 
-        FragmentOthersChoose fragmentOthersChoose = new FragmentOthersChoose();
+        fragmentOthersChoose = new FragmentOthersChoose();
         fragmentOthersChoose.setName(name);
         fragmentManager.beginTransaction().replace(R.id.fragmentContainerView, fragmentOthersChoose).commit();
     }
@@ -46,6 +47,7 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
         AppUtilities.gameRoom = g;
         if(!AppUtilities.gameRoom.getEverybodyDone())
         {
+            fragmentOthersChoose.writeNames();
             if(name.equals(g.getActivePlayer()))
                 checkIfEverybodyDone();
         }

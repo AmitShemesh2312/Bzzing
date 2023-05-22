@@ -83,6 +83,10 @@ public class FragmentOthersChoose extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        writeNames();
+    }
+    public void writeNames()
+    {
         GameRoom gameRoom = AppUtilities.gameRoom;
 
         ArrayList<NotPlayer> not_players = gameRoom.getNotPlayers();
@@ -105,6 +109,5 @@ public class FragmentOthersChoose extends Fragment {
             TextView compliment = getView().findViewById(R.id.compliment_sentence);
             compliment.setText(sentence);
         }
-
     }
 }

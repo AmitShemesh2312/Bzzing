@@ -1,10 +1,14 @@
 package com.example.bzzing_last;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +19,7 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -83,6 +88,7 @@ public class FragmentSongReveal extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         GameRoom gameRoom = AppUtilities.gameRoom;
+        borders();
 
         int index = gameRoom.getCurrentSongIndex();
 
@@ -104,7 +110,28 @@ public class FragmentSongReveal extends Fragment {
         picker();
     }
 
-
+    public void borders()
+    {
+        GameRoom gameRoom = AppUtilities.gameRoom;
+        View dividerUp = getView().findViewById(R.id.dividerUp);
+        View dividerLeft = getView().findViewById(R.id.dividerLeft);
+        View dividerRight = getView().findViewById(R.id.dividerRight);
+        View dividerBottom = getView().findViewById(R.id.dividerBottom);
+        if(gameRoom.getNotPlayers().get(gameRoom.getNotPlayerIndex(name)).getSongGuess().equals(gameRoom.getCurrentSong()))
+        {
+            dividerUp.setBackgroundColor(Color.parseColor("#3d8c40"));
+            dividerLeft.setBackgroundColor(Color.parseColor("#3d8c40"));
+            dividerRight.setBackgroundColor(Color.parseColor("#3d8c40"));
+            dividerBottom.setBackgroundColor(Color.parseColor("#3d8c40"));
+        }
+        else
+        {
+            dividerUp.setBackgroundColor(Color.parseColor("#b30000"));
+            dividerLeft.setBackgroundColor(Color.parseColor("#b30000"));
+            dividerRight.setBackgroundColor(Color.parseColor("#b30000"));
+            dividerBottom.setBackgroundColor(Color.parseColor("#b30000"));
+        }
+    }
 
     public void picker()
     {
@@ -112,15 +139,15 @@ public class FragmentSongReveal extends Fragment {
         numberPicker = getView().findViewById(R.id.numberPicker);
 
 
-        numberPicker.setMinValue(0);
+        numberPicker.setMinValue(1);
         numberPicker.setMaxValue(10);
         numberPicker.setValue(5);
-        numberPicker.setWrapSelectorWheel(true);
-
+        numberPicker.setWrapSelectorWheel(false);
 
         numberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                picker.setValue(newVal);
                 gameRoom.getNotPlayers().get(gameRoom.getNotPlayerIndex(name)).setRate(newVal);
             }
         });
