@@ -70,14 +70,17 @@ public class GameRoom{
         percentSentences.add("How much will you give me?");
         percentSentences.add("Please be generous!");
         percentSentences.add("Give me 100!");
-        percentSentences.add("Rate me higher than you think");
+        percentSentences.add("Rate me higher");
+        percentSentences.add("Monday left me broken! :(");
+        percentSentences.add("Wenomechainsama?");
         Collections.shuffle(percentSentences);
 
         complimentsSentences.add("You did great!");
         complimentsSentences.add("You were okay");
         complimentsSentences.add("Not that bad!");
-        complimentsSentences.add("Next time you will be better");
+        complimentsSentences.add("Next time you will do better");
         complimentsSentences.add("Good job!");
+        complimentsSentences.add("A squirrel can do better");
         Collections.shuffle(complimentsSentences);
     }
 

@@ -5,7 +5,9 @@ import androidx.fragment.app.FragmentManager;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -30,6 +32,10 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
         database.listenToEndChanges(this);
 
         name = getIntent().getStringExtra("name");
+
+        FragmentOthersChoose fragmentOthersChoose = new FragmentOthersChoose();
+        fragmentOthersChoose.setName(name);
+        fragmentManager.beginTransaction().replace(R.id.fragmentContainerView, fragmentOthersChoose).commit();
     }
 
 
@@ -67,6 +73,16 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
     public void fragmentSongReveal()
     {
         if(!name.equals(AppUtilities.gameRoom.getActivePlayer()))
-            fragmentManager.beginTransaction().replace(R.id.fragmentContainerView, FragmentSongReveal.class, null).commit();
+        {
+            FragmentSongReveal fragmentSongReveal = new FragmentSongReveal();
+            fragmentSongReveal.setName(name);
+            fragmentManager.beginTransaction().replace(R.id.fragmentContainerView, fragmentSongReveal).commit();
+        }
+        else fragmentManager.beginTransaction().replace(R.id.fragmentContainerView, FragmentExpectations.class, null).commit();
+    }
+
+    public void afterRealizing(View view)
+    {
+        database.updateField("notPlayers");
     }
 }

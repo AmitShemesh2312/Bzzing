@@ -31,7 +31,13 @@ public class FragmentOthersChoose extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private String name = "";
     private String sentence = AppUtilities.gameRoom.getComplimentsSentences().get(AppUtilities.gameRoom.getRounds());
+
+    public void setName(String name)
+    {
+        this.name = name;
+    }
 
 
     public FragmentOthersChoose() {
@@ -77,8 +83,9 @@ public class FragmentOthersChoose extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        GameRoom gameRoom = AppUtilities.gameRoom;
 
-        ArrayList<NotPlayer> not_players = AppUtilities.gameRoom.getNotPlayers();
+        ArrayList<NotPlayer> not_players = gameRoom.getNotPlayers();
         for (int i = 0; i < not_players.size(); i++)
         {
             int id = getResources().getIdentifier("player_name" + i, "id", getContext().getPackageName());
@@ -93,7 +100,11 @@ public class FragmentOthersChoose extends Fragment {
             }
         }
 
-        TextView compliment = getView().findViewById(R.id.compliment_sentence);
-        compliment.setText(sentence);
+        if(gameRoom.getActivePlayer().equals(name))
+        {
+            TextView compliment = getView().findViewById(R.id.compliment_sentence);
+            compliment.setText(sentence);
+        }
+
     }
 }

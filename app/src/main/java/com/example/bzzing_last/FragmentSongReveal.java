@@ -11,7 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.NumberPicker;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,6 +32,13 @@ public class FragmentSongReveal extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private String name = "";
+    private NumberPicker numberPicker;
+    public void setName(String name)
+    {
+        this.name = name;
+    }
 
     public FragmentSongReveal() {
         // Required empty public constructor
@@ -80,8 +91,8 @@ public class FragmentSongReveal extends Fragment {
         int id = getResources().getIdentifier(gameRoom.getSongs().get(index).getImage(), "drawable", getContext().getPackageName());
         imageView.setImageResource(id);
 
-        TextView name = getView().findViewById(R.id.songName);
-        name.setText(gameRoom.getSongs().get(index).getName());
+        TextView songName = getView().findViewById(R.id.songName);
+        songName.setText(gameRoom.getSongs().get(index).getName());
 
         TextView singer = getView().findViewById(R.id.singerName);
         singer.setText(gameRoom.getSongs().get(index).getSinger());
@@ -90,12 +101,44 @@ public class FragmentSongReveal extends Fragment {
 
         TextView textView = getView().findViewById(R.id.who);
         textView.setText(gameRoom.getActivePlayer());
+
         randomSentence();
+        picker();
     }
 
     private void randomSentence() {
         GameRoom gameRoom = AppUtilities.gameRoom;
         TextView textView = getView().findViewById(R.id.sentence);
-        textView.setText(gameRoom.getPercentSentences().get(gameRoom.getRounds()));
+        textView.setText(gameRoom.getPercentSentences().get((4 * gameRoom.getRounds()) + AppUtilities.gameRoom.getPlayerIndex(name)));
+    }
+
+    public void picker()
+    {
+        GameRoom gameRoom = AppUtilities.gameRoom;
+        numberPicker = getView().findViewById(R.id.numberPicker);
+
+
+        numberPicker.setMinValue(0);
+        numberPicker.setMaxValue(10);
+        numberPicker.setValue(5);
+        numberPicker.setFormatter(new DescendingFormatter());
+
+
+        numberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                gameRoom.getNotPlayers().get(gameRoom.getNotPlayerIndex(name)).setRate(newVal);
+
+            }
+        });
+    }
+
+    private class DescendingFormatter implements NumberPicker.Formatter
+    {
+        @Override
+        public String format(int value) {
+            int reverseValue = 10-value;
+            return String.valueOf(reverseValue);
+        }
     }
 }

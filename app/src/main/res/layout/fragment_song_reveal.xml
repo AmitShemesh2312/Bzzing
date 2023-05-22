@@ -23,7 +23,7 @@
         android:layout_width="130dp"
         android:layout_height="130dp"
         android:layout_marginStart="50dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="50dp"
         android:background="@drawable/corner_radius"
         android:clipToOutline="true"
         android:src="@drawable/black"
@@ -88,16 +88,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/by" />
 
-    <TextView
-        android:id="@+id/percent"
+    <NumberPicker
+        android:id="@+id/numberPicker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="272dp"
-        android:layout_marginTop="68dp"
-        android:text="%"
-        android:textColor="#000000"
-        android:textSize="60dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sentence" />
+        app:layout_constraintTop_toBottomOf="@+id/sentence"
+        />
+
+    <Button
+        android:id="@+id/next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="300dp"
+        android:layout_marginTop="20dp"
+        android:text="Next"
+        android:onClick="afterRealizing"
+        android:textAllCaps="false"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/numberPicker" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
