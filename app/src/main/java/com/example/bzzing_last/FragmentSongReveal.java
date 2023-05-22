@@ -13,7 +13,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -102,15 +101,10 @@ public class FragmentSongReveal extends Fragment {
         TextView textView = getView().findViewById(R.id.who);
         textView.setText(gameRoom.getActivePlayer());
 
-        randomSentence();
         picker();
     }
 
-    private void randomSentence() {
-        GameRoom gameRoom = AppUtilities.gameRoom;
-        TextView textView = getView().findViewById(R.id.sentence);
-        textView.setText(gameRoom.getPercentSentences().get((4 * gameRoom.getRounds()) + AppUtilities.gameRoom.getPlayerIndex(name)));
-    }
+
 
     public void picker()
     {
@@ -121,24 +115,14 @@ public class FragmentSongReveal extends Fragment {
         numberPicker.setMinValue(0);
         numberPicker.setMaxValue(10);
         numberPicker.setValue(5);
-        numberPicker.setFormatter(new DescendingFormatter());
+        numberPicker.setWrapSelectorWheel(true);
 
 
         numberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
                 gameRoom.getNotPlayers().get(gameRoom.getNotPlayerIndex(name)).setRate(newVal);
-
             }
         });
-    }
-
-    private class DescendingFormatter implements NumberPicker.Formatter
-    {
-        @Override
-        public String format(int value) {
-            int reverseValue = 10-value;
-            return String.valueOf(reverseValue);
-        }
     }
 }

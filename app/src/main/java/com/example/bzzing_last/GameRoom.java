@@ -30,7 +30,6 @@ public class GameRoom{
 
     private ArrayList<NotPlayer> notPlayers = new ArrayList<>();
 
-    private ArrayList<String> percentSentences = new ArrayList<>();
     private ArrayList<String> complimentsSentences = new ArrayList<>();
 
 
@@ -66,21 +65,13 @@ public class GameRoom{
 
 
 
-        percentSentences.add("Should I be a singer?");
-        percentSentences.add("How much will you give me?");
-        percentSentences.add("Please be generous!");
-        percentSentences.add("Give me 100!");
-        percentSentences.add("Rate me higher");
-        percentSentences.add("Monday left me broken! :(");
-        percentSentences.add("Wenomechainsama?");
-        Collections.shuffle(percentSentences);
+
 
         complimentsSentences.add("You did great!");
         complimentsSentences.add("You were okay");
         complimentsSentences.add("Not that bad!");
         complimentsSentences.add("Next time you will do better");
         complimentsSentences.add("Good job!");
-        complimentsSentences.add("A squirrel can do better");
         Collections.shuffle(complimentsSentences);
     }
 
@@ -144,7 +135,6 @@ public class GameRoom{
     public ArrayList<NotPlayer> getNotPlayers(){return notPlayers;}
     public void setNotPlayers(ArrayList<NotPlayer> notPlayers){ this.notPlayers = notPlayers; }
 
-    public ArrayList<String> getPercentSentences(){return percentSentences;}
     public ArrayList<String> getComplimentsSentences(){return complimentsSentences;}
 
 
@@ -207,7 +197,6 @@ public class GameRoom{
         map.put("activePlayer", activePlayer);
         map.put("everybodyDone", everybodyDone);
         map.put("notPlayers", notPlayers);
-        map.put("percentSentences", percentSentences);
         map.put("complimentsSentences", complimentsSentences);
 
         return map;
@@ -251,7 +240,6 @@ public class GameRoom{
             this.notPlayers.add(new NotPlayer(np.get(i)));
         }
 
-        this.percentSentences = (ArrayList<String>) map.get("percentSentences");
         this.complimentsSentences = (ArrayList<String>) map.get("complimentsSentences");
 
     }
