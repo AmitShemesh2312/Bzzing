@@ -16,7 +16,10 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
+import android.widget.SeekBar;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -38,7 +41,6 @@ public class FragmentSongReveal extends Fragment {
     private String mParam2;
 
     private String name = "";
-    private NumberPicker numberPicker;
     public void setName(String name)
     {
         this.name = name;
@@ -48,15 +50,6 @@ public class FragmentSongReveal extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment FragmentSongReveal.
-     */
-    // TODO: Rename and change types and number of parameters
     public static FragmentSongReveal newInstance(String param1, String param2) {
         FragmentSongReveal fragment = new FragmentSongReveal();
         Bundle args = new Bundle();
@@ -106,19 +99,19 @@ public class FragmentSongReveal extends Fragment {
 
         TextView textView = getView().findViewById(R.id.who);
         textView.setText(gameRoom.getActivePlayer());
-
-        picker();
     }
 
     public void borders()
     {
         GameRoom gameRoom = AppUtilities.gameRoom;
+        TextView answer = getView().findViewById(R.id.answer);
         View dividerUp = getView().findViewById(R.id.dividerUp);
         View dividerLeft = getView().findViewById(R.id.dividerLeft);
         View dividerRight = getView().findViewById(R.id.dividerRight);
         View dividerBottom = getView().findViewById(R.id.dividerBottom);
         if(gameRoom.getNotPlayers().get(gameRoom.getNotPlayerIndex(name)).getSongGuess().equals(gameRoom.getCurrentSong()))
         {
+            answer.setText("You're Right!");
             dividerUp.setBackgroundColor(Color.parseColor("#3d8c40"));
             dividerLeft.setBackgroundColor(Color.parseColor("#3d8c40"));
             dividerRight.setBackgroundColor(Color.parseColor("#3d8c40"));
@@ -126,30 +119,11 @@ public class FragmentSongReveal extends Fragment {
         }
         else
         {
+            answer.setText("You're Wrong!");
             dividerUp.setBackgroundColor(Color.parseColor("#b30000"));
             dividerLeft.setBackgroundColor(Color.parseColor("#b30000"));
             dividerRight.setBackgroundColor(Color.parseColor("#b30000"));
             dividerBottom.setBackgroundColor(Color.parseColor("#b30000"));
         }
-    }
-
-    public void picker()
-    {
-        GameRoom gameRoom = AppUtilities.gameRoom;
-        numberPicker = getView().findViewById(R.id.numberPicker);
-
-
-        numberPicker.setMinValue(1);
-        numberPicker.setMaxValue(10);
-        numberPicker.setValue(5);
-        numberPicker.setWrapSelectorWheel(false);
-
-        numberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-            @Override
-            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                picker.setValue(newVal);
-                gameRoom.getNotPlayers().get(gameRoom.getNotPlayerIndex(name)).setRate(newVal);
-            }
-        });
     }
 }

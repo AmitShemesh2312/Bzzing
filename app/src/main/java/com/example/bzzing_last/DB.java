@@ -255,26 +255,25 @@ public class DB {
 
     public void listenToChoosingChanges(Activity ac) {
         GameRoom gameRoom = AppUtilities.gameRoom;
-            chooseChanges = db.collection("GameRooms").document(gameRoom.getRoomCode())
-                    .addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                        @Override
-                        public void onEvent(@Nullable DocumentSnapshot value,
-                                            @Nullable FirebaseFirestoreException error) {
-                            if (error != null) {
-                                return;
-                            }
-                            if (value != null && value.exists()) {
-                                if (gameStarted != null) {
-                                    Map<String, Object> data = value.getData();
-                                    if (data != null) {
-                                        gameStarted.updateDocumentChanges(new GameRoom((HashMap<String, Object>) value.getData()));
-                                    }
+        chooseChanges = db.collection("GameRooms").document(gameRoom.getRoomCode())
+                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable DocumentSnapshot value,
+                                        @Nullable FirebaseFirestoreException error) {
+                        if (error != null) {
+                            return;
+                        }
+                        if (value != null && value.exists()) {
+                            if (gameStarted != null) {
+                                Map<String, Object> data = value.getData();
+                                if (data != null) {
+                                    gameStarted.updateDocumentChanges(new GameRoom((HashMap<String, Object>) value.getData()));
                                 }
                             }
                         }
-                    });
+                    }
+                });
     }
-
     public void stopListeningChooseChanges() {
         if (chooseChanges != null) {
             chooseChanges.remove();

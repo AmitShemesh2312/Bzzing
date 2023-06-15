@@ -66,27 +66,16 @@
     <com.airbnb.lottie.LottieAnimationView
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="60dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/compliment_sentence"
+        app:layout_constraintTop_toBottomOf="@+id/player_name2"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
         app:lottie_rawRes="@raw/waves_spreading"></com.airbnb.lottie.LottieAnimationView>
 
-    <TextView
-        android:id="@+id/compliment_sentence"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text=""
-        android:textColor="#434343"
-        android:textSize="25dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/player_name2" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

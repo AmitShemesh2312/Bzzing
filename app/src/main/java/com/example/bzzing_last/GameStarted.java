@@ -296,8 +296,11 @@ public class GameStarted extends AppCompatActivity implements GameStartedHandler
 
         dialog.dismiss();
         dialog = null;
+
+
         Intent intent = new Intent(this, AfterHumming.class);
         intent.putExtra("name", name);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
 
@@ -351,11 +354,11 @@ public class GameStarted extends AppCompatActivity implements GameStartedHandler
             AppUtilities.gameRoom.getNotPlayers().get(AppUtilities.gameRoom.getNotPlayerIndex(name)).setSongGuess(songName);
             database.updateField("notPlayers");
 
-
             database.stopListeningChooseChanges();
 
             Intent intent = new Intent(this, AfterHumming.class);
             intent.putExtra("name", name);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         } else
             Toast.makeText(this, "Guess The Song!", Toast.LENGTH_SHORT).show();

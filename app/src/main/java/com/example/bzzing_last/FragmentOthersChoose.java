@@ -32,7 +32,6 @@ public class FragmentOthersChoose extends Fragment {
     private String mParam2;
 
     private String name = "";
-    private String sentence = AppUtilities.gameRoom.getComplimentsSentences().get(AppUtilities.gameRoom.getRounds());
 
     public void setName(String name)
     {
@@ -102,12 +101,6 @@ public class FragmentOthersChoose extends Fragment {
             else {
                 textView.setTextColor(Color.parseColor("#CF2500"));
             }
-        }
-
-        if(gameRoom.getActivePlayer().equals(name))
-        {
-            TextView compliment = getView().findViewById(R.id.compliment_sentence);
-            compliment.setText(sentence);
         }
     }
 }
