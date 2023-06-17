@@ -5,8 +5,8 @@ import java.util.HashMap;
 
 public class Player implements Serializable {
     private String name;
-    private int score;
-    private int accuracy;
+    private int expectations;
+    private int reality;
     private boolean ready;
 
 
@@ -14,8 +14,8 @@ public class Player implements Serializable {
 
     public Player(String name) {
         this.name = name;
-        this.score = 0;
-        this.accuracy = 0;
+        this.expectations = 5;
+        this.reality = 5;
         this.ready = false;
     }
 
@@ -23,16 +23,16 @@ public class Player implements Serializable {
     public Player(HashMap<Integer,Object> map)
     {
         this.name = map.get("name").toString();
-        this.score = Integer.valueOf(map.get("score").toString());
-        this.accuracy = Integer.valueOf(map.get("accuracy").toString());
+        this.expectations = Integer.valueOf(map.get("expectations").toString());
+        this.reality = Integer.valueOf(map.get("reality").toString());
         this.ready = Boolean.valueOf(map.get("ready").toString());
     }
 
-    public int getScore() {
-        return score;
+    public int getExpectations() {
+        return expectations;
     }
-    public void setScore(int score) {
-        this.score = score;
+    public void setExpectations(int expectations) {
+        this.expectations = expectations;
     }
 
     public String getName() {
@@ -42,8 +42,8 @@ public class Player implements Serializable {
         this.name = name;
     }
 
-    public int getAccuracy() {return accuracy;}
-    public void setAccuracy(int accuracy) {this.accuracy = accuracy;}
+    public int getReality() {return reality;}
+    public void setReality(int reality) {this.reality = reality;}
 
     public boolean getReady(){return ready;}
     public void setReady(boolean ready){this.ready = ready;}

@@ -1,19 +1,12 @@
 package com.example.bzzing_last;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentManager;
 
-import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.google.android.material.textview.MaterialTextView;
-
-import java.util.ArrayList;
 
 public class AfterHumming extends AppCompatActivity implements AfterHummingHandler {
 
@@ -109,14 +102,52 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
         textView.setText("" + rate);
     }
 
-    public void afterRealizing(View view) {
+    public void rateHum(View view)
+    {
+        GameRoom gameRoom = AppUtilities.gameRoom;
+        Player p = gameRoom.getPlayers().get(gameRoom.getRounds());
+        int rate = p.getExpectations();
+        TextView textView = findViewById(R.id.pointsHum);
+
+        int tag = Integer.parseInt(view.getTag().toString());
+        if(rate < 10 && rate > 0)
+        {
+            if (tag == 1)
+                rate += 1;
+            else
+                rate -= 1;
+        }
+        else if(rate == 0)
+        {
+            if(tag == 1)
+                rate += 1;
+        }
+        else
+        {
+            if(tag == 0)
+                rate -= 1;
+        }
+        p.setExpectations(rate);
+        textView.setText("" + rate);
+    }
+
+    public void submitReality(View view) {
+        database.stopListeningEndChanges();
         database.updateField("notPlayers");
         fragmentManager.beginTransaction().replace(R.id.fragmentContainerView, FragmentNextPlayer.class, null).commit();
     }
 
+    public void submitExpectations(View view)
+    {
+        database.stopListeningEndChanges();
+        database.updateField("players");
+        fragmentManager.beginTransaction().replace(R.id.fragmentContainerView, FragmentNextPlayer.class, null).commit();
+    }
 
-    //צריך ללחוץ פעמיים על המשך אם לא מזמזם
+
+    //צריך ללחוץ פעמיים על המשך
     //ללחוץ על השמיעה קורס
+
     public void playRecording(View view)
     {
         if (mediaPlayer == null)
