@@ -18,7 +18,6 @@ public class WaitingRoom extends AppCompatActivity implements WaitingRoomHandler
 
     private DB database;
     private boolean readyButton;
-
     private String name;
 
     @Override
