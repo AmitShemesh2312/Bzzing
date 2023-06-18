@@ -106,7 +106,7 @@
         android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/playersNum"
-        app:srcCompat="@drawable/blackcircle" />
+        app:srcCompat="@drawable/black_circle" />
 
     <ImageView
         android:id="@+id/dot2"
@@ -117,7 +117,7 @@
         android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dot1"
-        app:srcCompat="@drawable/blackcircle" />
+        app:srcCompat="@drawable/black_circle" />
 
     <ImageView
         android:id="@+id/dot3"
@@ -128,7 +128,7 @@
         android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dot2"
-        app:srcCompat="@drawable/blackcircle" />
+        app:srcCompat="@drawable/black_circle" />
 
     <ImageView
         android:id="@+id/dot4"
@@ -139,7 +139,7 @@
         android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dot3"
-        app:srcCompat="@drawable/blackcircle" />
+        app:srcCompat="@drawable/black_circle" />
 
     <View
         android:id="@+id/divider"

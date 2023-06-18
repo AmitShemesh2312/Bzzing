@@ -113,23 +113,7 @@ public class GameStarted extends AppCompatActivity implements GameStartedHandler
         }
     }
 
-    @Override
-    public void playHumming(Uri downloadUrl) {
-        try {
-            mediaPlayer = new MediaPlayer();
-            mediaPlayer.setDataSource(downloadUrl.toString());
-            mediaPlayer.prepare();
-            mediaPlayer.start();
-            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                @Override
-                public void onCompletion(MediaPlayer mp) {
-                    mediaPlayer = null;
-                }
-            });
-        } catch (IOException e) {
-            Log.e("TAG", "Failed to play audio file", e);
-        }
-    }
+
 
 
     public void songChoice(View view)//הפעולה מעדכנת את התכונות songName וpic לפי בחירת השיר של המשתמש ומבצעת אפקט
@@ -202,10 +186,6 @@ public class GameStarted extends AppCompatActivity implements GameStartedHandler
         }.start();
     }
 
-    public String getSongName() {
-        return songName;
-    }
-
 
     public void Record()//הפעולה מתחילה הקלטה
     {
@@ -230,15 +210,6 @@ public class GameStarted extends AppCompatActivity implements GameStartedHandler
         return file.getPath();
     }
 
-
-    public void stopRecord()//הפעולה מפסיקה את ההקלטה
-    {
-        mediaRecorder.stop();
-        mediaRecorder.release();
-        mediaRecorder = null;
-    }
-
-
     private void startRecord()//הפעולה מבצעת טיימר של 5 שניות בזמן שמקליטים את הזמזום
     {
         ImageView imageView = findViewById(R.id.microphone);
@@ -250,7 +221,6 @@ public class GameStarted extends AppCompatActivity implements GameStartedHandler
                 String time = formatter.format(millisUntilFinished / 1000.0);
                 TextView countdownTimer = findViewById(R.id.countdown_timer);
                 countdownTimer.setText(time);
-
                 halfSeconds++;
                 if (halfSeconds % 5 == 1) {
                     if (imageView.getVisibility() == View.INVISIBLE) {
@@ -260,7 +230,6 @@ public class GameStarted extends AppCompatActivity implements GameStartedHandler
                     }
                 }
             }
-
             @Override
             public void onFinish() {
                 stopRecord();
@@ -272,7 +241,12 @@ public class GameStarted extends AppCompatActivity implements GameStartedHandler
         }.start();
     }
 
-
+    public void stopRecord()//הפעולה מפסיקה את ההקלטה
+    {
+        mediaRecorder.stop();
+        mediaRecorder.release();
+        mediaRecorder = null;
+    }
     public void dialogAnimation()//הפעולה מראה אנימציה של המסך של טעינה
     {
         dialog = new Dialog(this);

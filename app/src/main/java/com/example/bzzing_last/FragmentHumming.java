@@ -71,6 +71,6 @@ public class FragmentHumming extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
     {
         TextView textView = view.findViewById(R.id.songText);
-        textView.setText(((GameStarted)getActivity()).getSongName());
+        textView.setText(AppUtilities.gameRoom.getCurrentSong());
     }
 }

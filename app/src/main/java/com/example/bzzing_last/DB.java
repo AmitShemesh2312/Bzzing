@@ -63,9 +63,6 @@ public class DB {
     }
 
 
-    private static final String TAG = "DB";
-
-
     public void updateGameRoom()//הפעולה מעדכנת את הGameRoom וקוראת בהתאם לactivity או לgameStarted
     {
         GameRoom gameRoom = AppUtilities.gameRoom;
@@ -212,7 +209,7 @@ public class DB {
         fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri downloadUrl) {
-                gameStarted.playHumming(downloadUrl);
+                AppUtilities.gameRoom.playHumming(downloadUrl);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

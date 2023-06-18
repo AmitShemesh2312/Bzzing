@@ -16,6 +16,7 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
     private FragmentOthersChoose fragmentOthersChoose;
     private FragmentManager fragmentManager;
     private MediaPlayer mediaPlayer;
+    private boolean next = false;
 
 
     @Override
@@ -64,13 +65,14 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
     }
 
     public void fragmentSongReveal() {
-        if (!name.equals(AppUtilities.gameRoom.getActivePlayer())) {
-            FragmentSongReveal fragmentSongReveal = new FragmentSongReveal();
-            fragmentSongReveal.setName(name);
-            fragmentManager.beginTransaction().replace(R.id.fragmentContainerView, fragmentSongReveal).commit();
-        } else
-        {
-            fragmentManager.beginTransaction().replace(R.id.fragmentContainerView, FragmentExpectations.class, null).commit();
+        if (!next) {
+            if (!name.equals(AppUtilities.gameRoom.getActivePlayer())) {
+                FragmentSongReveal fragmentSongReveal = new FragmentSongReveal();
+                fragmentSongReveal.setName(name);
+                fragmentManager.beginTransaction().replace(R.id.fragmentContainerView, fragmentSongReveal).commit();
+            } else {
+                fragmentManager.beginTransaction().replace(R.id.fragmentContainerView, FragmentExpectations.class, null).commit();
+            }
         }
     }
 
@@ -81,50 +83,39 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
         TextView textView = findViewById(R.id.points);
 
         int tag = Integer.parseInt(view.getTag().toString());
-        if(rate < 10 && rate > 0)
-        {
+        if (rate < 10 && rate > 0) {
             if (tag == 1)
                 rate += 1;
             else
                 rate -= 1;
-        }
-        else if(rate == 0)
-        {
-            if(tag == 1)
+        } else if (rate == 0) {
+            if (tag == 1)
                 rate += 1;
-        }
-        else
-        {
-            if(tag == 0)
+        } else {
+            if (tag == 0)
                 rate -= 1;
         }
         p.setRate(rate);
         textView.setText("" + rate);
     }
 
-    public void rateHum(View view)
-    {
+    public void rateHum(View view) {
         GameRoom gameRoom = AppUtilities.gameRoom;
         Player p = gameRoom.getPlayers().get(gameRoom.getRounds());
         int rate = p.getExpectations();
         TextView textView = findViewById(R.id.pointsHum);
 
         int tag = Integer.parseInt(view.getTag().toString());
-        if(rate < 10 && rate > 0)
-        {
+        if (rate < 10 && rate > 0) {
             if (tag == 1)
                 rate += 1;
             else
                 rate -= 1;
-        }
-        else if(rate == 0)
-        {
-            if(tag == 1)
+        } else if (rate == 0) {
+            if (tag == 1)
                 rate += 1;
-        }
-        else
-        {
-            if(tag == 0)
+        } else {
+            if (tag == 0)
                 rate -= 1;
         }
         p.setExpectations(rate);
@@ -132,24 +123,18 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
     }
 
     public void submitReality(View view) {
-        database.stopListeningEndChanges();
         database.updateField("notPlayers");
         fragmentManager.beginTransaction().replace(R.id.fragmentContainerView, FragmentNextPlayer.class, null).commit();
+        next = true;
     }
 
-    public void submitExpectations(View view)
-    {
-        database.stopListeningEndChanges();
+    public void submitExpectations(View view) {
         database.updateField("players");
         fragmentManager.beginTransaction().replace(R.id.fragmentContainerView, FragmentNextPlayer.class, null).commit();
+        next = true;
     }
 
-
-    //צריך ללחוץ פעמיים על המשך
-    //ללחוץ על השמיעה קורס
-
-    public void playRecording(View view)
-    {
+    public void playRecording(View view) {
         if (mediaPlayer == null)
             database.getHumming(AppUtilities.gameRoom.getRounds());
         else {

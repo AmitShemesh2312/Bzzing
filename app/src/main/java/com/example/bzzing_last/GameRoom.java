@@ -1,11 +1,14 @@
         package com.example.bzzing_last;
 
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.util.Log;
 
 import com.google.android.material.tabs.TabLayout;
 
 import org.checkerframework.checker.units.qual.A;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -31,6 +34,8 @@ public class GameRoom{
     private ArrayList<NotPlayer> notPlayers = new ArrayList<>();
 
     private ArrayList<String> complimentsSentences = new ArrayList<>();
+
+    private MediaPlayer mediaPlayer;
 
 
 
@@ -70,6 +75,7 @@ public class GameRoom{
         complimentsSentences.add("You did great!");
         complimentsSentences.add("You were okay");
         complimentsSentences.add("Not that bad!");
+        complimentsSentences.add("Not bad at all!");
         complimentsSentences.add("Next time you will do better");
         complimentsSentences.add("Good job!");
         Collections.shuffle(complimentsSentences);
@@ -277,6 +283,23 @@ public class GameRoom{
             }
         }
         return index;
+    }
+
+    public void playHumming(Uri downloadUrl) {
+        try {
+            mediaPlayer = new MediaPlayer();
+            mediaPlayer.setDataSource(downloadUrl.toString());
+            mediaPlayer.prepare();
+            mediaPlayer.start();
+            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    mediaPlayer = null;
+                }
+            });
+        } catch (IOException e) {
+            Log.e("TAG", "Failed to play audio file", e);
+        }
     }
 
     public void addPlayer(Player p)
