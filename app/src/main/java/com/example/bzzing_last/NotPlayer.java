@@ -5,7 +5,7 @@ import java.util.HashMap;
 public class NotPlayer {
     private String name = "";
     private String songGuess = "";
-    private int rate = 5;
+    private int rate;
 
     public NotPlayer(String name)
     {

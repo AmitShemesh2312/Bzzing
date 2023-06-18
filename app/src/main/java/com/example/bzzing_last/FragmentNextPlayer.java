@@ -69,21 +69,21 @@ public class FragmentNextPlayer extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        GameRoom gameRoom = AppUtilities.gameRoom;
-
-        TextView rounds = getView().findViewById(R.id.rounds);
-        rounds.setText((gameRoom.getRounds() + 1) + " / " + gameRoom.getPlayers().size());
-
-        for (int i = 0; i < gameRoom.getMaxPlayers(); i++) {
-            int id = getResources().getIdentifier( "nextPlayer_Player" + i, "id", getContext().getPackageName());
-            TextView textView = getView().findViewById(id);
-            textView.setText("");
-        }
-
-        for (int i = 0; i < gameRoom.getPlayers().size(); i++) {
-            int id = getResources().getIdentifier( "nextPlayer_Player" + i, "id", getContext().getPackageName());
-            TextView textView = getView().findViewById(id);
-            textView.setText(gameRoom.getPlayers().get(i).getName());
-        }
+//        GameRoom gameRoom = AppUtilities.gameRoom;
+//
+//        TextView rounds = getView().findViewById(R.id.rounds);
+//        rounds.setText((gameRoom.getRounds() + 1) + " / " + gameRoom.getPlayers().size());
+//
+//        for (int i = 0; i < gameRoom.getMaxPlayers(); i++) {
+//            int id = getResources().getIdentifier( "nextPlayer_Player" + i, "id", getContext().getPackageName());
+//            TextView textView = getView().findViewById(id);
+//            textView.setText("");
+//        }
+//
+//        for (int i = 0; i < gameRoom.getPlayers().size(); i++) {
+//            int id = getResources().getIdentifier( "nextPlayer_Player" + i, "id", getContext().getPackageName());
+//            TextView textView = getView().findViewById(id);
+//            textView.setText(gameRoom.getPlayers().get(i).getName());
+//        }
     }
 }

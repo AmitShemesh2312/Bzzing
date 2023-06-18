@@ -7,7 +7,7 @@
     tools:context=".FragmentNextPlayer">
 
     <TextView
-        android:id="@+id/textView_Ready"
+        android:id="@+id/finishScoring_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/nextPlayer_Player0"
+        android:id="@+id/finishScoring_Player0"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
@@ -31,7 +31,7 @@
         app:layout_constraintTop_toBottomOf="@+id/rounds" />
 
     <TextView
-        android:id="@+id/nextPlayer_Player1"
+        android:id="@+id/finishScoring_Player1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
@@ -40,10 +40,10 @@
         android:textColor="#423870"
         android:textSize="40dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nextPlayer_Player0" />
+        app:layout_constraintTop_toBottomOf="@+id/finishScoring_Player0" />
 
     <TextView
-        android:id="@+id/nextPlayer_Player2"
+        android:id="@+id/finishScoring_Player2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
@@ -52,10 +52,10 @@
         android:textColor="#423870"
         android:textSize="40dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nextPlayer_Player1" />
+        app:layout_constraintTop_toBottomOf="@+id/finishScoring_Player1" />
 
     <TextView
-        android:id="@+id/nextPlayer_Player3"
+        android:id="@+id/finishScoring_Player3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
@@ -64,7 +64,7 @@
         android:textColor="#423870"
         android:textSize="40dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nextPlayer_Player2" />
+        app:layout_constraintTop_toBottomOf="@+id/finishScoring_Player2" />
 
     <TextView
         android:id="@+id/rounds"
@@ -72,11 +72,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="rounds"
-        android:textColor="#535353"
+        android:textColor="#4C4C4C"
         android:textSize="25dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_Ready" />
+        app:layout_constraintTop_toBottomOf="@+id/finishScoring_textView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

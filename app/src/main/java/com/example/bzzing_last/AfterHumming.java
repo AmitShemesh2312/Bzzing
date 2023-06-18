@@ -3,10 +3,12 @@ package com.example.bzzing_last;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class AfterHumming extends AppCompatActivity implements AfterHummingHandler {
 
@@ -14,6 +16,7 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
     String name;
 
     private FragmentOthersChoose fragmentOthersChoose;
+    private FragmentFinishScoring fragmentFinishScoring;
     private FragmentManager fragmentManager;
     private MediaPlayer mediaPlayer;
     private boolean next = false;
@@ -33,6 +36,8 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
 
         name = getIntent().getStringExtra("name");
 
+        fragmentFinishScoring = new FragmentFinishScoring();
+
         fragmentOthersChoose = new FragmentOthersChoose();
         fragmentOthersChoose.setName(name);
         fragmentManager.beginTransaction().replace(R.id.fragmentContainerView, fragmentOthersChoose, null).commit();
@@ -41,13 +46,34 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
 
     public void updateDocumentChanges(GameRoom g) {
         AppUtilities.gameRoom = g;
-        if (!AppUtilities.gameRoom.getEverybodyDone()) {
-            fragmentOthersChoose.writeNames();
-            if (name.equals(g.getActivePlayer()))
-                checkIfEverybodyDone();
-        } else
-            fragmentSongReveal();
+        if (g.getPlayers().get(g.getPlayerIndex(name)).getDoneScoring()){
+            if(checkIfEverybodyDoneScoring())
+            {
+                fragmentManager.beginTransaction().replace(R.id.fragmentContainerView, FragmentNextPlayer.class, null).commit();
+            }
+            fragmentFinishScoring.writeNames();
+        }
+        else {
+            if (!AppUtilities.gameRoom.getEverybodyDone()) {
+                fragmentOthersChoose.writeNames();
+                if (name.equals(g.getActivePlayer()))
+                    checkIfEverybodyDone();
+            } else
+                fragmentSongReveal();
+        }
     }
+
+
+    public boolean checkIfEverybodyDoneScoring() {
+        GameRoom gameRoom = AppUtilities.gameRoom;
+        for (int i = 0; i < gameRoom.getPlayers().size(); i++) {
+            if (!gameRoom.getPlayers().get(i).getDoneScoring()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 
     public void checkIfEverybodyDone() {
         GameRoom gameRoom = AppUtilities.gameRoom;
@@ -79,8 +105,8 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
     public void ratePlayer(View view) {
         GameRoom gameRoom = AppUtilities.gameRoom;
         NotPlayer p = gameRoom.getNotPlayers().get(gameRoom.getNotPlayerIndex(name));
-        int rate = p.getRate();
         TextView textView = findViewById(R.id.points);
+        int rate = Integer.parseInt(textView.getText().toString());
 
         int tag = Integer.parseInt(view.getTag().toString());
         if (rate < 10 && rate > 0) {
@@ -102,8 +128,8 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
     public void rateHum(View view) {
         GameRoom gameRoom = AppUtilities.gameRoom;
         Player p = gameRoom.getPlayers().get(gameRoom.getRounds());
-        int rate = p.getExpectations();
         TextView textView = findViewById(R.id.pointsHum);
+        int rate = Integer.parseInt(textView.getText().toString());
 
         int tag = Integer.parseInt(view.getTag().toString());
         if (rate < 10 && rate > 0) {
@@ -123,14 +149,17 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
     }
 
     public void submitReality(View view) {
+        fragmentManager.beginTransaction().replace(R.id.fragmentContainerView, fragmentFinishScoring, null).commit();
+        AppUtilities.gameRoom.getPlayers().get(AppUtilities.gameRoom.getPlayerIndex(name)).setDoneScoring(true);
         database.updateField("notPlayers");
-        fragmentManager.beginTransaction().replace(R.id.fragmentContainerView, FragmentNextPlayer.class, null).commit();
+        database.updateField("players");
         next = true;
     }
 
     public void submitExpectations(View view) {
+        fragmentManager.beginTransaction().replace(R.id.fragmentContainerView, fragmentFinishScoring, null).commit();
+        AppUtilities.gameRoom.getPlayers().get(AppUtilities.gameRoom.getPlayerIndex(name)).setDoneScoring(true);
         database.updateField("players");
-        fragmentManager.beginTransaction().replace(R.id.fragmentContainerView, FragmentNextPlayer.class, null).commit();
         next = true;
     }
 
@@ -141,5 +170,10 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
             mediaPlayer.stop();
             mediaPlayer = null;
         }
+    }
+
+    @Override
+    public void onBackPressed() {//הפעולה חוסמת את אפשרות הלחיצה על כפתור החזור
+        return;
     }
 }

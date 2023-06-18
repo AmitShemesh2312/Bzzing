@@ -1,12 +1,16 @@
 package com.example.bzzing_last;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -60,5 +64,38 @@ public class FragmentFinishScoring extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_finish_scoring, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+
+        writeNames();
+    }
+
+    public void writeNames()
+    {
+        GameRoom gameRoom = AppUtilities.gameRoom;
+
+        for (int i = 0; i < gameRoom.getMaxPlayers(); i++) {
+            int id = getResources().getIdentifier( "finishScoring_Player" + i, "id", getContext().getPackageName());
+            TextView textView = getView().findViewById(id);
+            textView.setText("");
+        }
+
+        for (int i = 0; i < gameRoom.getPlayers().size(); i++) {
+            Player p = gameRoom.getPlayers().get(i);
+            int id = getResources().getIdentifier( "finishScoring_Player" + i, "id", getContext().getPackageName());
+            TextView textView = getView().findViewById(id);
+            textView.setText(p.getName());
+            if(p.getDoneScoring())
+            {
+                textView.setTextColor(Color.parseColor("#126C08"));
+            }
+            else {
+                textView.setTextColor(Color.parseColor("#CF2500"));
+            }
+        }
     }
 }

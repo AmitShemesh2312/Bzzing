@@ -8,15 +8,15 @@ public class Player implements Serializable {
     private int expectations;
     private int reality;
     private boolean ready;
+    private boolean doneScoring;
 
 
 
 
     public Player(String name) {
         this.name = name;
-        this.expectations = 5;
-        this.reality = 5;
         this.ready = false;
+        this.doneScoring = false;
     }
 
 
@@ -26,13 +26,18 @@ public class Player implements Serializable {
         this.expectations = Integer.valueOf(map.get("expectations").toString());
         this.reality = Integer.valueOf(map.get("reality").toString());
         this.ready = Boolean.valueOf(map.get("ready").toString());
+        this.doneScoring = Boolean.valueOf(map.get("doneScoring").toString());
     }
 
-    public int getExpectations() {
-        return expectations;
+
+    public Boolean getDoneScoring()
+    {
+        return doneScoring;
     }
-    public void setExpectations(int expectations) {
-        this.expectations = expectations;
+
+    public void setDoneScoring(Boolean doneScoring)
+    {
+        this.doneScoring = doneScoring;
     }
 
     public String getName() {
@@ -40,6 +45,13 @@ public class Player implements Serializable {
     }
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getExpectations() {
+        return expectations;
+    }
+    public void setExpectations(int expectations) {
+        this.expectations = expectations;
     }
 
     public int getReality() {return reality;}

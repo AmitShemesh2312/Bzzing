@@ -247,7 +247,6 @@ public class GameRoom{
         }
 
         this.complimentsSentences = (ArrayList<String>) map.get("complimentsSentences");
-
     }
 
 
