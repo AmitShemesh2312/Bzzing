@@ -11,9 +11,11 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.storage.FirebaseStorage;
@@ -52,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityHandl
             }
         });
     }
+
 
     public void roomChoice(View view) { //בודקת על איזה כפתור לחץ המשתמש. לפתוח חדר חדש או להתחבר לחדר קיים
         Button button = (Button)view;

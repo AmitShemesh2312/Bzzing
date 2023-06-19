@@ -95,7 +95,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="300dp"
         android:layout_marginTop="100dp"
-        android:onClick="submitReality"
+        android:onClick="submitScore"
         android:text="Next"
         android:textAllCaps="false"
         app:layout_constraintStart_toStartOf="parent"

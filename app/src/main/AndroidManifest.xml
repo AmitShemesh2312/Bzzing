@@ -15,6 +15,14 @@
         android:theme="@style/Theme.Bzzing_last"
         tools:targetApi="31">
         <activity
+            android:name=".nextPlayer"
+            android:exported="false" />
+        <activity
+            android:name=".NextPlayer"
+            android:exported="false"
+            android:label="@string/title_activity_next_player"
+            android:theme="@style/Theme.Bzzing_last" />
+        <activity
             android:name=".AfterHumming"
             android:exported="false" />
         <activity

@@ -3,6 +3,7 @@ package com.example.bzzing_last;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -49,7 +50,9 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
         if (g.getPlayers().get(g.getPlayerIndex(name)).getDoneScoring()){
             if(checkIfEverybodyDoneScoring())
             {
-               fragmentManager.beginTransaction().replace(R.id.fragmentContainerView, FragmentNextPlayer.class, null).commit();
+                Intent intent = new Intent(this, nextPlayer.class);
+                intent.putExtra("name", name);
+                startActivity(intent);
             }
             fragmentFinishScoring.writeNames();
         }
@@ -148,17 +151,12 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
         textView.setText("" + rate);
     }
 
-    public void submitReality(View view) {
+
+    public void submitScore(View view)
+    {
         fragmentManager.beginTransaction().replace(R.id.fragmentContainerView, fragmentFinishScoring, null).commit();
         AppUtilities.gameRoom.getPlayers().get(AppUtilities.gameRoom.getPlayerIndex(name)).setDoneScoring(true);
         database.updateField("notPlayers");
-        database.updateField("players");
-        next = true;
-    }
-
-    public void submitExpectations(View view) {
-        fragmentManager.beginTransaction().replace(R.id.fragmentContainerView, fragmentFinishScoring, null).commit();
-        AppUtilities.gameRoom.getPlayers().get(AppUtilities.gameRoom.getPlayerIndex(name)).setDoneScoring(true);
         database.updateField("players");
         next = true;
     }

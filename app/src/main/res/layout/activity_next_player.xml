@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FragmentNextPlayer">
+    tools:context=".nextPlayer">
 
     <TextView
         android:id="@+id/nextPlayer_textView"
@@ -78,5 +78,17 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nextPlayer_textView" />
+
+    <TextView
+        android:id="@+id/nextPlayer_timer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="90dp"
+        android:text="3"
+        android:textSize="75dp"
+        android:textColor="#423870"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nextPlayer_Player3" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

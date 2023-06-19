@@ -162,7 +162,7 @@ public class WaitingRoom extends AppCompatActivity implements WaitingRoomHandler
     public void goToGameStarted()//הפעולה מעבירה intent
     {
         database.stopListeningDocumentChanges();
-        Intent intent = new Intent(this, GameStarted.class);
+        Intent intent = new Intent(this, nextPlayer.class);
         intent.putExtra("name", name);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
