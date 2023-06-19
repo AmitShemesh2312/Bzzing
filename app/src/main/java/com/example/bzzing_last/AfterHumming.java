@@ -49,7 +49,7 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
         if (g.getPlayers().get(g.getPlayerIndex(name)).getDoneScoring()){
             if(checkIfEverybodyDoneScoring())
             {
-                fragmentManager.beginTransaction().replace(R.id.fragmentContainerView, FragmentNextPlayer.class, null).commit();
+               fragmentManager.beginTransaction().replace(R.id.fragmentContainerView, FragmentNextPlayer.class, null).commit();
             }
             fragmentFinishScoring.writeNames();
         }
