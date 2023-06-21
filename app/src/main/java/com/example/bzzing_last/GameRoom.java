@@ -38,7 +38,6 @@ public class GameRoom{
     private MediaPlayer mediaPlayer;
 
 
-
     public GameRoom() {
         //Shawn Mendes
         songs.add(new Song("There's Nothing Holdin' Me Back", "Shawn Mendes", "illuminate"));
@@ -180,6 +179,10 @@ public class GameRoom{
             case "notPlayers":
                 map.put(field, notPlayers);
                 break;
+
+            case "rounds":
+                map.put(field, rounds);
+
         }
         return map;
     }

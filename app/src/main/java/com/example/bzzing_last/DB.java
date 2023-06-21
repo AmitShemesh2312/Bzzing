@@ -35,6 +35,7 @@ public class DB {
     AfterHummingHandler afterHumming;
     StorageReference storageRef;
 
+
     private ListenerRegistration documentChanges;
     private ListenerRegistration storageChanges;
     private ListenerRegistration chooseChanges;
@@ -78,6 +79,13 @@ public class DB {
                                 activity.handleUpdateGameRoom(false);
                     }
                 });
+    }
+
+    public void updateAll() {
+        GameRoom gameRoom = AppUtilities.gameRoom;
+        db.collection("GameRooms")
+                .document(gameRoom.getRoomCode())
+                .update(gameRoom.GameRoomToHashMap());
     }
 
     public void updateField(String field) {
@@ -222,6 +230,7 @@ public class DB {
 
     public void listenToStorageChanges(Activity ac) {
         GameRoom gameRoom = AppUtilities.gameRoom;
+
         storageChanges = db.collection("GameRooms").document(gameRoom.getRoomCode())
                 .addSnapshotListener(new EventListener<DocumentSnapshot>() {
                     @Override
@@ -241,6 +250,7 @@ public class DB {
                         }
                     }
                 });
+
     }
 
     public void stopListeningStorageChanges() {
@@ -270,7 +280,9 @@ public class DB {
                         }
                     }
                 });
+
     }
+
     public void stopListeningChooseChanges() {
         if (chooseChanges != null) {
             chooseChanges.remove();
@@ -297,11 +309,34 @@ public class DB {
                         }
                     }
                 });
+
     }
 
     public void stopListeningEndChanges() {
-        if (chooseChanges != null) {
-            chooseChanges.remove();
+        if (endChanges != null) {
+            endChanges.remove();
         }
+    }
+
+    public void getUpdates() {
+        db.collection("GameRooms").document(AppUtilities.gameRoom.getRoomCode())
+                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable DocumentSnapshot value,
+                                        @Nullable FirebaseFirestoreException error) {
+                        if (error != null) {
+                            return;
+                        }
+                        if (value != null && value.exists()) {
+                            if (gameStarted != null) {
+                                Map<String, Object> data = value.getData();
+                                if (data != null) {
+                                    gameStarted.updateDocumentChanges(new GameRoom((HashMap<String, Object>) value.getData()));
+                                }
+                            }
+                        }
+                    }
+                });
+
     }
 }

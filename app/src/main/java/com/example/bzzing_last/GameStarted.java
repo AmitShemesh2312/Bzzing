@@ -58,13 +58,14 @@ public class GameStarted extends AppCompatActivity implements GameStartedHandler
     private Dialog dialog;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_started);
 
         database.setGameStarted(this);
+
+        database.getUpdates();
 
         fragmentManager = getSupportFragmentManager();
 
@@ -73,30 +74,18 @@ public class GameStarted extends AppCompatActivity implements GameStartedHandler
 
         database.listenToChoosingChanges(this);
 
+
         GameRoom gameRoom = AppUtilities.gameRoom;
+
         String activePlayer = gameRoom.getPlayers().get(gameRoom.getRounds()).getName();
         if (name.equals(activePlayer))
-        {
-            AppUtilities.gameRoom.setActivePlayer(activePlayer);
-            setRule();
-        }
+            fragmentSongPicker();
         else
             database.listenToStorageChanges(this);
+
     }
 
-    public void setRule() {
-        GameRoom gameRoom = AppUtilities.gameRoom;
-        gameRoom.setActivePlayer(gameRoom.getPlayers().get(gameRoom.getRounds()).getName());
-        database.updateField("activePlayer");
 
-        for (int i = 0; i < gameRoom.getPlayers().size(); i++) {
-            if(!gameRoom.getPlayers().get(i).getName().equals(name))
-                gameRoom.addNotPlayer(new NotPlayer(gameRoom.getPlayers().get(i).getName()));
-        }
-        database.updateField("notPlayers");
-
-        fragmentSongPicker();
-    }
 
 
     public void fragmentSongPicker() { //אם השם שהתקבל בעזרת intent שווה לשם של שחקן, לשחקן יועבר fragment
@@ -112,8 +101,6 @@ public class GameStarted extends AppCompatActivity implements GameStartedHandler
             mediaPlayer = null;
         }
     }
-
-
 
 
     public void songChoice(View view)//הפעולה מעדכנת את התכונות songName וpic לפי בחירת השיר של המשתמש ומבצעת אפקט
@@ -230,6 +217,7 @@ public class GameStarted extends AppCompatActivity implements GameStartedHandler
                     }
                 }
             }
+
             @Override
             public void onFinish() {
                 stopRecord();
@@ -247,6 +235,7 @@ public class GameStarted extends AppCompatActivity implements GameStartedHandler
         mediaRecorder.release();
         mediaRecorder = null;
     }
+
     public void dialogAnimation()//הפעולה מראה אנימציה של המסך של טעינה
     {
         dialog = new Dialog(this);
@@ -258,9 +247,6 @@ public class GameStarted extends AppCompatActivity implements GameStartedHandler
 
         database.uploadHum(this, AppUtilities.gameRoom.getPlayerIndex(name));
     }
-
-
-
 
 
     public void moveIntent()//הפעולה מפסיקה את אנימצית הטעינה ומעבירה intent
