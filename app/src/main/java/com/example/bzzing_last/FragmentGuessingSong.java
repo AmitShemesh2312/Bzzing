@@ -80,7 +80,7 @@ public class FragmentGuessingSong extends Fragment {
 
         for (int i = 0; i < 4; i++) {
 
-            Song song = gameRoom.getSongs().get(i);
+            Song song = gameRoom.getSongs().get((4 * gameRoom.getRounds()) + i);
 
             int imageId = getResources().getIdentifier("image_guess" + i, "id", getContext().getPackageName());
             int id = getResources().getIdentifier(song.getImage(), "drawable", getContext().getPackageName());

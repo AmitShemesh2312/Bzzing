@@ -339,4 +339,22 @@ public class DB {
                 });
 
     }
+
+    public void updateThisGameRoom() {
+        db.collection("GameRooms").document(AppUtilities.gameRoom.getRoomCode())
+                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable DocumentSnapshot value,
+                                        @Nullable FirebaseFirestoreException error) {
+                        if (error != null) {
+                            return;
+                        }
+                        if (value != null && value.exists()) {
+                            AppUtilities.gameRoom = new GameRoom((HashMap<String, Object>) value.getData());
+                        }
+                    }
+                });
+    }
+
+
 }

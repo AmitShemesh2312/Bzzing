@@ -54,7 +54,7 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
                 defaultSettings();
             } else
                 fragmentFinishScoring.writeNames();
-        } else {
+        } else if (!next) {
             if (!AppUtilities.gameRoom.getEverybodyDone()) {
                 fragmentOthersChoose.writeNames();
                 if (name.equals(g.getActivePlayer()))
@@ -134,14 +134,12 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
     }
 
     public void fragmentSongReveal() {
-        if (!next) {
-            if (!name.equals(AppUtilities.gameRoom.getActivePlayer())) {
-                FragmentSongReveal fragmentSongReveal = new FragmentSongReveal();
-                fragmentSongReveal.setName(name);
-                fragmentManager.beginTransaction().replace(R.id.fragmentContainerView, fragmentSongReveal).commit();
-            } else {
-                fragmentManager.beginTransaction().replace(R.id.fragmentContainerView, FragmentExpectations.class, null).commit();
-            }
+        if (!name.equals(AppUtilities.gameRoom.getActivePlayer())) {
+            FragmentSongReveal fragmentSongReveal = new FragmentSongReveal();
+            fragmentSongReveal.setName(name);
+            fragmentManager.beginTransaction().replace(R.id.fragmentContainerView, fragmentSongReveal).commit();
+        } else {
+            fragmentManager.beginTransaction().replace(R.id.fragmentContainerView, FragmentExpectations.class, null).commit();
         }
     }
 
@@ -192,15 +190,17 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
     }
 
 
-
     public void submitRate(View view) {
+        database.updateThisGameRoom();
         fragmentManager.beginTransaction().replace(R.id.fragmentContainerView, fragmentFinishScoring, null).commit();
         AppUtilities.gameRoom.getPlayers().get(AppUtilities.gameRoom.getPlayerIndex(name)).setDoneScoring(true);
         database.updateField("notPlayers");
         database.updateField("players");
         next = true;
     }
+
     public void submitScore(View view) {
+        database.updateThisGameRoom();
         fragmentManager.beginTransaction().replace(R.id.fragmentContainerView, fragmentFinishScoring, null).commit();
         AppUtilities.gameRoom.getPlayers().get(AppUtilities.gameRoom.getPlayerIndex(name)).setDoneScoring(true);
         database.updateField("players");

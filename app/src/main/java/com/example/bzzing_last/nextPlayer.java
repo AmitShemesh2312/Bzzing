@@ -4,12 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import kotlin._Assertions;
 
 public class nextPlayer extends AppCompatActivity {
 
@@ -23,10 +23,11 @@ public class nextPlayer extends AppCompatActivity {
 
         database = new DB();
 
-
         name = getIntent().getStringExtra("name");
 
-        if(AppUtilities.gameRoom.getRounds() + 1 < AppUtilities.gameRoom.getPlayers().size())
+        database.updateThisGameRoom();
+
+        if(AppUtilities.gameRoom.getRounds() < AppUtilities.gameRoom.getPlayers().size())
         {
             writeNames();
             timer();
@@ -35,6 +36,7 @@ public class nextPlayer extends AppCompatActivity {
             if(name.equals(activePlayer))
             {
                 AppUtilities.gameRoom.setActivePlayer(activePlayer);
+                database.updateField("activePlayer");
                 setRule();
             }
         }
@@ -53,6 +55,8 @@ public class nextPlayer extends AppCompatActivity {
             int id = getResources().getIdentifier("nextPlayer_Player" + i, "id", getPackageName());
             TextView textView = findViewById(id);
             textView.setText(gameRoom.getPlayers().get(i).getName());
+            if(gameRoom.getPlayers().get(i).getName().equals(gameRoom.getPlayers().get(gameRoom.getRounds()).getName()))
+                textView.setTextColor(Color.parseColor("#303F9F"));
         }
     }
 
@@ -83,7 +87,6 @@ public class nextPlayer extends AppCompatActivity {
     public void setRule() {
         GameRoom gameRoom = AppUtilities.gameRoom;
         gameRoom.setActivePlayer(gameRoom.getPlayers().get(gameRoom.getRounds()).getName());
-        database.updateField("activePlayer");
 
         for (int i = 0; i < gameRoom.getPlayers().size(); i++) {
             if (!gameRoom.getPlayers().get(i).getName().equals(name))
