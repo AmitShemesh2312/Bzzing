@@ -70,7 +70,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/circle_button"
-            android:onClick="rateHum"
+            android:onClick="rateMyself"
             android:tag="0">
 
             <ImageView
@@ -97,7 +97,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/circle_button"
-            android:onClick="rateHum"
+            android:onClick="rateMyself"
             android:tag="1">
 
             <ImageView

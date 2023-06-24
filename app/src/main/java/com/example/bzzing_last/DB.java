@@ -33,6 +33,7 @@ public class DB {
     WaitingRoomHandler waitingRoom;
     GameStartedHandler gameStarted;
     AfterHummingHandler afterHumming;
+    NextPlayerHandeler nextPlayer;
     StorageReference storageRef;
 
 
@@ -61,6 +62,11 @@ public class DB {
 
     public void setAfterUploadHumming(AfterHummingHandler afterHumming) {
         this.afterHumming = afterHumming;
+    }
+
+    public void setNextPlayer(NextPlayerHandeler nextPlayer)
+    {
+        this.nextPlayer = nextPlayer;
     }
 
 
@@ -349,12 +355,10 @@ public class DB {
                         if (error != null) {
                             return;
                         }
-                        if (value != null && value.exists()) {
-                            AppUtilities.gameRoom = new GameRoom((HashMap<String, Object>) value.getData());
+                        if (value != null && value.exists() && value.getData() != null) {
+                            nextPlayer.updateGameRoom(new GameRoom((HashMap<String, Object>) value.getData()));
                         }
                     }
                 });
     }
-
-
 }

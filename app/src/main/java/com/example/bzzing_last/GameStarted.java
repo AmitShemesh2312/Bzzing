@@ -65,7 +65,7 @@ public class GameStarted extends AppCompatActivity implements GameStartedHandler
 
         database.setGameStarted(this);
 
-        database.getUpdates();
+        //database.getUpdates();
 
         fragmentManager = getSupportFragmentManager();
 
@@ -82,7 +82,6 @@ public class GameStarted extends AppCompatActivity implements GameStartedHandler
             fragmentSongPicker();
         else
             database.listenToStorageChanges(this);
-
     }
 
 

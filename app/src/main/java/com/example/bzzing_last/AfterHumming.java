@@ -4,12 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
 
@@ -46,7 +46,6 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
         fragmentManager.beginTransaction().replace(R.id.fragmentContainerView, fragmentOthersChoose, null).commit();
     }
 
-
     public void updateDocumentChanges(GameRoom g) {
         AppUtilities.gameRoom = g;
         if (g.getPlayers().get(g.getPlayerIndex(name)).getDoneScoring()) {
@@ -74,6 +73,7 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
             gameRoom.setRounds();
             gameRoom.setCurrentSong("");
             gameRoom.setActivePlayer("");
+            gameRoom.setNotPlayers(new ArrayList<>());
             gameRoom.setEverybodyDone(false);
             gameRoom.setUploadFinished(false);
 
@@ -85,7 +85,6 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
 
             database.updateAll();
         }
-
 
         Intent intent = new Intent(this, nextPlayer.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -106,7 +105,6 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
         return reality;
     }
 
-
     public boolean checkIfEverybodyDoneScoring() {
         GameRoom gameRoom = AppUtilities.gameRoom;
         for (int i = 0; i < gameRoom.getPlayers().size(); i++) {
@@ -116,7 +114,6 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
         }
         return true;
     }
-
 
     public void checkIfEverybodyDone() {
         GameRoom gameRoom = AppUtilities.gameRoom;
@@ -144,8 +141,6 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
     }
 
     public void ratePlayer(View view) {
-        GameRoom gameRoom = AppUtilities.gameRoom;
-        NotPlayer p = gameRoom.getNotPlayers().get(gameRoom.getNotPlayerIndex(name));
         TextView textView = findViewById(R.id.points);
         int rate = Integer.parseInt(textView.getText().toString());
 
@@ -162,13 +157,10 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
             if (tag == 0)
                 rate -= 1;
         }
-        p.setRate(rate);
         textView.setText("" + rate);
     }
 
-    public void rateHum(View view) {
-        GameRoom gameRoom = AppUtilities.gameRoom;
-        Player p = gameRoom.getPlayers().get(gameRoom.getRounds());
+    public void rateMyself(View view) {
         TextView textView = findViewById(R.id.pointsHum);
         int rate = Integer.parseInt(textView.getText().toString());
 
@@ -185,25 +177,36 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
             if (tag == 0)
                 rate -= 1;
         }
-        p.setExpectations(rate);
         textView.setText("" + rate);
     }
 
 
     public void submitRate(View view) {
-        database.updateThisGameRoom();
+        GameRoom gameRoom = AppUtilities.gameRoom;
         fragmentManager.beginTransaction().replace(R.id.fragmentContainerView, fragmentFinishScoring, null).commit();
         AppUtilities.gameRoom.getPlayers().get(AppUtilities.gameRoom.getPlayerIndex(name)).setDoneScoring(true);
+
+        TextView textView = findViewById(R.id.points);
+        NotPlayer p = gameRoom.getNotPlayers().get(gameRoom.getNotPlayerIndex(name));
+        p.setRate(Integer.parseInt(textView.getText().toString()));
+
         database.updateField("notPlayers");
         database.updateField("players");
+
         next = true;
     }
 
     public void submitScore(View view) {
-        database.updateThisGameRoom();
+        GameRoom gameRoom = AppUtilities.gameRoom;
         fragmentManager.beginTransaction().replace(R.id.fragmentContainerView, fragmentFinishScoring, null).commit();
         AppUtilities.gameRoom.getPlayers().get(AppUtilities.gameRoom.getPlayerIndex(name)).setDoneScoring(true);
+
+        TextView textView = findViewById(R.id.pointsHum);
+        Player p = gameRoom.getPlayers().get(gameRoom.getRounds());
+        p.setExpectations(Integer.parseInt(textView.getText().toString()));
+
         database.updateField("players");
+
         next = true;
     }
 

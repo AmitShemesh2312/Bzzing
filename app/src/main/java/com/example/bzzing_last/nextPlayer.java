@@ -11,7 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-public class nextPlayer extends AppCompatActivity {
+public class nextPlayer extends AppCompatActivity implements NextPlayerHandeler {
 
     private String name;
     private DB database;
@@ -22,27 +22,26 @@ public class nextPlayer extends AppCompatActivity {
         setContentView(R.layout.activity_next_player);
 
         database = new DB();
-
-        name = getIntent().getStringExtra("name");
+        database.setNextPlayer(this);
 
         database.updateThisGameRoom();
 
-        if(AppUtilities.gameRoom.getRounds() < AppUtilities.gameRoom.getPlayers().size())
-        {
+        name = getIntent().getStringExtra("name");
+
+        if (AppUtilities.gameRoom.getRounds() < AppUtilities.gameRoom.getPlayers().size()) {
             writeNames();
             timer();
 
             String activePlayer = AppUtilities.gameRoom.getPlayers().get(AppUtilities.gameRoom.getRounds()).getName();
-            if(name.equals(activePlayer))
-            {
+            if (name.equals(activePlayer)) {
                 AppUtilities.gameRoom.setActivePlayer(activePlayer);
                 database.updateField("activePlayer");
                 setRule();
             }
-        }
-        else
+        } else
             end();
     }
+
 
     public void writeNames() {
         GameRoom gameRoom = AppUtilities.gameRoom;
@@ -55,8 +54,6 @@ public class nextPlayer extends AppCompatActivity {
             int id = getResources().getIdentifier("nextPlayer_Player" + i, "id", getPackageName());
             TextView textView = findViewById(id);
             textView.setText(gameRoom.getPlayers().get(i).getName());
-            if(gameRoom.getPlayers().get(i).getName().equals(gameRoom.getPlayers().get(gameRoom.getRounds()).getName()))
-                textView.setTextColor(Color.parseColor("#303F9F"));
         }
     }
 
@@ -95,10 +92,13 @@ public class nextPlayer extends AppCompatActivity {
         database.updateField("notPlayers");
     }
 
-    public void end()
-    {
+    public void end() {
         Intent intent = new Intent(this, End.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+    }
+
+    public void updateGameRoom(GameRoom g) {
+        AppUtilities.gameRoom = g;
     }
 }
