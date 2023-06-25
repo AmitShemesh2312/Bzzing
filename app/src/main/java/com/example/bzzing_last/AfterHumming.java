@@ -68,21 +68,18 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
         database.stopListeningEndChanges();
 
         int rounds = gameRoom.getRounds();
+        gameRoom.getPlayers().get(rounds).setReality(calculateReality());
+        gameRoom.setRounds();
+        gameRoom.setCurrentSong("");
+        gameRoom.setActivePlayer("");
+        gameRoom.setNotPlayers(new ArrayList<>());
+        gameRoom.setEverybodyDone(false);
+        gameRoom.setUploadFinished(false);
+        for (int i = 0; i < gameRoom.getPlayers().size(); i++) {
+            gameRoom.getPlayers().get(i).setDoneScoring(false);
+        }
+
         if (gameRoom.getPlayers().get(rounds).getName().equals(name)) {
-            gameRoom.getPlayers().get(rounds).setReality(calculateReality());
-            gameRoom.setRounds();
-            gameRoom.setCurrentSong("");
-            gameRoom.setActivePlayer("");
-            gameRoom.setNotPlayers(new ArrayList<>());
-            gameRoom.setEverybodyDone(false);
-            gameRoom.setUploadFinished(false);
-
-            for (int i = 0; i < gameRoom.getPlayers().size(); i++) {
-                gameRoom.getPlayers().get(i).setDoneScoring(false);
-            }
-            AppUtilities.gameRoom.setNotPlayers(new ArrayList<>());
-
-
             database.updateAll();
         }
 
