@@ -10,7 +10,6 @@ import android.widget.TextView;
 import android.graphics.Color;
 
 
-
 public class nextPlayer extends AppCompatActivity implements NextPlayerHandler {
 
     private String name;
@@ -28,7 +27,7 @@ public class nextPlayer extends AppCompatActivity implements NextPlayerHandler {
 
         AppUtilities.gameRoom.setUpdated(false);
 
-        if(name.equals(AppUtilities.gameRoom.getActivePlayer()))
+        if (name.equals(AppUtilities.gameRoom.getActivePlayer()))
             database.updateField("updated");
 
         database.updateThisGameRoom();
@@ -46,9 +45,14 @@ public class nextPlayer extends AppCompatActivity implements NextPlayerHandler {
 
 
         for (int i = 0; i < gameRoom.getPlayers().size(); i++) {
+            String player_name = gameRoom.getPlayers().get(i).getName();
+
             int id = getResources().getIdentifier("nextPlayer_Player" + i, "id", getPackageName());
             TextView textView = findViewById(id);
-            textView.setText(gameRoom.getPlayers().get(i).getName());
+            textView.setText(player_name);
+
+            if (player_name.equals(gameRoom.getActivePlayer()))
+                textView.setTextColor(Color.parseColor("#303F9F"));
         }
     }
 
@@ -77,9 +81,7 @@ public class nextPlayer extends AppCompatActivity implements NextPlayerHandler {
     }
 
 
-
-
     public void updateGameRoom(GameRoom g) {
-            AppUtilities.gameRoom = g;
+        AppUtilities.gameRoom = g;
     }
 }
