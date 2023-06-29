@@ -56,11 +56,13 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/num0"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="1)"
                 android:textColor="#000000"
-                android:textSize="50dp" />
+                android:textSize="50dp"
+                android:visibility="invisible"/>
 
             <TextView
                 android:id="@+id/end_name0"
@@ -99,11 +101,13 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/num1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="2)"
                 android:textColor="#000000"
-                android:textSize="50dp" />
+                android:textSize="50dp"
+                android:visibility="invisible"/>
 
             <TextView
                 android:id="@+id/end_name1"
@@ -142,11 +146,13 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/num2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="3)"
                 android:textColor="#000000"
-                android:textSize="50dp" />
+                android:textSize="50dp"
+                android:visibility="invisible"/>
 
             <TextView
                 android:id="@+id/end_name2"
@@ -155,7 +161,8 @@
                 android:layout_marginLeft="15dp"
                 android:text="name:"
                 android:textColor="#000000"
-                android:textSize="30dp" />
+                android:textSize="30dp"
+                android:visibility="invisible"/>
 
             <TextView
                 android:id="@+id/end_expectations2"
@@ -164,7 +171,8 @@
                 android:layout_marginLeft="40dp"
                 android:text="10"
                 android:textColor="#000000"
-                android:textSize="25dp" />
+                android:textSize="25dp"
+                android:visibility="invisible"/>
 
             <TextView
                 android:id="@+id/end_reality2"
@@ -173,7 +181,8 @@
                 android:layout_marginLeft="60dp"
                 android:text="10"
                 android:textColor="#000000"
-                android:textSize="25dp" />
+                android:textSize="25dp"
+                android:visibility="invisible"/>
 
 
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -186,11 +195,13 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/num3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="4)"
                 android:textColor="#000000"
-                android:textSize="50dp" />
+                android:textSize="50dp"
+                android:visibility="invisible"/>
 
             <TextView
                 android:id="@+id/end_name3"
@@ -199,7 +210,8 @@
                 android:layout_marginLeft="15dp"
                 android:text="name:"
                 android:textColor="#000000"
-                android:textSize="30dp" />
+                android:textSize="30dp"
+                android:visibility="invisible"/>
 
             <TextView
                 android:id="@+id/end_expectations3"
@@ -208,7 +220,8 @@
                 android:layout_marginLeft="40dp"
                 android:text="10"
                 android:textColor="#000000"
-                android:textSize="25dp" />
+                android:textSize="25dp"
+                android:visibility="invisible"/>
 
             <TextView
                 android:id="@+id/end_reality3"
@@ -217,39 +230,29 @@
                 android:layout_marginLeft="60dp"
                 android:text="10"
                 android:textColor="#000000"
-                android:textSize="25dp" />
-
+                android:textSize="25dp"
+                android:visibility="invisible"/>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
-    <Button
-        android:id="@+id/play_again"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="55dp"
-        android:background="@drawable/rounded_button"
-        android:text="Player Again!"
-        android:textAllCaps="false"
-        app:backgroundTint="#3A6BEF"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat3" />
 
     <Button
         android:id="@+id/homepage"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="85dp"
         android:background="@drawable/rounded_button"
+        android:onClick="homePage"
         android:text="Go to Home Page"
         android:textAllCaps="false"
         app:backgroundTint="#3A6BEF"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/play_again" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat3" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

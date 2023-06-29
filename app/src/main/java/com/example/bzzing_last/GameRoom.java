@@ -20,7 +20,6 @@ public class GameRoom{
     private int playersNum;
     private int rounds = 0;
     private String roomCode;
-    private boolean everybodyReady = false;
     private ArrayList<Song> songs = new ArrayList<>();
 
     private String currentSong = "";
@@ -36,6 +35,9 @@ public class GameRoom{
     private ArrayList<String> complimentsSentences = new ArrayList<>();
 
     private MediaPlayer mediaPlayer;
+
+    private boolean updated = false;
+
 
 
     public GameRoom() {
@@ -97,8 +99,8 @@ public class GameRoom{
     }
     public ArrayList<Player> getPlayers() { return players; }
 
-    public void setRounds() {
-        this.rounds++;
+    public void setRounds(int rounds) {
+        this.rounds = rounds;
     }
     public int getRounds() {
         return rounds;
@@ -106,9 +108,6 @@ public class GameRoom{
 
     public void setRoomCode(String roomCode){ this.roomCode = roomCode; }
     public String getRoomCode(){ return roomCode; }
-
-    public void setEverybodyReady(boolean everybodyReady){ this.everybodyReady = everybodyReady; }
-    public boolean getEverybodyReady(){ return everybodyReady;}
 
 
     public void setSongs(ArrayList<Song> songs){this.songs = songs;}
@@ -142,6 +141,16 @@ public class GameRoom{
 
     public ArrayList<String> getComplimentsSentences(){return complimentsSentences;}
 
+    public boolean getUpdated()
+    {
+        return updated;
+    }
+    public void setUpdated(boolean updated)
+    {
+        this.updated = updated;
+    }
+
+
 
 
 
@@ -168,10 +177,6 @@ public class GameRoom{
                 map.put(field, players);
                 break;
 
-            case "everybodyReady":
-                map.put(field, everybodyReady);
-                break;
-
             case "everybodyDone":
                 map.put(field, everybodyDone);
                 break;
@@ -183,6 +188,9 @@ public class GameRoom{
             case "rounds":
                 map.put(field, rounds);
 
+
+            case "updated":
+                map.put(field, updated);
         }
         return map;
     }
@@ -199,7 +207,6 @@ public class GameRoom{
         map.put("playersNum", playersNum);
         map.put("rounds", rounds);
         map.put("players", players);
-        map.put("everybodyReady", everybodyReady);
         map.put("songs", songs);
         map.put("currentSong", currentSong);
         map.put("uploadFinished", uploadFinished);
@@ -207,6 +214,7 @@ public class GameRoom{
         map.put("everybodyDone", everybodyDone);
         map.put("notPlayers", notPlayers);
         map.put("complimentsSentences", complimentsSentences);
+        map.put("updated", updated);
 
         return map;
     }
@@ -218,7 +226,6 @@ public class GameRoom{
         this.playersNum = Integer.parseInt(map.get("playersNum").toString());
         this.rounds = Integer.parseInt(map.get("rounds").toString());
         this.roomCode = map.get("roomCode").toString();
-        this.everybodyReady =  Boolean.parseBoolean(map.get("everybodyReady").toString());
 
         this.players = new ArrayList<>();
         ArrayList<HashMap<Integer,Object>> hm = (ArrayList<HashMap<Integer,Object>>)map.get("players");
@@ -250,6 +257,9 @@ public class GameRoom{
         }
 
         this.complimentsSentences = (ArrayList<String>) map.get("complimentsSentences");
+
+        this.updated = Boolean.parseBoolean(map.get("updated").toString());
+
     }
 
 
@@ -302,6 +312,20 @@ public class GameRoom{
         } catch (IOException e) {
             Log.e("TAG", "Failed to play audio file", e);
         }
+    }
+
+    public boolean everybodyReady()//הפעולה בודקת אם כל השחקנים מוכנים. במידה וכן, תעדכן את הGameRoom ותקרא לפעולה goToGameStarted()
+    {
+        GameRoom gameRoom = AppUtilities.gameRoom;
+        boolean allReady = true;
+
+        for (int i = 0; i < gameRoom.getPlayers().size(); i++) {
+            if (!gameRoom.getPlayers().get(i).getReady())
+                allReady = false;
+        }
+        if (allReady)
+            return true;
+        return false;
     }
 
     public void addPlayer(Player p)

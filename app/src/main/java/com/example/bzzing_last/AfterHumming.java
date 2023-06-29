@@ -24,6 +24,8 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
     private MediaPlayer mediaPlayer;
     private boolean next = false;
 
+    private boolean set = true;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,42 +50,106 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
 
     public void updateDocumentChanges(GameRoom g) {
         AppUtilities.gameRoom = g;
-        if (g.getPlayers().get(g.getPlayerIndex(name)).getDoneScoring()) {
-            if (checkIfEverybodyDoneScoring()) {
-                defaultSettings();
-            } else
-                fragmentFinishScoring.writeNames();
-        } else if (!next) {
+        Player player = g.getPlayers().get(g.getPlayerIndex(name));
+
+        nextRound();
+
+
+        if (player.getDoneScoring())
+            everybodyDoneScoring();
+        else
+            everybodyDoneGuessingSong();
+    }
+
+
+    public void everybodyDoneGuessingSong() {
+        if (!next) {
             if (!AppUtilities.gameRoom.getEverybodyDone()) {
                 fragmentOthersChoose.writeNames();
-                if (name.equals(g.getActivePlayer()))
+                if (name.equals(AppUtilities.gameRoom.getActivePlayer()))
                     checkIfEverybodyDone();
             } else
                 fragmentSongReveal();
         }
     }
 
+    public void everybodyDoneScoring() {
+        GameRoom gameRoom = AppUtilities.gameRoom;
+        String activePlayer = gameRoom.getActivePlayer();
+        boolean everybody_done_scoring = checkIfEverybodyDoneScoring();
+        int rounds = gameRoom.getRounds();
+        int players_size = gameRoom.getPlayers().size();
+
+
+        if(everybody_done_scoring)
+        {
+            gameRoom.getPlayers().get(rounds).setReality(calculateReality());
+
+            if (rounds + 1 < players_size) {
+                if (activePlayer.equals(name) && set) {
+                    setRules();
+                    defaultSettings();
+                    database.updateAll();
+                    nextRound();
+                    set = false;
+                }
+            } else if (rounds + 1 >= players_size)
+                end();
+        }
+
+
+        else fragmentFinishScoring.writeNames();
+    }
+
+
+    public void setRules() {
+        GameRoom gameRoom = AppUtilities.gameRoom;
+        String activePlayer = gameRoom.getPlayers().get(gameRoom.getRounds() + 1).getName();
+        gameRoom.setActivePlayer(activePlayer);
+
+
+        gameRoom.setNotPlayers(new ArrayList<>());
+
+        for (int i = 0; i < gameRoom.getPlayers().size(); i++) {
+            String player_name = gameRoom.getPlayers().get(i).getName();
+            if (!player_name.equals(activePlayer))
+                gameRoom.addNotPlayer(new NotPlayer(player_name));
+        }
+    }
+
+
     public void defaultSettings() {
         GameRoom gameRoom = AppUtilities.gameRoom;
-        database.stopListeningEndChanges();
 
-        int rounds = gameRoom.getRounds();
-        gameRoom.getPlayers().get(rounds).setReality(calculateReality());
-        gameRoom.setRounds();
+        gameRoom.setRounds(gameRoom.getRounds() + 1);
         gameRoom.setCurrentSong("");
-        gameRoom.setActivePlayer("");
-        gameRoom.setNotPlayers(new ArrayList<>());
         gameRoom.setEverybodyDone(false);
         gameRoom.setUploadFinished(false);
         for (int i = 0; i < gameRoom.getPlayers().size(); i++) {
             gameRoom.getPlayers().get(i).setDoneScoring(false);
         }
 
-        if (gameRoom.getPlayers().get(rounds).getName().equals(name)) {
-            database.updateAll();
-        }
+        gameRoom.setUpdated(true);
+//
+//        if (checkIfEverybodyDoneScoring() && AppUtilities.gameRoom.getRounds() + 1 == AppUtilities.gameRoom.getPlayers().size())
+//            end();
+    }
 
-        Intent intent = new Intent(this, nextPlayer.class);
+    public void nextRound() {
+        if (AppUtilities.gameRoom.getUpdated()) {
+            database.stopListeningEndChanges();
+
+            Intent intent = new Intent(this, nextPlayer.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra("name", name);
+            startActivity(intent);
+        }
+    }
+
+    public void end() {
+        database.stopListeningEndChanges();
+
+        Intent intent = new Intent(this, End.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("name", name);
         startActivity(intent);
@@ -104,12 +170,13 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
 
     public boolean checkIfEverybodyDoneScoring() {
         GameRoom gameRoom = AppUtilities.gameRoom;
+        Boolean done = true;
         for (int i = 0; i < gameRoom.getPlayers().size(); i++) {
             if (!gameRoom.getPlayers().get(i).getDoneScoring()) {
-                return false;
+                done = false;
             }
         }
-        return true;
+        return done;
     }
 
     public void checkIfEverybodyDone() {

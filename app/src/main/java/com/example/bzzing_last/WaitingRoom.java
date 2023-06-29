@@ -19,6 +19,7 @@ public class WaitingRoom extends AppCompatActivity implements WaitingRoomHandler
     private DB database;
     private boolean readyButton;
     private String name;
+    private boolean next = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,18 +106,22 @@ public class WaitingRoom extends AppCompatActivity implements WaitingRoomHandler
 
     @Override
     public void updateDocumentChanges(GameRoom g) {//אם לא כולם מוכנים, הפעולה תעדכן את הGameRoom
-        GameRoom gameRoom = AppUtilities.gameRoom;
+        AppUtilities.gameRoom = g;
 
-        if (!gameRoom.getEverybodyReady()) {
-            AppUtilities.gameRoom = g;
-
-            if(g.getPlayers().get(0).getName().equals(name))
-                everybodyReady();
-
-            showPlayer();
-        }
-        else
+        if(!g.getActivePlayer().equals("") && next)
+        {
             goToGameStarted();
+            next = false;
+        }
+
+        if (!g.everybodyReady())
+            showPlayer();
+
+        else
+        {
+            if(name.equals(AppUtilities.gameRoom.getPlayers().get(0).getName()))
+                setRules();
+        }
     }
 
 
@@ -143,20 +148,21 @@ public class WaitingRoom extends AppCompatActivity implements WaitingRoomHandler
             Toast.makeText(this, "Bring Another Friend!", Toast.LENGTH_SHORT).show();
     }
 
-    public void everybodyReady()//הפעולה בודקת אם כל השחקנים מוכנים. במידה וכן, תעדכן את הGameRoom ותקרא לפעולה goToGameStarted()
+
+    public void setRules()
     {
         GameRoom gameRoom = AppUtilities.gameRoom;
-        boolean allReady = true;
+        gameRoom.setActivePlayer(name);
 
-        for (int i = 0; i < gameRoom.getPlayersNum(); i++) {
-            if (!gameRoom.getPlayers().get(i).getReady())
-                allReady = false;
+        for (int i = 0; i < gameRoom.getPlayers().size(); i++) {
+            if (!gameRoom.getPlayers().get(i).getName().equals(name))
+                gameRoom.addNotPlayer(new NotPlayer(gameRoom.getPlayers().get(i).getName()));
         }
-        if (allReady) {
-            gameRoom.setEverybodyReady(true);
-            database.updateField("everybodyReady");
-            goToGameStarted();
-        }
+
+
+        database.updateAll();
+
+        goToGameStarted();
     }
 
     public void goToGameStarted()//הפעולה מעבירה intent

@@ -1,5 +1,5 @@
 package com.example.bzzing_last;
 
-public interface NextPlayerHandeler {
+public interface NextPlayerHandler {
     void updateGameRoom(GameRoom g);
 }

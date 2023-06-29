@@ -44,6 +44,14 @@ public class MainActivity extends AppCompatActivity implements MainActivityHandl
 
         database.setActivity(this);
 
+        String name = getIntent().getStringExtra("name");
+
+        if (name != null)
+        {
+            TextView textView = findViewById(R.id.typeName);
+            textView.setText(name);
+        }
+
 
 
         Button b = findViewById(R.id.btnNextPage);
@@ -140,13 +148,14 @@ public class MainActivity extends AppCompatActivity implements MainActivityHandl
         }
         else
         {
-            if(g.getEverybodyReady())
+            AppUtilities.gameRoom = g;
+            if(g.everybodyReady())
             {
                 Toast.makeText(this, "Game is Already Running!", Toast.LENGTH_SHORT).show();
+                AppUtilities.gameRoom = null;
                 b.setEnabled(true);
             }
             else {
-                AppUtilities.gameRoom = g;
                 validateJoinName();
             }
         }

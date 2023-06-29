@@ -65,7 +65,7 @@ public class GameStarted extends AppCompatActivity implements GameStartedHandler
 
         database.setGameStarted(this);
 
-        //database.getUpdates();
+        database.updateeeThisGameRoom();
 
         fragmentManager = getSupportFragmentManager();
 

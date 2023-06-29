@@ -4,14 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.widget.TextView;
-import android.widget.Toast;
+import android.graphics.Color;
 
 
-public class nextPlayer extends AppCompatActivity implements NextPlayerHandeler {
+
+public class nextPlayer extends AppCompatActivity implements NextPlayerHandler {
 
     private String name;
     private DB database;
@@ -24,22 +24,17 @@ public class nextPlayer extends AppCompatActivity implements NextPlayerHandeler 
         database = new DB();
         database.setNextPlayer(this);
 
-        database.updateThisGameRoom();
-
         name = getIntent().getStringExtra("name");
 
-        if (AppUtilities.gameRoom.getRounds() < AppUtilities.gameRoom.getPlayers().size()) {
-            writeNames();
-            timer();
+        AppUtilities.gameRoom.setUpdated(false);
 
-            String activePlayer = AppUtilities.gameRoom.getPlayers().get(AppUtilities.gameRoom.getRounds()).getName();
-            if (name.equals(activePlayer)) {
-                AppUtilities.gameRoom.setActivePlayer(activePlayer);
-                database.updateField("activePlayer");
-                setRule();
-            }
-        } else
-            end();
+        if(name.equals(AppUtilities.gameRoom.getActivePlayer()))
+            database.updateField("updated");
+
+        database.updateThisGameRoom();
+
+        writeNames();
+        timer();
     }
 
 
@@ -81,24 +76,10 @@ public class nextPlayer extends AppCompatActivity implements NextPlayerHandeler 
         }.start();
     }
 
-    public void setRule() {
-        GameRoom gameRoom = AppUtilities.gameRoom;
-        gameRoom.setActivePlayer(gameRoom.getPlayers().get(gameRoom.getRounds()).getName());
 
-        for (int i = 0; i < gameRoom.getPlayers().size(); i++) {
-            if (!gameRoom.getPlayers().get(i).getName().equals(name))
-                gameRoom.addNotPlayer(new NotPlayer(gameRoom.getPlayers().get(i).getName()));
-        }
-        database.updateField("notPlayers");
-    }
 
-    public void end() {
-        Intent intent = new Intent(this, End.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-    }
 
     public void updateGameRoom(GameRoom g) {
-        AppUtilities.gameRoom = g;
+            AppUtilities.gameRoom = g;
     }
 }

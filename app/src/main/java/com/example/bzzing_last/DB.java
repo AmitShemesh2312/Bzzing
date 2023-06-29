@@ -25,6 +25,7 @@ import com.google.firebase.storage.UploadTask;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.PropertyPermission;
 
 public class DB {
 
@@ -33,7 +34,7 @@ public class DB {
     WaitingRoomHandler waitingRoom;
     GameStartedHandler gameStarted;
     AfterHummingHandler afterHumming;
-    NextPlayerHandeler nextPlayer;
+    NextPlayerHandler nextPlayer;
     StorageReference storageRef;
 
 
@@ -64,8 +65,7 @@ public class DB {
         this.afterHumming = afterHumming;
     }
 
-    public void setNextPlayer(NextPlayerHandeler nextPlayer)
-    {
+    public void setNextPlayer(NextPlayerHandler nextPlayer) {
         this.nextPlayer = nextPlayer;
     }
 
@@ -309,6 +309,7 @@ public class DB {
                             if (afterHumming != null) {
                                 Map<String, Object> data = value.getData();
                                 if (data != null) {
+
                                     afterHumming.updateDocumentChanges(new GameRoom((HashMap<String, Object>) value.getData()));
                                 }
                             }
@@ -346,19 +347,34 @@ public class DB {
 
     }
 
-    public void updateThisGameRoom() {
+    public void updateeeThisGameRoom() {
         db.collection("GameRooms").document(AppUtilities.gameRoom.getRoomCode())
-                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
-                    public void onEvent(@Nullable DocumentSnapshot value,
-                                        @Nullable FirebaseFirestoreException error) {
-                        if (error != null) {
-                            return;
-                        }
-                        if (value != null && value.exists() && value.getData() != null) {
-                            nextPlayer.updateGameRoom(new GameRoom((HashMap<String, Object>) value.getData()));
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if (documentSnapshot.exists() && documentSnapshot.getData() != null) {
+                            gameStarted.updateDocumentChanges(new GameRoom((HashMap<String, Object>) documentSnapshot.getData()));
                         }
                     }
                 });
     }
+
+    public void updateThisGameRoom() {
+        db.collection("GameRooms").document(AppUtilities.gameRoom.getRoomCode())
+                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            nextPlayer.updateGameRoom(new GameRoom((HashMap<String, Object>) document.getData()));
+                        }
+                    }
+                });
+
+    }
+
+
+
+
 }
