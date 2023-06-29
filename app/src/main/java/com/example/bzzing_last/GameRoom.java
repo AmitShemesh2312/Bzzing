@@ -64,6 +64,16 @@ public class GameRoom{
         //Twenty One Pilots
         songs.add(new Song("Stressed Out", "Twenty One Pilots", "blurryface"));
 
+        //Bruno Mars
+        songs.add(new Song("Uptown Funk", "Bruno Mars", "uptown_special"));
+        songs.add(new Song("The Lazy Song", "Bruno Mars", "doo_wops_and_hooligans"));
+        songs.add(new Song("24K Magic", "Bruno Mars", "_24k_magic"));
+        songs.add(new Song("Treasure", "Bruno Mars", "unorthodox_jukebox"));
+        songs.add(new Song("Grenade", "Bruno Mars", "doo_wops_and_hooligans"));
+        songs.add(new Song("Locked Out Of Heaven", "Bruno Mars", "unorthodox_jukebox"));
+
+
+
 
 
         Collections.shuffle(songs);
