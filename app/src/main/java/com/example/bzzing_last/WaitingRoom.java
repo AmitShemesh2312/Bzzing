@@ -12,8 +12,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-import org.checkerframework.checker.units.qual.A;
-
 import java.util.ArrayList;
 
 public class WaitingRoom extends AppCompatActivity implements WaitingRoomHandler {
@@ -158,7 +156,7 @@ public class WaitingRoom extends AppCompatActivity implements WaitingRoomHandler
 
         for (int i = 0; i < gameRoom.getPlayers().size(); i++) {
             if (!gameRoom.getPlayers().get(i).getName().equals(name))
-                gameRoom.addNotPlayer(new NotPlayer(gameRoom.getPlayers().get(i).getName()));
+                gameRoom.addGuesser(new Guesser(gameRoom.getPlayers().get(i).getName()));
         }
 
 

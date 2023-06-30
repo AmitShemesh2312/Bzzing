@@ -105,12 +105,12 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
         gameRoom.setActivePlayer(activePlayer);
 
 
-        gameRoom.setNotPlayers(new ArrayList<>());
+        gameRoom.setGuessers(new ArrayList<>());
 
         for (int i = 0; i < gameRoom.getPlayers().size(); i++) {
             String player_name = gameRoom.getPlayers().get(i).getName();
             if (!player_name.equals(activePlayer))
-                gameRoom.addNotPlayer(new NotPlayer(player_name));
+                gameRoom.addGuesser(new Guesser(player_name));
         }
     }
 
@@ -143,7 +143,7 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
     public void end() {
         database.stopListeningAfterHummingChanges();
 
-        Intent intent = new Intent(this, End.class);
+        Intent intent = new Intent(this, ScoreTable.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("name", name);
         startActivity(intent);
@@ -153,11 +153,11 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
         GameRoom gameRoom = AppUtilities.gameRoom;
         int reality = 0;
 
-        for (int i = 0; i < gameRoom.getNotPlayers().size(); i++) {
-            reality += gameRoom.getNotPlayers().get(i).getRate();
+        for (int i = 0; i < gameRoom.getGuessers().size(); i++) {
+            reality += gameRoom.getGuessers().get(i).getRate();
         }
-        if (gameRoom.getNotPlayers().size() != 0)
-            reality /= gameRoom.getNotPlayers().size();
+        if (gameRoom.getGuessers().size() != 0)
+            reality /= gameRoom.getGuessers().size();
 
         return reality;
     }
@@ -177,8 +177,8 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
         GameRoom gameRoom = AppUtilities.gameRoom;
         boolean everybodyDone = true;
 
-        for (int i = 0; i < gameRoom.getNotPlayers().size(); i++) {
-            if (gameRoom.getNotPlayers().get(i).getSongGuess().equals(""))
+        for (int i = 0; i < gameRoom.getGuessers().size(); i++) {
+            if (gameRoom.getGuessers().get(i).getSongGuess().equals(""))
                 everybodyDone = false;
         }
         if (everybodyDone) {
@@ -237,10 +237,10 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
         AppUtilities.gameRoom.getPlayers().get(AppUtilities.gameRoom.getPlayerIndex(name)).setDoneScoring(true);
 
         TextView textView = findViewById(R.id.points);
-        NotPlayer p = gameRoom.getNotPlayers().get(gameRoom.getNotPlayerIndex(name));
+        Guesser p = gameRoom.getGuessers().get(gameRoom.getGuesserIndex(name));
         p.setRate(Integer.parseInt(textView.getText().toString()));
 
-        database.updateField("notPlayers");
+        database.updateField("guessers");
         database.updateField("players");
 
         next = true;

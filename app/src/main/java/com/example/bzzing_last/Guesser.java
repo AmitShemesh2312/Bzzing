@@ -2,17 +2,17 @@ package com.example.bzzing_last;
 
 import java.util.HashMap;
 
-public class NotPlayer {
+public class Guesser {
     private String name = "";
     private String songGuess = "";
     private int rate;
 
-    public NotPlayer(String name)
+    public Guesser(String name)
     {
         this.name = name;
     }
 
-    public NotPlayer(HashMap<Integer,Object> map)
+    public Guesser(HashMap<Integer,Object> map)
     {
         this.name = map.get("name").toString();
         this.songGuess = map.get("songGuess").toString();

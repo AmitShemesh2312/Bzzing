@@ -1,42 +1,24 @@
 package com.example.bzzing_last;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.animation.PropertyValuesHolder;
-import android.animation.ValueAnimator;
 import android.app.Dialog;
 import android.content.ContextWrapper;
 import android.content.Intent;
-import android.media.Image;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Environment;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.core.SyncTree;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-
 import java.io.File;
-import java.io.IOException;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 
 
 public class GameStarted extends AppCompatActivity implements GameStartedHandler {
@@ -64,6 +46,8 @@ public class GameStarted extends AppCompatActivity implements GameStartedHandler
         setContentView(R.layout.activity_game_started);
 
         database.setGameStarted(this);
+
+        database.getUpdatedGameRoom();
 
         fragmentManager = getSupportFragmentManager();
 
@@ -308,8 +292,8 @@ public class GameStarted extends AppCompatActivity implements GameStartedHandler
 
     public void songGuess(View view) {
         if (chosen) {
-            AppUtilities.gameRoom.getNotPlayers().get(AppUtilities.gameRoom.getNotPlayerIndex(name)).setSongGuess(songName);
-            database.updateField("notPlayers");
+            AppUtilities.gameRoom.getGuessers().get(AppUtilities.gameRoom.getGuesserIndex(name)).setSongGuess(songName);
+            database.updateField("guessers");
 
             database.stopListeningChooseChanges();
 

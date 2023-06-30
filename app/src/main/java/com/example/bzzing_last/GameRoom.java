@@ -4,13 +4,8 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.util.Log;
 
-import com.google.android.material.tabs.TabLayout;
-
-import org.checkerframework.checker.units.qual.A;
-
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 
@@ -29,7 +24,7 @@ public class GameRoom{
 
     private Boolean everybodyDone = false;
 
-    private ArrayList<NotPlayer> notPlayers = new ArrayList<>();
+    private ArrayList<Guesser> guessers = new ArrayList<>();
 
     private ArrayList<String> complimentsSentences = new ArrayList<>();
 
@@ -140,8 +135,8 @@ public class GameRoom{
     public Boolean getEverybodyDone(){ return everybodyDone;}
     public void setEverybodyDone(boolean everybodyDone){ this.everybodyDone = everybodyDone;}
 
-    public ArrayList<NotPlayer> getNotPlayers(){return notPlayers;}
-    public void setNotPlayers(ArrayList<NotPlayer> notPlayers){ this.notPlayers = notPlayers; }
+    public ArrayList<Guesser> getGuessers(){return guessers;}
+    public void setGuessers(ArrayList<Guesser> guessers){ this.guessers = guessers; }
 
     public ArrayList<String> getComplimentsSentences(){return complimentsSentences;}
 
@@ -185,8 +180,8 @@ public class GameRoom{
                 map.put(field, everybodyDone);
                 break;
 
-            case "notPlayers":
-                map.put(field, notPlayers);
+            case "guessers":
+                map.put(field, guessers);
                 break;
 
             case "rounds":
@@ -215,7 +210,7 @@ public class GameRoom{
         map.put("uploadFinished", uploadFinished);
         map.put("activePlayer", activePlayer);
         map.put("everybodyDone", everybodyDone);
-        map.put("notPlayers", notPlayers);
+        map.put("guessers", guessers);
         map.put("complimentsSentences", complimentsSentences);
         map.put("updated", updated);
 
@@ -252,10 +247,10 @@ public class GameRoom{
         this.everybodyDone = Boolean.parseBoolean(map.get("everybodyDone").toString());
 
 
-        this.notPlayers = new ArrayList<>();
-        ArrayList<HashMap<Integer,Object>> np = (ArrayList<HashMap<Integer, Object>>) map.get("notPlayers");
+        this.guessers = new ArrayList<>();
+        ArrayList<HashMap<Integer,Object>> np = (ArrayList<HashMap<Integer, Object>>) map.get("guessers");
         for (int i = 0; i < np.size(); i++) {
-            this.notPlayers.add(new NotPlayer(np.get(i)));
+            this.guessers.add(new Guesser(np.get(i)));
         }
 
         this.complimentsSentences = (ArrayList<String>) map.get("complimentsSentences");
@@ -276,11 +271,11 @@ public class GameRoom{
         return index;
     }
 
-    public int getNotPlayerIndex(String name)
+    public int getGuesserIndex(String name)
     {
         int index = -1;
-        for (int i = 0; i < notPlayers.size(); i++) {
-            if (notPlayers.get(i).getName().equals(name)) {
+        for (int i = 0; i < guessers.size(); i++) {
+            if (guessers.get(i).getName().equals(name)) {
                 index = i;
             }
         }
@@ -335,5 +330,5 @@ public class GameRoom{
         this.players.add(p);
     }//מוסיף שחקן לרשימת השחקנים
 
-    public void addNotPlayer(NotPlayer p){ this.notPlayers.add(p); }
+    public void addGuesser(Guesser p){ this.guessers.add(p); }
 }

@@ -36,7 +36,7 @@ public class DB {
     GameStartedHandler gameStarted;
     AfterHummingHandler afterHumming;
     NextPlayerHandler nextPlayer;
-    EndHandler end;
+    ScoreTableHandler scoreTable;
 
 
     private ListenerRegistration documentChanges;
@@ -70,9 +70,9 @@ public class DB {
         this.nextPlayer = nextPlayer;
     }
 
-    public void setEnd(EndHandler endHandler)
+    public void setScoreTable(ScoreTableHandler endHandler)
     {
-        this.end = endHandler;
+        this.scoreTable = endHandler;
         this.storageRef = FirebaseStorage.getInstance().getReference();
     }
 
@@ -308,7 +308,6 @@ public class DB {
                             if (afterHumming != null) {
                                 Map<String, Object> data = value.getData();
                                 if (data != null) {
-
                                     afterHumming.updateDocumentChanges(new GameRoom((HashMap<String, Object>) value.getData()));
                                 }
                             }
@@ -337,11 +336,11 @@ public class DB {
                             return;
                         }
                         if (value != null && value.exists()) {
-                            if (end != null) {
+                            if (scoreTable != null) {
                                 Map<String, Object> data = value.getData();
                                 if (data != null) {
 
-                                    end.update(new GameRoom((HashMap<String, Object>) value.getData()));
+                                    scoreTable.update(new GameRoom((HashMap<String, Object>) value.getData()));
                                 }
                             }
                         }

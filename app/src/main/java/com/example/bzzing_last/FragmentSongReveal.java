@@ -5,24 +5,13 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.LinearLayoutCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.NumberPicker;
-import android.widget.SeekBar;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
-import java.util.Collections;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -109,7 +98,7 @@ public class FragmentSongReveal extends Fragment {
         View dividerLeft = getView().findViewById(R.id.dividerLeft);
         View dividerRight = getView().findViewById(R.id.dividerRight);
         View dividerBottom = getView().findViewById(R.id.dividerBottom);
-        if(gameRoom.getNotPlayers().get(gameRoom.getNotPlayerIndex(name)).getSongGuess().equals(gameRoom.getCurrentSong()))
+        if(gameRoom.getGuessers().get(gameRoom.getGuesserIndex(name)).getSongGuess().equals(gameRoom.getCurrentSong()))
         {
             answer.setText("You're Right!");
             dividerUp.setBackgroundColor(Color.parseColor("#3d8c40"));

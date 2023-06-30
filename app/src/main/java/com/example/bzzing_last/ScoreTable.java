@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class End extends AppCompatActivity implements EndHandler{
+public class ScoreTable extends AppCompatActivity implements ScoreTableHandler {
 
     private DB database = new DB();
     private String name;
@@ -17,17 +17,14 @@ public class End extends AppCompatActivity implements EndHandler{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_end);
+        setContentView(R.layout.activity_score_table);
 
-        database.setEnd(this);
+        database.setScoreTable(this);
         database.listen();
 
         name = getIntent().getStringExtra("name");
 
         score();
-
-        if(name.equals(AppUtilities.gameRoom.getActivePlayer()))
-            resetData();
     }
 
     public void score()
@@ -63,16 +60,9 @@ public class End extends AppCompatActivity implements EndHandler{
         }
     }
 
-    public void resetData()//לעשות
-    {
-        AppUtilities.gameRoom.setPlayers(new ArrayList<>());
-        AppUtilities.gameRoom.setRounds(0);
-    }
-
     public void homePage(View view)//להוציא את השחקן
     {
         removePlayerFromPlayers();
-
 
         AppUtilities.gameRoom = null;
         Intent intent = new Intent(this, MainActivity.class);

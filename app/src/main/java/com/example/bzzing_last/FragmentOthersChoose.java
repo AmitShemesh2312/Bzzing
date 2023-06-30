@@ -88,13 +88,13 @@ public class FragmentOthersChoose extends Fragment {
     {
         GameRoom gameRoom = AppUtilities.gameRoom;
 
-        ArrayList<NotPlayer> not_players = gameRoom.getNotPlayers();
-        for (int i = 0; i < not_players.size(); i++)
+        ArrayList<Guesser> guessers = gameRoom.getGuessers();
+        for (int i = 0; i < guessers.size(); i++)
         {
             int id = getResources().getIdentifier("player_name" + i, "id", getContext().getPackageName());
             TextView textView = getView().findViewById(id);
-            textView.setText(not_players.get(i).getName());
-            if(!not_players.get(i).getSongGuess().equals(""))
+            textView.setText(guessers.get(i).getName());
+            if(!guessers.get(i).getSongGuess().equals(""))
             {
                 textView.setTextColor(Color.parseColor("#126C08"));
             }
