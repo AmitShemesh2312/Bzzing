@@ -80,28 +80,28 @@ public class WaitingRoom extends AppCompatActivity implements WaitingRoomHandler
         showPlayerNum();
     }
 
-    @Override
-    protected void onStop() {//כאשר שחקן יוצא מן האפליקציה, אם השחקן האחרון יצא הוא נסגר, אם לא הפעולה תעדכן את החדר בהתאם
-        super.onStop();
-        if(!AppUtilities.gameRoom.getEverybodyReady())
-        {
-            GameRoom gameRoom = AppUtilities.gameRoom;
-            ArrayList<Player> arr = gameRoom.getPlayers();
-
-            int index = getPlayerIndex();
-            if (index != -1) {
-                if (gameRoom.getPlayersNum() == 1) {
-                    database.deleteGameRoom();
-                }
-                else {
-                    arr.remove(index);
-                    gameRoom.setPlayersNum(-1);
-                    database.updateAll();
-                }
-            }
-            finish();
-        }
-    }
+//    @Override
+//    protected void onStop() {//כאשר שחקן יוצא מן האפליקציה, אם השחקן האחרון יצא הוא נסגר, אם לא הפעולה תעדכן את החדר בהתאם
+//        super.onStop();
+//        if(!AppUtilities.gameRoom.getEverybodyReady())
+//        {
+//            GameRoom gameRoom = AppUtilities.gameRoom;
+//            ArrayList<Player> arr = gameRoom.getPlayers();
+//
+//            int index = getPlayerIndex();
+//            if (index != -1) {
+//                if (gameRoom.getPlayersNum() == 1) {
+//                    database.deleteGameRoom();
+//                }
+//                else {
+//                    arr.remove(index);
+//                    gameRoom.setPlayersNum(-1);
+//                    database.updateAll();
+//                }
+//            }
+//            finish();
+//        }
+//    }
 
 
     @Override
@@ -172,6 +172,20 @@ public class WaitingRoom extends AppCompatActivity implements WaitingRoomHandler
         intent.putExtra("name", name);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+    }
+
+    public void removePlayerFromPlayers(View view)
+    {
+        GameRoom gameRoom = AppUtilities.gameRoom;
+        if(gameRoom.getPlayers().size() == 1)
+        {
+
+        }
+        else
+        {
+            gameRoom.getPlayers().remove(gameRoom.getPlayerIndex(name));
+            database.updateField("players");
+        }
     }
 
     @Override

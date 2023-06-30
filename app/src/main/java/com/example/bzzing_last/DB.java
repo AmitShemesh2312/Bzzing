@@ -120,13 +120,13 @@ public class DB {
                 });
     }
 
-    public void deleteGameRoom()//הפעולה מוחקת Gameroom מהdatabase לפי הroomCode
-    {
-        db.collection("GameRooms")
-                .document(AppUtilities.gameRoom.getRoomCode())
-                .delete();
-        AppUtilities.gameRoom = null;
-    }
+//    public void deleteGameRoom()//הפעולה מוחקת Gameroom מהdatabase לפי הroomCode
+//    {
+//        db.collection("GameRooms")
+//                .document(AppUtilities.gameRoom.getRoomCode())
+//                .delete();
+//        AppUtilities.gameRoom = null;
+//    }
 
     public void findGameRoomByNumber(int code) { //הפעולה בודקת אם חדר המשחק קיים לפי הקוד ומחזירה הודעה בהתאם
         db.collection("GameRooms")
@@ -379,16 +379,10 @@ public class DB {
 
 
 
-    public void removePlayer()
-    {
-        db.collection("GameRooms").document(AppUtilities.gameRoom.getRoomCode())
-
-    }
-
 
     public void deleteGameRoom()
     {
         db.collection("GameRooms").document(AppUtilities.gameRoom.getRoomCode())
-
+                .delete();
     }
 }

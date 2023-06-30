@@ -20,7 +20,6 @@ public class End extends AppCompatActivity implements EndHandler{
         setContentView(R.layout.activity_end);
 
         database.setEnd(this);
-        database.listenToEndChanges();
 
         name = getIntent().getStringExtra("name");
 
@@ -83,14 +82,14 @@ public class End extends AppCompatActivity implements EndHandler{
     public void removePlayerFromPlayers()
     {
         GameRoom gameRoom = AppUtilities.gameRoom;
-        if(gameRoom.getPlayers().size() == 1)
-        {
-
-        }
-        else
-        {
+//        if(gameRoom.getPlayers().size() == 1)
+//        {
+//            database.deleteGameRoom();
+//        }
+//        else
+//        {
             gameRoom.getPlayers().remove(gameRoom.getPlayerIndex(name));
-
-        }
+            database.updateField("players");
+//        }
     }
 }
