@@ -25,7 +25,6 @@ import com.google.firebase.storage.UploadTask;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.PropertyPermission;
 
 public class DB {
 
@@ -35,7 +34,7 @@ public class DB {
     GameStartedHandler gameStarted;
     AfterHummingHandler afterHumming;
     NextPlayerHandler nextPlayer;
-    EndHandler endHandler;
+    EndHandler end;
     StorageReference storageRef;
 
 
@@ -70,7 +69,7 @@ public class DB {
         this.nextPlayer = nextPlayer;
     }
 
-    public void setEnd(EndHandler endHandler){this.endHandler = endHandler;}
+    public void setEnd(EndHandler endHandler){this.end = endHandler;}
 
 
     public void updateGameRoom()//הפעולה מעדכנת את הGameRoom וקוראת בהתאם לactivity או לgameStarted
@@ -119,14 +118,6 @@ public class DB {
                     }
                 });
     }
-
-//    public void deleteGameRoom()//הפעולה מוחקת Gameroom מהdatabase לפי הroomCode
-//    {
-//        db.collection("GameRooms")
-//                .document(AppUtilities.gameRoom.getRoomCode())
-//                .delete();
-//        AppUtilities.gameRoom = null;
-//    }
 
     public void findGameRoomByNumber(int code) { //הפעולה בודקת אם חדר המשחק קיים לפי הקוד ומחזירה הודעה בהתאם
         db.collection("GameRooms")
@@ -371,6 +362,32 @@ public class DB {
                         if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
                             nextPlayer.updateGameRoom(new GameRoom((HashMap<String, Object>) document.getData()));
+                        }
+                    }
+                });
+
+    }
+
+
+    public void listen()
+    {
+        GameRoom gameRoom = AppUtilities.gameRoom;
+        db.collection("GameRooms").document(gameRoom.getRoomCode())
+                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable DocumentSnapshot value,
+                                        @Nullable FirebaseFirestoreException error) {
+                        if (error != null) {
+                            return;
+                        }
+                        if (value != null && value.exists()) {
+                            if (end != null) {
+                                Map<String, Object> data = value.getData();
+                                if (data != null) {
+
+                                    end.update(new GameRoom((HashMap<String, Object>) value.getData()));
+                                }
+                            }
                         }
                     }
                 });

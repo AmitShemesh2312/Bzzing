@@ -20,6 +20,7 @@ public class End extends AppCompatActivity implements EndHandler{
         setContentView(R.layout.activity_end);
 
         database.setEnd(this);
+        database.listen();
 
         name = getIntent().getStringExtra("name");
 
@@ -72,6 +73,7 @@ public class End extends AppCompatActivity implements EndHandler{
     {
         removePlayerFromPlayers();
 
+
         AppUtilities.gameRoom = null;
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -82,14 +84,19 @@ public class End extends AppCompatActivity implements EndHandler{
     public void removePlayerFromPlayers()
     {
         GameRoom gameRoom = AppUtilities.gameRoom;
-//        if(gameRoom.getPlayers().size() == 1)
-//        {
-//            database.deleteGameRoom();
-//        }
-//        else
-//        {
+        if(gameRoom.getPlayers().size() == 1)
+        {
+            database.deleteGameRoom();
+        }
+        else
+        {
             gameRoom.getPlayers().remove(gameRoom.getPlayerIndex(name));
             database.updateField("players");
-//        }
+        }
+    }
+
+    public void update(GameRoom g)
+    {
+        AppUtilities.gameRoom = g;
     }
 }

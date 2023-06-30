@@ -12,6 +12,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import org.checkerframework.checker.units.qual.A;
+
 import java.util.ArrayList;
 
 public class WaitingRoom extends AppCompatActivity implements WaitingRoomHandler {
@@ -174,19 +176,6 @@ public class WaitingRoom extends AppCompatActivity implements WaitingRoomHandler
         startActivity(intent);
     }
 
-    public void removePlayerFromPlayers(View view)
-    {
-        GameRoom gameRoom = AppUtilities.gameRoom;
-        if(gameRoom.getPlayers().size() == 1)
-        {
-
-        }
-        else
-        {
-            gameRoom.getPlayers().remove(gameRoom.getPlayerIndex(name));
-            database.updateField("players");
-        }
-    }
 
     @Override
     public void onBackPressed() {//הפעולה חוסמת את אפשרות הלחיצה על כפתור החזור
