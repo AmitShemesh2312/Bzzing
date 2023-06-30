@@ -19,240 +19,298 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/linearLayoutCompat3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="50dp"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/goodGame">
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="18dp"
-                android:text="Expectations"
-                android:layout_marginLeft="142dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="18dp"
-                android:text="Reality"
-                android:layout_marginLeft="14dp"/>
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/num0"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="1)"
-                android:textColor="#000000"
-                android:textSize="50dp"
-                android:visibility="invisible"/>
-
-            <TextView
-                android:id="@+id/end_name0"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:text="name:"
-                android:textColor="#000000"
-                android:textSize="30dp" />
-
-            <TextView
-                android:id="@+id/end_expectations0"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp"
-                android:text="10"
-                android:textColor="#000000"
-                android:textSize="25dp" />
-
-            <TextView
-                android:id="@+id/end_reality0"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="60dp"
-                android:text="10"
-                android:textColor="#000000"
-                android:textSize="25dp" />
-
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/num1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="2)"
-                android:textColor="#000000"
-                android:textSize="50dp"
-                android:visibility="invisible"/>
-
-            <TextView
-                android:id="@+id/end_name1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:text="name:"
-                android:textColor="#000000"
-                android:textSize="30dp" />
-
-            <TextView
-                android:id="@+id/end_expectations1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp"
-                android:text="10"
-                android:textColor="#000000"
-                android:textSize="25dp" />
-
-            <TextView
-                android:id="@+id/end_reality1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="60dp"
-                android:text="10"
-                android:textColor="#000000"
-                android:textSize="25dp" />
-
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/num2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="3)"
-                android:textColor="#000000"
-                android:textSize="50dp"
-                android:visibility="invisible"/>
-
-            <TextView
-                android:id="@+id/end_name2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:text="name:"
-                android:textColor="#000000"
-                android:textSize="30dp"
-                android:visibility="invisible"/>
-
-            <TextView
-                android:id="@+id/end_expectations2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp"
-                android:text="10"
-                android:textColor="#000000"
-                android:textSize="25dp"
-                android:visibility="invisible"/>
-
-            <TextView
-                android:id="@+id/end_reality2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="60dp"
-                android:text="10"
-                android:textColor="#000000"
-                android:textSize="25dp"
-                android:visibility="invisible"/>
-
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/num3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="4)"
-                android:textColor="#000000"
-                android:textSize="50dp"
-                android:visibility="invisible"/>
-
-            <TextView
-                android:id="@+id/end_name3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:text="name:"
-                android:textColor="#000000"
-                android:textSize="30dp"
-                android:visibility="invisible"/>
-
-            <TextView
-                android:id="@+id/end_expectations3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp"
-                android:text="10"
-                android:textColor="#000000"
-                android:textSize="25dp"
-                android:visibility="invisible"/>
-
-            <TextView
-                android:id="@+id/end_reality3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="60dp"
-                android:text="10"
-                android:textColor="#000000"
-                android:textSize="25dp"
-                android:visibility="invisible"/>
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
-
     <Button
         android:id="@+id/homepage"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="85dp"
+        android:layout_marginTop="100dp"
         android:background="@drawable/rounded_button"
         android:onClick="homePage"
         android:text="Go to Home Page"
         android:textAllCaps="false"
         app:backgroundTint="#3A6BEF"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintHorizontal_bias="0.414"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat3" />
+        app:layout_constraintTop_toBottomOf="@+id/num3" />
 
+
+    <TextView
+        android:id="@+id/num0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="25dp"
+        android:text="1)"
+        android:textColor="#000000"
+        android:textSize="50dp"
+        android:visibility="visible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/goodGame" />
+    <TextView
+        android:id="@+id/num1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="70dp"
+        android:text="2)"
+        android:textColor="#000000"
+        android:textSize="50dp"
+        android:visibility="visible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/num0" />
+    <TextView
+        android:id="@+id/num2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="70dp"
+        android:text="3)"
+        android:textColor="#000000"
+        android:textSize="50dp"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/num1" />
+    <TextView
+        android:id="@+id/num3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="70dp"
+        android:text="4)"
+        android:textColor="#000000"
+        android:textSize="50dp"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/num2" />
+
+
+
+    <TextView
+        android:id="@+id/end_name0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:text="name:"
+        android:textColor="#000000"
+        android:textSize="30dp"
+        app:layout_constraintStart_toEndOf="@+id/num0"
+        app:layout_constraintTop_toTopOf="@+id/num0" />
+    <TextView
+        android:id="@+id/end_name1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:text="name:"
+        android:textColor="#000000"
+        android:textSize="30dp"
+        app:layout_constraintStart_toEndOf="@+id/num1"
+        app:layout_constraintTop_toTopOf="@+id/num1" />
+    <TextView
+        android:id="@+id/end_name2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:text="name:"
+        android:textColor="#000000"
+        android:textSize="30dp"
+        android:visibility="invisible"
+        app:layout_constraintStart_toEndOf="@+id/num2"
+        app:layout_constraintTop_toTopOf="@+id/num2" />
+    <TextView
+        android:id="@+id/end_name3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:text="name:"
+        android:textColor="#000000"
+        android:textSize="30dp"
+        android:visibility="invisible"
+        app:layout_constraintStart_toEndOf="@+id/num3"
+        app:layout_constraintTop_toTopOf="@+id/num3" />
+
+
+
+    <TextView
+        android:id="@+id/textview_expectations0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="20dp"
+        android:text="Expectations:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/num0" />
+    <TextView
+        android:id="@+id/textview_expectations1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="20dp"
+        android:text="Expectations"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/num1" />
+    <TextView
+        android:id="@+id/textview_expectations2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="20dp"
+        android:text="Expectations"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/num2" />
+    <TextView
+        android:id="@+id/textview_expectations3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="20dp"
+        android:text="Expectations"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/num3" />
+
+
+
+    <TextView
+        android:id="@+id/end_expectations0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="12dp"
+        android:text="10"
+        android:textColor="#000000"
+        android:textSize="25dp"
+        app:layout_constraintStart_toEndOf="@+id/textview_expectations0"
+        app:layout_constraintTop_toBottomOf="@+id/num0" />
+    <TextView
+        android:id="@+id/end_expectations1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="12dp"
+        android:text="10"
+        android:textColor="#000000"
+        android:textSize="25dp"
+        app:layout_constraintStart_toEndOf="@+id/textview_expectations1"
+        app:layout_constraintTop_toBottomOf="@+id/num1" />
+    <TextView
+        android:id="@+id/end_expectations2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="12dp"
+        android:text="10"
+        android:textColor="#000000"
+        android:textSize="25dp"
+        android:visibility="invisible"
+        app:layout_constraintStart_toEndOf="@+id/textview_expectations2"
+        app:layout_constraintTop_toBottomOf="@+id/num2" />
+    <TextView
+        android:id="@+id/end_expectations3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="12dp"
+        android:text="10"
+        android:textColor="#000000"
+        android:textSize="25dp"
+        android:visibility="invisible"
+        app:layout_constraintStart_toEndOf="@+id/textview_expectations3"
+        app:layout_constraintTop_toBottomOf="@+id/num3" />
+
+
+
+    <TextView
+        android:id="@+id/textview_reality0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
+        android:text="Reality"
+        app:layout_constraintStart_toEndOf="@+id/end_expectations0"
+        app:layout_constraintTop_toBottomOf="@+id/num0" />
+    <TextView
+        android:id="@+id/textview_reality1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
+        android:text="Reality"
+        app:layout_constraintStart_toEndOf="@+id/end_expectations1"
+        app:layout_constraintTop_toBottomOf="@+id/num1" />
+    <TextView
+        android:id="@+id/textview_reality2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
+        android:text="Reality"
+        android:visibility="invisible"
+        app:layout_constraintStart_toEndOf="@+id/end_expectations2"
+        app:layout_constraintTop_toBottomOf="@+id/num2" />
+    <TextView
+        android:id="@+id/textview_reality3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
+        android:text="Reality"
+        android:visibility="invisible"
+        app:layout_constraintStart_toEndOf="@+id/end_expectations3"
+        app:layout_constraintTop_toBottomOf="@+id/num3" />
+
+
+
+    <TextView
+        android:id="@+id/end_reality0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="12dp"
+        android:text="10"
+        android:textColor="#000000"
+        android:textSize="25dp"
+        app:layout_constraintStart_toEndOf="@+id/textview_reality0"
+        app:layout_constraintTop_toBottomOf="@+id/num0" />
+    <TextView
+        android:id="@+id/end_reality1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="12dp"
+        android:text="10"
+        android:textColor="#000000"
+        android:textSize="25dp"
+        app:layout_constraintStart_toEndOf="@+id/textview_reality1"
+        app:layout_constraintTop_toBottomOf="@+id/num1" />
+    <TextView
+        android:id="@+id/end_reality2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="12dp"
+        android:text="10"
+        android:textColor="#000000"
+        android:textSize="25dp"
+        android:visibility="invisible"
+        app:layout_constraintStart_toEndOf="@+id/textview_reality2"
+        app:layout_constraintTop_toBottomOf="@+id/num2" />
+    <TextView
+        android:id="@+id/end_reality3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="12dp"
+        android:text="10"
+        android:textColor="#000000"
+        android:textSize="25dp"
+        android:visibility="invisible"
+        app:layout_constraintStart_toEndOf="@+id/textview_reality3"
+        app:layout_constraintTop_toBottomOf="@+id/num3" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

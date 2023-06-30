@@ -40,10 +40,18 @@ public class End extends AppCompatActivity {
             player_name.setText(gameRoom.getPlayers().get(i).getName());
             player_name.setVisibility(View.VISIBLE);
 
+            int textview_expectations_id = getResources().getIdentifier("textview_expectations" + i, "id", getPackageName());
+            TextView textview_expectations = findViewById(textview_expectations_id);
+            textview_expectations.setVisibility(View.VISIBLE);
+
             int expectation_id = getResources().getIdentifier("end_expectations" + i, "id", getPackageName());
             TextView player_expectations = findViewById(expectation_id);
             player_expectations.setText("" + gameRoom.getPlayers().get(i).getExpectations());
             player_expectations.setVisibility(View.VISIBLE);
+
+            int textview_reality_id = getResources().getIdentifier("textview_reality" + i, "id", getPackageName());
+            TextView textview_reality = findViewById(textview_reality_id);
+            textview_reality.setVisibility(View.VISIBLE);
 
             int reality_id = getResources().getIdentifier("end_reality" + i, "id", getPackageName());
             TextView player_reality = findViewById(reality_id);
