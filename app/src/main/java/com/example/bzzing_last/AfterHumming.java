@@ -52,7 +52,6 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
 
         nextRound();
 
-
         if (player.getDoneScoring())
             everybodyDoneScoring();
         else
@@ -128,9 +127,6 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
         }
 
         gameRoom.setUpdated(true);
-//
-//        if (checkIfEverybodyDoneScoring() && AppUtilities.gameRoom.getRounds() + 1 == AppUtilities.gameRoom.getPlayers().size())
-//            end();
     }
 
     public void nextRound() {
@@ -204,29 +200,20 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
 
     public void ratePlayer(View view) {
         TextView textView = findViewById(R.id.points);
-        int rate = Integer.parseInt(textView.getText().toString());
-
         int tag = Integer.parseInt(view.getTag().toString());
-        if (rate < 10 && rate > 0) {
-            if (tag == 1)
-                rate += 1;
-            else
-                rate -= 1;
-        } else if (rate == 0) {
-            if (tag == 1)
-                rate += 1;
-        } else {
-            if (tag == 0)
-                rate -= 1;
-        }
-        textView.setText("" + rate);
+        updateRate(textView, tag);
     }
 
     public void rateMyself(View view) {
         TextView textView = findViewById(R.id.pointsHum);
+        int tag = Integer.parseInt(view.getTag().toString());
+        updateRate(textView, tag);
+    }
+
+    public void updateRate(TextView textView, int tag)
+    {
         int rate = Integer.parseInt(textView.getText().toString());
 
-        int tag = Integer.parseInt(view.getTag().toString());
         if (rate < 10 && rate > 0) {
             if (tag == 1)
                 rate += 1;
@@ -239,6 +226,7 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
             if (tag == 0)
                 rate -= 1;
         }
+
         textView.setText("" + rate);
     }
 
