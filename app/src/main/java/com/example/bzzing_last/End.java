@@ -92,9 +92,10 @@ public class End extends AppCompatActivity implements EndHandler{
         }
         else
         {
+            database.deleteHum(gameRoom.getPlayerIndex(name));
+
             gameRoom.getPlayers().remove(gameRoom.getPlayerIndex(name));
             database.updateField("players");
-            database.deleteHum(gameRoom.getPlayerIndex(name));
         }
     }
 
