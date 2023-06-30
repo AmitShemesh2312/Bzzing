@@ -84,4 +84,9 @@ public class nextPlayer extends AppCompatActivity implements NextPlayerHandler {
     public void updateGameRoom(GameRoom g) {
         AppUtilities.gameRoom = g;
     }
+
+    @Override
+    public void onBackPressed() {//הפעולה חוסמת את אפשרות הלחיצה על כפתור החזור
+        return;
+    }
 }

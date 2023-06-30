@@ -329,6 +329,7 @@ public class GameStarted extends AppCompatActivity implements GameStartedHandler
     }
 
 
+    @Override
     public void onBackPressed() {//הפעולה חוסמת את אפשרות הלחיצה על כפתור החזור
         return;
     }

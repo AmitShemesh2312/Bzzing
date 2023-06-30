@@ -283,4 +283,9 @@ public class MainActivity extends AppCompatActivity implements MainActivityHandl
                 Toast.makeText(this, "Give a permission to the microphone!", Toast.LENGTH_SHORT).show();
         }
     }
+
+    @Override
+    public void onBackPressed() {//הפעולה חוסמת את אפשרות הלחיצה על כפתור החזור
+        return;
+    }
 }

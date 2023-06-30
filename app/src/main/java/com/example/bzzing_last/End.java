@@ -103,4 +103,9 @@ public class End extends AppCompatActivity implements EndHandler{
     {
         AppUtilities.gameRoom = g;
     }
+
+    @Override
+    public void onBackPressed() {//הפעולה חוסמת את אפשרות הלחיצה על כפתור החזור
+        return;
+    }
 }
