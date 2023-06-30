@@ -30,7 +30,7 @@ public class nextPlayer extends AppCompatActivity implements NextPlayerHandler {
         if (name.equals(AppUtilities.gameRoom.getActivePlayer()))
             database.updateField("updated");
 
-        database.updateThisGameRoom();
+        database.getUpdatedGameRoom();
 
         writeNames();
         timer();

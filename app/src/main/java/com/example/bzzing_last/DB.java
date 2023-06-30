@@ -42,7 +42,7 @@ public class DB {
     private ListenerRegistration documentChanges;
     private ListenerRegistration storageChanges;
     private ListenerRegistration chooseChanges;
-    private ListenerRegistration endChanges;
+    private ListenerRegistration afterHummingChanges;
 
 
     public DB() {
@@ -294,9 +294,9 @@ public class DB {
         }
     }
 
-    public void listenToEndChanges(Activity ac) {
+    public void listenToAfterHummingChanges(Activity ac) {
         GameRoom gameRoom = AppUtilities.gameRoom;
-        endChanges = db.collection("GameRooms").document(gameRoom.getRoomCode())
+        afterHummingChanges = db.collection("GameRooms").document(gameRoom.getRoomCode())
                 .addSnapshotListener(new EventListener<DocumentSnapshot>() {
                     @Override
                     public void onEvent(@Nullable DocumentSnapshot value,
@@ -318,59 +318,10 @@ public class DB {
 
     }
 
-    public void stopListeningEndChanges() {
-        if (endChanges != null) {
-            endChanges.remove();
+    public void stopListeningAfterHummingChanges() {
+        if (afterHummingChanges != null) {
+            afterHummingChanges.remove();
         }
-    }
-
-    public void getUpdates() {
-        db.collection("GameRooms").document(AppUtilities.gameRoom.getRoomCode())
-                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable DocumentSnapshot value,
-                                        @Nullable FirebaseFirestoreException error) {
-                        if (error != null) {
-                            return;
-                        }
-                        if (value != null && value.exists()) {
-                            if (gameStarted != null) {
-                                Map<String, Object> data = value.getData();
-                                if (data != null) {
-                                    gameStarted.updateDocumentChanges(new GameRoom((HashMap<String, Object>) value.getData()));
-                                }
-                            }
-                        }
-                    }
-                });
-
-    }
-
-    public void updateeeThisGameRoom() {
-        db.collection("GameRooms").document(AppUtilities.gameRoom.getRoomCode())
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        if (documentSnapshot.exists() && documentSnapshot.getData() != null) {
-                            gameStarted.updateDocumentChanges(new GameRoom((HashMap<String, Object>) documentSnapshot.getData()));
-                        }
-                    }
-                });
-    }
-
-    public void updateThisGameRoom() {
-        db.collection("GameRooms").document(AppUtilities.gameRoom.getRoomCode())
-                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            nextPlayer.updateGameRoom(new GameRoom((HashMap<String, Object>) document.getData()));
-                        }
-                    }
-                });
-
     }
 
 
@@ -400,7 +351,19 @@ public class DB {
     }
 
 
-
+    public void getUpdatedGameRoom()
+    {
+        db.collection("GameRooms").document(AppUtilities.gameRoom.getRoomCode())
+                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            AppUtilities.gameRoom = new GameRoom((HashMap<String, Object>) document.getData());
+                        }
+                    }
+                });
+    }
 
     public void deleteGameRoom()
     {

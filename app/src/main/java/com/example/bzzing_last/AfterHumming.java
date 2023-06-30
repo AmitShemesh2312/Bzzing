@@ -9,8 +9,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import org.checkerframework.checker.units.qual.A;
-
 import java.util.ArrayList;
 
 public class AfterHumming extends AppCompatActivity implements AfterHummingHandler {
@@ -37,7 +35,7 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
 
         database.setAfterUploadHumming(this);
 
-        database.listenToEndChanges(this);
+        database.listenToAfterHummingChanges(this);
 
         name = getIntent().getStringExtra("name");
 
@@ -137,7 +135,7 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
 
     public void nextRound() {
         if (AppUtilities.gameRoom.getUpdated()) {
-            database.stopListeningEndChanges();
+            database.stopListeningAfterHummingChanges();
 
             Intent intent = new Intent(this, nextPlayer.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -147,7 +145,7 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
     }
 
     public void end() {
-        database.stopListeningEndChanges();
+        database.stopListeningAfterHummingChanges();
 
         Intent intent = new Intent(this, End.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
