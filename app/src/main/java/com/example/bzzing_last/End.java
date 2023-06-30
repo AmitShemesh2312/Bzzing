@@ -5,19 +5,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class End extends AppCompatActivity {
+public class End extends AppCompatActivity implements EndHandler{
 
-    String name;
+    private DB database = new DB();
+    private String name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_end);
+
+        database.setEnd(this);
+        database.listenToEndChanges();
 
         name = getIntent().getStringExtra("name");
 
@@ -68,11 +71,26 @@ public class End extends AppCompatActivity {
 
     public void homePage(View view)//להוציא את השחקן
     {
+        removePlayerFromPlayers();
 
         AppUtilities.gameRoom = null;
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("name", name);
         startActivity(intent);
+    }
+
+    public void removePlayerFromPlayers()
+    {
+        GameRoom gameRoom = AppUtilities.gameRoom;
+        if(gameRoom.getPlayers().size() == 1)
+        {
+
+        }
+        else
+        {
+            gameRoom.getPlayers().remove(gameRoom.getPlayerIndex(name));
+
+        }
     }
 }

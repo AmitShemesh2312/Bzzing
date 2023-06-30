@@ -80,7 +80,7 @@ public class WaitingRoom extends AppCompatActivity implements WaitingRoomHandler
         showPlayerNum();
     }
 
-   /* @Override
+    @Override
     protected void onStop() {//כאשר שחקן יוצא מן האפליקציה, אם השחקן האחרון יצא הוא נסגר, אם לא הפעולה תעדכן את החדר בהתאם
         super.onStop();
         if(!AppUtilities.gameRoom.getEverybodyReady())
@@ -101,7 +101,7 @@ public class WaitingRoom extends AppCompatActivity implements WaitingRoomHandler
             }
             finish();
         }
-    }*/
+    }
 
 
     @Override

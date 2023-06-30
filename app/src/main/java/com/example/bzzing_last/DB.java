@@ -35,6 +35,7 @@ public class DB {
     GameStartedHandler gameStarted;
     AfterHummingHandler afterHumming;
     NextPlayerHandler nextPlayer;
+    EndHandler endHandler;
     StorageReference storageRef;
 
 
@@ -68,6 +69,8 @@ public class DB {
     public void setNextPlayer(NextPlayerHandler nextPlayer) {
         this.nextPlayer = nextPlayer;
     }
+
+    public void setEnd(EndHandler endHandler){this.endHandler = endHandler;}
 
 
     public void updateGameRoom()//הפעולה מעדכנת את הGameRoom וקוראת בהתאם לactivity או לgameStarted
@@ -376,5 +379,16 @@ public class DB {
 
 
 
+    public void removePlayer()
+    {
+        db.collection("GameRooms").document(AppUtilities.gameRoom.getRoomCode())
 
+    }
+
+
+    public void deleteGameRoom()
+    {
+        db.collection("GameRooms").document(AppUtilities.gameRoom.getRoomCode())
+
+    }
 }
