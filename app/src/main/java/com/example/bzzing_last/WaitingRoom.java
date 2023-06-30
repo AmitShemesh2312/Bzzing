@@ -49,7 +49,7 @@ public class WaitingRoom extends AppCompatActivity implements WaitingRoomHandler
         GameRoom gameRoom = AppUtilities.gameRoom;
         int resID = getResources().getIdentifier("playersNum", "id", getPackageName());
         TextView textView = findViewById(resID);
-        textView.setText(gameRoom.getPlayersNum() + " / " + gameRoom.getMaxPlayers());
+        textView.setText(gameRoom.getPlayers().size() + " / " + gameRoom.getMaxPlayers());
     }
 
     private void showPlayer() {//הפעולה מעדכנת את מערך השמות המודפס על המסך
@@ -129,7 +129,7 @@ public class WaitingRoom extends AppCompatActivity implements WaitingRoomHandler
 
     public void imReady(View view) {//כאשר שחקן לוחץ על הכפתור, אם מספר השחקנים גדול מ1 הפעולה תעדכן את הכפתור ואת הdatabase
         GameRoom gameRoom = AppUtilities.gameRoom;
-        if (gameRoom.getPlayersNum() > 1) {
+        if (gameRoom.getPlayers().size() > 1) {
             int index = gameRoom.getPlayerIndex(name);
             Button b = findViewById(R.id.ready);
             if (index != -1) {

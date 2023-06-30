@@ -17,7 +17,6 @@ import java.util.HashMap;
 public class GameRoom{
     private final int maxPlayers = 4;
     private ArrayList<Player> players = new ArrayList<>();
-    private int playersNum;
     private int rounds = 0;
     private String roomCode;
     private ArrayList<Song> songs = new ArrayList<>();
@@ -97,12 +96,7 @@ public class GameRoom{
         return maxPlayers;
     }
 
-    public void setPlayersNum(int num) {
-        this.playersNum += num;
-    }
-    public int getPlayersNum() {
-        return playersNum;
-    }
+
 
     public void setPlayers(ArrayList<Player> players) {
         this.players = players;
@@ -214,7 +208,6 @@ public class GameRoom{
     {
         HashMap<String, Object> map = new HashMap<>();
         map.put("roomCode", roomCode);
-        map.put("playersNum", playersNum);
         map.put("rounds", rounds);
         map.put("players", players);
         map.put("songs", songs);
@@ -233,7 +226,6 @@ public class GameRoom{
     public GameRoom(HashMap<String,Object> map)
     {
         // hashmap to game room object
-        this.playersNum = Integer.parseInt(map.get("playersNum").toString());
         this.rounds = Integer.parseInt(map.get("rounds").toString());
         this.roomCode = map.get("roomCode").toString();
 

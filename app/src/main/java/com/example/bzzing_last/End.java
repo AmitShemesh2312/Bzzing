@@ -86,12 +86,15 @@ public class End extends AppCompatActivity implements EndHandler{
         GameRoom gameRoom = AppUtilities.gameRoom;
         if(gameRoom.getPlayers().size() == 1)
         {
+            database.deleteHum(gameRoom.getPlayerIndex(name));
+            database.deleteStorage();
             database.deleteGameRoom();
         }
         else
         {
             gameRoom.getPlayers().remove(gameRoom.getPlayerIndex(name));
             database.updateField("players");
+            database.deleteHum(gameRoom.getPlayerIndex(name));
         }
     }
 

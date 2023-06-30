@@ -29,13 +29,14 @@ import java.util.Map;
 public class DB {
 
     FirebaseFirestore db;
+    StorageReference storageRef;
+
     MainActivityHandler activity;
     WaitingRoomHandler waitingRoom;
     GameStartedHandler gameStarted;
     AfterHummingHandler afterHumming;
     NextPlayerHandler nextPlayer;
     EndHandler end;
-    StorageReference storageRef;
 
 
     private ListenerRegistration documentChanges;
@@ -69,7 +70,11 @@ public class DB {
         this.nextPlayer = nextPlayer;
     }
 
-    public void setEnd(EndHandler endHandler){this.end = endHandler;}
+    public void setEnd(EndHandler endHandler)
+    {
+        this.end = endHandler;
+        this.storageRef = FirebaseStorage.getInstance().getReference();
+    }
 
 
     public void updateGameRoom()//הפעולה מעדכנת את הGameRoom וקוראת בהתאם לactivity או לgameStarted
@@ -195,7 +200,7 @@ public class DB {
             return;
         }
         storageRef = FirebaseStorage.getInstance().getReference();
-        StorageReference fileRef = storageRef.child("Humming").child(AppUtilities.gameRoom.getRoomCode()).child("player " + n);
+        StorageReference fileRef = storageRef.child("Humming").child(AppUtilities.gameRoom.getRoomCode()).child("player" + n);
         Uri uri = Uri.fromFile(file);
         fileRef.putFile(uri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
             @Override
@@ -399,7 +404,23 @@ public class DB {
 
     public void deleteGameRoom()
     {
-        db.collection("GameRooms").document(AppUtilities.gameRoom.getRoomCode())
+        String roomCode = AppUtilities.gameRoom.getRoomCode();
+
+        db.collection("GameRooms").document(roomCode)
+                .delete();
+    }
+
+    public void deleteHum(int n)
+    {
+        String roomCode = AppUtilities.gameRoom.getRoomCode();
+        storageRef.child("Humming/" + roomCode + "/player" + n)
+                .delete();
+    }
+
+    public void deleteStorage()
+    {
+        String roomCode = AppUtilities.gameRoom.getRoomCode();
+        storageRef.child("Humming/" + roomCode)
                 .delete();
     }
 }

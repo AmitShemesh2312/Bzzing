@@ -117,7 +117,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityHandl
         if(name.length() < 8)
         {
             AppUtilities.gameRoom = new GameRoom();
-            AppUtilities.gameRoom.setPlayersNum(1);
             AppUtilities.gameRoom.addPlayer(new Player(name));
 
             randomNumbers();
@@ -171,9 +170,9 @@ public class MainActivity extends AppCompatActivity implements MainActivityHandl
         EditText text = findViewById(R.id.typeName);
         String name = text.getText().toString();
 
-        if(gameRoom.getPlayersNum() < gameRoom.getMaxPlayers()) {
+        if(gameRoom.getPlayers().size() < gameRoom.getMaxPlayers()) {
             boolean exist = false;
-            for (int i = 0; i < gameRoom.getPlayersNum(); i++) {
+            for (int i = 0; i < gameRoom.getPlayers().size(); i++) {
                 if(arr.get(i).getName().equals(name))
                     exist = true;
             }
@@ -203,7 +202,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityHandl
         String name = text.getText().toString();
 
         AppUtilities.gameRoom.addPlayer(new Player(name));
-        AppUtilities.gameRoom.setPlayersNum(1);
         database.updateGameRoom();
     }
     public void handleUpdateGameRoom(boolean updateSucceed)// אם DB הצליח לעדכן את הFireBase, יעביר לWaiting Room. אם לא, יציג הודעה מתאימה
