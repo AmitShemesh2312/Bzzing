@@ -14,10 +14,10 @@ import android.widget.TextView;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link FragmentFinishScoring#newInstance} factory method to
+ * Use the {@link FragmentWaitingOthersScoring#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FragmentFinishScoring extends Fragment {
+public class FragmentWaitingOthersScoring extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -28,7 +28,7 @@ public class FragmentFinishScoring extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public FragmentFinishScoring() {
+    public FragmentWaitingOthersScoring() {
         // Required empty public constructor
     }
 
@@ -38,11 +38,11 @@ public class FragmentFinishScoring extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment FragmentFinishScoring.
+     * @return A new instance of fragment FragmentWaitingOthersScoring.
      */
     // TODO: Rename and change types and number of parameters
-    public static FragmentFinishScoring newInstance(String param1, String param2) {
-        FragmentFinishScoring fragment = new FragmentFinishScoring();
+    public static FragmentWaitingOthersScoring newInstance(String param1, String param2) {
+        FragmentWaitingOthersScoring fragment = new FragmentWaitingOthersScoring();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -63,7 +63,7 @@ public class FragmentFinishScoring extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_finish_scoring, container, false);
+        return inflater.inflate(R.layout.fragment_waiting_others_scoring, container, false);
     }
 
     @Override
@@ -79,14 +79,14 @@ public class FragmentFinishScoring extends Fragment {
         GameRoom gameRoom = AppUtilities.gameRoom;
 
         for (int i = 0; i < gameRoom.getMaxPlayers(); i++) {
-            int id = getResources().getIdentifier( "finishScoring_Player" + i, "id", getContext().getPackageName());
+            int id = getResources().getIdentifier( "waitingOthersScoring_Player" + i, "id", getContext().getPackageName());
             TextView textView = getView().findViewById(id);
             textView.setText("");
         }
 
         for (int i = 0; i < gameRoom.getPlayers().size(); i++) {
             Player p = gameRoom.getPlayers().get(i);
-            int id = getResources().getIdentifier( "finishScoring_Player" + i, "id", getContext().getPackageName());
+            int id = getResources().getIdentifier( "waitingOthersScoring_Player" + i, "id", getContext().getPackageName());
             TextView textView = getView().findViewById(id);
             textView.setText(p.getName());
             if(p.getDoneScoring())

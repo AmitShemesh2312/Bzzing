@@ -34,16 +34,9 @@ public class DB {
     MainActivityHandler activity;
     WaitingRoomHandler waitingRoom;
     GameStartedHandler gameStarted;
-    AfterHummingHandler afterHumming;
-    NextPlayerHandler nextPlayer;
-    ScoreTableHandler scoreTable;
-
+    RateHandler rate;
 
     private ListenerRegistration documentChanges;
-    private ListenerRegistration storageChanges;
-    private ListenerRegistration chooseChanges;
-    private ListenerRegistration afterHummingChanges;
-
 
     public DB() {
         db = FirebaseFirestore.getInstance();
@@ -62,17 +55,11 @@ public class DB {
         this.storageRef = FirebaseStorage.getInstance().getReference();
     }
 
-    public void setAfterUploadHumming(AfterHummingHandler afterHumming) {
-        this.afterHumming = afterHumming;
+    public void setRate(RateHandler rate) {
+        this.rate = rate;
     }
 
-    public void setNextPlayer(NextPlayerHandler nextPlayer) {
-        this.nextPlayer = nextPlayer;
-    }
-
-    public void setScoreTable(ScoreTableHandler endHandler)
-    {
-        this.scoreTable = endHandler;
+    public void setScoreTable() {
         this.storageRef = FirebaseStorage.getInstance().getReference();
     }
 
@@ -86,10 +73,9 @@ public class DB {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful())
-                            if (activity != null)
-                                activity.handleUpdateGameRoom(true);
-                            else if (activity != null)
-                                activity.handleUpdateGameRoom(false);
+                            activity.handleUpdateGameRoom(true);
+                        else
+                            activity.handleUpdateGameRoom(false);
                     }
                 });
     }
@@ -236,7 +222,7 @@ public class DB {
     public void listenToStorageChanges(Activity ac) {
         GameRoom gameRoom = AppUtilities.gameRoom;
 
-        storageChanges = db.collection("GameRooms").document(gameRoom.getRoomCode())
+        documentChanges = db.collection("GameRooms").document(gameRoom.getRoomCode())
                 .addSnapshotListener(new EventListener<DocumentSnapshot>() {
                     @Override
                     public void onEvent(@Nullable DocumentSnapshot value,
@@ -255,19 +241,11 @@ public class DB {
                         }
                     }
                 });
-
     }
-
-    public void stopListeningStorageChanges() {
-        if (storageChanges != null) {
-            storageChanges.remove();
-        }
-    }
-
 
     public void listenToChoosingChanges(Activity ac) {
         GameRoom gameRoom = AppUtilities.gameRoom;
-        chooseChanges = db.collection("GameRooms").document(gameRoom.getRoomCode())
+        documentChanges = db.collection("GameRooms").document(gameRoom.getRoomCode())
                 .addSnapshotListener(new EventListener<DocumentSnapshot>() {
                     @Override
                     public void onEvent(@Nullable DocumentSnapshot value,
@@ -288,15 +266,11 @@ public class DB {
 
     }
 
-    public void stopListeningChooseChanges() {
-        if (chooseChanges != null) {
-            chooseChanges.remove();
-        }
-    }
 
-    public void listenToAfterHummingChanges(Activity ac) {
+
+    public void listenToRateChanges(Activity ac) {
         GameRoom gameRoom = AppUtilities.gameRoom;
-        afterHummingChanges = db.collection("GameRooms").document(gameRoom.getRoomCode())
+        documentChanges = db.collection("GameRooms").document(gameRoom.getRoomCode())
                 .addSnapshotListener(new EventListener<DocumentSnapshot>() {
                     @Override
                     public void onEvent(@Nullable DocumentSnapshot value,
@@ -305,27 +279,21 @@ public class DB {
                             return;
                         }
                         if (value != null && value.exists()) {
-                            if (afterHumming != null) {
+                            if (rate != null) {
                                 Map<String, Object> data = value.getData();
                                 if (data != null) {
-                                    afterHumming.updateDocumentChanges(new GameRoom((HashMap<String, Object>) value.getData()));
+                                    rate.updateDocumentChanges(new GameRoom((HashMap<String, Object>) value.getData()));
                                 }
                             }
                         }
                     }
                 });
-
-    }
-
-    public void stopListeningAfterHummingChanges() {
-        if (afterHummingChanges != null) {
-            afterHummingChanges.remove();
-        }
     }
 
 
-    public void listen()
-    {
+
+
+    public void listen() {
         GameRoom gameRoom = AppUtilities.gameRoom;
         db.collection("GameRooms").document(gameRoom.getRoomCode())
                 .addSnapshotListener(new EventListener<DocumentSnapshot>() {
@@ -336,22 +304,17 @@ public class DB {
                             return;
                         }
                         if (value != null && value.exists()) {
-                            if (scoreTable != null) {
-                                Map<String, Object> data = value.getData();
-                                if (data != null) {
-
-                                    scoreTable.update(new GameRoom((HashMap<String, Object>) value.getData()));
-                                }
+                            Map<String, Object> data = value.getData();
+                            if (data != null) {
+                                AppUtilities.gameRoom = new GameRoom((HashMap<String, Object>) value.getData());
                             }
                         }
                     }
                 });
-
     }
 
 
-    public void getUpdatedGameRoom()
-    {
+    public void getUpdatedGameRoom() {
         db.collection("GameRooms").document(AppUtilities.gameRoom.getRoomCode())
                 .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
@@ -364,23 +327,20 @@ public class DB {
                 });
     }
 
-    public void deleteGameRoom()
-    {
+    public void deleteGameRoom() {
         String roomCode = AppUtilities.gameRoom.getRoomCode();
 
         db.collection("GameRooms").document(roomCode)
                 .delete();
     }
 
-    public void deleteHum(int n)
-    {
+    public void deleteHum(int n) {
         String roomCode = AppUtilities.gameRoom.getRoomCode();
         storageRef.child("Humming/" + roomCode + "/player" + n)
                 .delete();
     }
 
-    public void deleteStorage()
-    {
+    public void deleteStorage() {
         String roomCode = AppUtilities.gameRoom.getRoomCode();
         storageRef.child("Humming/" + roomCode)
                 .delete();

@@ -28,7 +28,7 @@
             android:label="@string/title_activity_next_player"
             android:theme="@style/Theme.Bzzing_last" />
         <activity
-            android:name=".AfterHumming"
+            android:name=".Rate"
             android:exported="false" />
         <activity
             android:name=".GameStarted"

@@ -9,10 +9,10 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView"
-        android:name="com.example.bzzing_last.FragmentWaiting"
+        android:name="com.example.bzzing_last.FragmentWaitingUploadFinished"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout="@layout/fragment_waiting" />
+        tools:layout="@layout/fragment_waiting_upload_finished" />
 </androidx.constraintlayout.widget.ConstraintLayout>

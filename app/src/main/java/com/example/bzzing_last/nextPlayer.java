@@ -21,7 +21,6 @@ public class nextPlayer extends AppCompatActivity implements NextPlayerHandler {
         setContentView(R.layout.activity_next_player);
 
         database = new DB();
-        database.setNextPlayer(this);
 
         name = getIntent().getStringExtra("name");
 

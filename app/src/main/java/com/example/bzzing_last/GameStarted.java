@@ -239,14 +239,14 @@ public class GameStarted extends AppCompatActivity implements GameStartedHandler
         dialog = null;
 
 
-        Intent intent = new Intent(this, AfterHumming.class);
+        Intent intent = new Intent(this, Rate.class);
         intent.putExtra("name", name);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
 
     public void fragmentChoose() {
-        database.stopListeningStorageChanges();
+        database.stopListeningDocumentChanges();
         fragmentManager.beginTransaction().replace(R.id.fragmentContainerView, FragmentGuessingSong.class, null).commit();
     }
 
@@ -295,9 +295,9 @@ public class GameStarted extends AppCompatActivity implements GameStartedHandler
             AppUtilities.gameRoom.getGuessers().get(AppUtilities.gameRoom.getGuesserIndex(name)).setSongGuess(songName);
             database.updateField("guessers");
 
-            database.stopListeningChooseChanges();
+            database.stopListeningDocumentChanges();
 
-            Intent intent = new Intent(this, AfterHumming.class);
+            Intent intent = new Intent(this, Rate.class);
             intent.putExtra("name", name);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);

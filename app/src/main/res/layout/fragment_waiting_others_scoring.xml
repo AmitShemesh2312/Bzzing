@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FragmentFinishScoring">
+    tools:context=".FragmentWaitingOthersScoring">
 
     <TextView
-        android:id="@+id/finishScoring_textView"
+        android:id="@+id/afterScoring_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/finishScoring_Player0"
+        android:id="@+id/waitingOthersScoring_Player0"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
@@ -29,10 +29,10 @@
         android:textColor="#423870"
         android:textSize="40dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/finishScoring_textView" />
+        app:layout_constraintTop_toBottomOf="@id/afterScoring_textView" />
 
     <TextView
-        android:id="@+id/finishScoring_Player1"
+        android:id="@+id/waitingOthersScoring_Player1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
@@ -41,10 +41,10 @@
         android:textColor="#423870"
         android:textSize="40dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/finishScoring_Player0" />
+        app:layout_constraintTop_toBottomOf="@+id/waitingOthersScoring_Player0" />
 
     <TextView
-        android:id="@+id/finishScoring_Player2"
+        android:id="@+id/waitingOthersScoring_Player2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
@@ -53,10 +53,10 @@
         android:textColor="#423870"
         android:textSize="40dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/finishScoring_Player1" />
+        app:layout_constraintTop_toBottomOf="@+id/waitingOthersScoring_Player1" />
 
     <TextView
-        android:id="@+id/finishScoring_Player3"
+        android:id="@+id/waitingOthersScoring_Player3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
@@ -65,7 +65,7 @@
         android:textColor="#423870"
         android:textSize="40dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/finishScoring_Player2" />
+        app:layout_constraintTop_toBottomOf="@+id/waitingOthersScoring_Player2" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

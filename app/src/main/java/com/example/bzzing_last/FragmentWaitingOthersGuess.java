@@ -17,10 +17,10 @@ import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link FragmentOthersChoose#newInstance} factory method to
+ * Use the {@link FragmentWaitingOthersGuess#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FragmentOthersChoose extends Fragment {
+public class FragmentWaitingOthersGuess extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -39,7 +39,7 @@ public class FragmentOthersChoose extends Fragment {
     }
 
 
-    public FragmentOthersChoose() {
+    public FragmentWaitingOthersGuess() {
         // Required empty public constructor
     }
 
@@ -49,11 +49,11 @@ public class FragmentOthersChoose extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment othersChoose.
+     * @return A new instance of fragment waitingOthersGuess.
      */
     // TODO: Rename and change types and number of parameters
-    public static FragmentOthersChoose newInstance(String param1, String param2) {
-        FragmentOthersChoose fragment = new FragmentOthersChoose();
+    public static FragmentWaitingOthersGuess newInstance(String param1, String param2) {
+        FragmentWaitingOthersGuess fragment = new FragmentWaitingOthersGuess();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -74,7 +74,7 @@ public class FragmentOthersChoose extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_others_choose, container, false);
+        return inflater.inflate(R.layout.fragment_waiting_others_guess, container, false);
 
     }
 

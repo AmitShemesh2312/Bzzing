@@ -87,7 +87,7 @@
 
 
     <TextView
-        android:id="@+id/end_name0"
+        android:id="@+id/score_table_name0"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
@@ -98,7 +98,7 @@
         app:layout_constraintStart_toEndOf="@+id/num0"
         app:layout_constraintTop_toTopOf="@+id/num0" />
     <TextView
-        android:id="@+id/end_name1"
+        android:id="@+id/score_table_name1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
@@ -109,7 +109,7 @@
         app:layout_constraintStart_toEndOf="@+id/num1"
         app:layout_constraintTop_toTopOf="@+id/num1" />
     <TextView
-        android:id="@+id/end_name2"
+        android:id="@+id/score_table_name2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
@@ -121,7 +121,7 @@
         app:layout_constraintStart_toEndOf="@+id/num2"
         app:layout_constraintTop_toTopOf="@+id/num2" />
     <TextView
-        android:id="@+id/end_name3"
+        android:id="@+id/score_table_name3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
@@ -177,7 +177,7 @@
 
 
     <TextView
-        android:id="@+id/end_expectations0"
+        android:id="@+id/score_table_expectations0"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
@@ -188,7 +188,7 @@
         app:layout_constraintStart_toEndOf="@+id/textview_expectations0"
         app:layout_constraintTop_toBottomOf="@+id/num0" />
     <TextView
-        android:id="@+id/end_expectations1"
+        android:id="@+id/score_table_expectations1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
@@ -199,7 +199,7 @@
         app:layout_constraintStart_toEndOf="@+id/textview_expectations1"
         app:layout_constraintTop_toBottomOf="@+id/num1" />
     <TextView
-        android:id="@+id/end_expectations2"
+        android:id="@+id/score_table_expectations2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
@@ -211,7 +211,7 @@
         app:layout_constraintStart_toEndOf="@+id/textview_expectations2"
         app:layout_constraintTop_toBottomOf="@+id/num2" />
     <TextView
-        android:id="@+id/end_expectations3"
+        android:id="@+id/score_table_expectations3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
@@ -232,7 +232,7 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="20dp"
         android:text="Reality"
-        app:layout_constraintStart_toEndOf="@+id/end_expectations0"
+        app:layout_constraintStart_toEndOf="@+id/score_table_expectations0"
         app:layout_constraintTop_toBottomOf="@+id/num0" />
     <TextView
         android:id="@+id/textview_reality1"
@@ -241,7 +241,7 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="20dp"
         android:text="Reality"
-        app:layout_constraintStart_toEndOf="@+id/end_expectations1"
+        app:layout_constraintStart_toEndOf="@+id/score_table_expectations1"
         app:layout_constraintTop_toBottomOf="@+id/num1" />
     <TextView
         android:id="@+id/textview_reality2"
@@ -251,7 +251,7 @@
         android:layout_marginTop="20dp"
         android:text="Reality"
         android:visibility="invisible"
-        app:layout_constraintStart_toEndOf="@+id/end_expectations2"
+        app:layout_constraintStart_toEndOf="@+id/score_table_expectations2"
         app:layout_constraintTop_toBottomOf="@+id/num2" />
     <TextView
         android:id="@+id/textview_reality3"
@@ -261,13 +261,13 @@
         android:layout_marginTop="20dp"
         android:text="Reality"
         android:visibility="invisible"
-        app:layout_constraintStart_toEndOf="@+id/end_expectations3"
+        app:layout_constraintStart_toEndOf="@+id/score_table_expectations3"
         app:layout_constraintTop_toBottomOf="@+id/num3" />
 
 
 
     <TextView
-        android:id="@+id/end_reality0"
+        android:id="@+id/score_table_reality0"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
@@ -278,7 +278,7 @@
         app:layout_constraintStart_toEndOf="@+id/textview_reality0"
         app:layout_constraintTop_toBottomOf="@+id/num0" />
     <TextView
-        android:id="@+id/end_reality1"
+        android:id="@+id/score_table_reality1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
@@ -289,7 +289,7 @@
         app:layout_constraintStart_toEndOf="@+id/textview_reality1"
         app:layout_constraintTop_toBottomOf="@+id/num1" />
     <TextView
-        android:id="@+id/end_reality2"
+        android:id="@+id/score_table_reality2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
@@ -301,7 +301,7 @@
         app:layout_constraintStart_toEndOf="@+id/textview_reality2"
         app:layout_constraintTop_toBottomOf="@+id/num2" />
     <TextView
-        android:id="@+id/end_reality3"
+        android:id="@+id/score_table_reality3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"

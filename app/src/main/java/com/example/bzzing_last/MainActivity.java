@@ -204,7 +204,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityHandl
         AppUtilities.gameRoom.addPlayer(new Player(name));
         database.updateGameRoom();
     }
-    public void handleUpdateGameRoom(boolean updateSucceed)// אם DB הצליח לעדכן את הFireBase, יעביר לWaiting Room. אם לא, יציג הודעה מתאימה
+    public void handleUpdateGameRoom(boolean updateSucceed)// אם DB הצליח לעדכן את הFireBase, יעביר לWaiting Room
     {
         EditText text = findViewById(R.id.typeName);
         String name = text.getText().toString();

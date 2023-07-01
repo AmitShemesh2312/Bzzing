@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 
-public class FragmentWaiting extends Fragment {
+public class FragmentWaitingUploadFinished extends Fragment {
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -22,13 +22,13 @@ public class FragmentWaiting extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public FragmentWaiting() {
+    public FragmentWaitingUploadFinished() {
         // Required empty public constructor
     }
 
 
-    public static FragmentWaiting newInstance(String param1, String param2) {
-        FragmentWaiting fragment = new FragmentWaiting();
+    public static FragmentWaitingUploadFinished newInstance(String param1, String param2) {
+        FragmentWaitingUploadFinished fragment = new FragmentWaitingUploadFinished();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -47,7 +47,7 @@ public class FragmentWaiting extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_waiting, container, false);
+        View view = inflater.inflate(R.layout.fragment_waiting_upload_finished, container, false);
 
         TextView textView = view.findViewById(R.id.name);
         textView.setText(AppUtilities.gameRoom.getPlayers().get(AppUtilities.gameRoom.getRounds()).getName() + "'s");

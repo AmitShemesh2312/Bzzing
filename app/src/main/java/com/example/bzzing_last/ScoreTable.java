@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class ScoreTable extends AppCompatActivity implements ScoreTableHandler {
+public class ScoreTable extends AppCompatActivity{
 
     private DB database = new DB();
     private String name;
@@ -19,7 +19,7 @@ public class ScoreTable extends AppCompatActivity implements ScoreTableHandler {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_score_table);
 
-        database.setScoreTable(this);
+        database.setScoreTable();
         database.listen();
 
         name = getIntent().getStringExtra("name");
@@ -35,7 +35,7 @@ public class ScoreTable extends AppCompatActivity implements ScoreTableHandler {
             TextView num = findViewById(num_id);
             num.setVisibility(View.VISIBLE);
 
-            int name_id = getResources().getIdentifier("end_name" + i, "id", getPackageName());
+            int name_id = getResources().getIdentifier("score_table_name" + i, "id", getPackageName());
             TextView player_name = findViewById(name_id);
             player_name.setText(gameRoom.getPlayers().get(i).getName());
             player_name.setVisibility(View.VISIBLE);
@@ -44,7 +44,7 @@ public class ScoreTable extends AppCompatActivity implements ScoreTableHandler {
             TextView textview_expectations = findViewById(textview_expectations_id);
             textview_expectations.setVisibility(View.VISIBLE);
 
-            int expectation_id = getResources().getIdentifier("end_expectations" + i, "id", getPackageName());
+            int expectation_id = getResources().getIdentifier("score_table_expectations" + i, "id", getPackageName());
             TextView player_expectations = findViewById(expectation_id);
             player_expectations.setText("" + gameRoom.getPlayers().get(i).getExpectations());
             player_expectations.setVisibility(View.VISIBLE);
@@ -53,7 +53,7 @@ public class ScoreTable extends AppCompatActivity implements ScoreTableHandler {
             TextView textview_reality = findViewById(textview_reality_id);
             textview_reality.setVisibility(View.VISIBLE);
 
-            int reality_id = getResources().getIdentifier("end_reality" + i, "id", getPackageName());
+            int reality_id = getResources().getIdentifier("score_table_reality" + i, "id", getPackageName());
             TextView player_reality = findViewById(reality_id);
             player_reality.setText("" + gameRoom.getPlayers().get(i).getReality());
             player_reality.setVisibility(View.VISIBLE);
@@ -87,11 +87,6 @@ public class ScoreTable extends AppCompatActivity implements ScoreTableHandler {
             gameRoom.getPlayers().remove(gameRoom.getPlayerIndex(name));
             database.updateField("players");
         }
-    }
-
-    public void update(GameRoom g)
-    {
-        AppUtilities.gameRoom = g;
     }
 
     @Override

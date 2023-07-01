@@ -11,13 +11,13 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class AfterHumming extends AppCompatActivity implements AfterHummingHandler {
+public class Rate extends AppCompatActivity implements RateHandler {
 
     DB database = new DB();
     String name;
 
-    private FragmentOthersChoose fragmentOthersChoose;
-    private FragmentFinishScoring fragmentFinishScoring;
+    private FragmentWaitingOthersGuess fragmentWaitingOthersGuess;
+    private FragmentWaitingOthersScoring fragmentWaitingOthersScoring;
     private FragmentManager fragmentManager;
     private MediaPlayer mediaPlayer;
     private boolean next = false;
@@ -28,22 +28,21 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_after_humming);
+        setContentView(R.layout.activity_rate);
 
         fragmentManager = getSupportFragmentManager();
 
+        database.setRate(this);
 
-        database.setAfterUploadHumming(this);
-
-        database.listenToAfterHummingChanges(this);
+        database.listenToRateChanges(this);
 
         name = getIntent().getStringExtra("name");
 
-        fragmentFinishScoring = new FragmentFinishScoring();
+        fragmentWaitingOthersScoring = new FragmentWaitingOthersScoring();
 
-        fragmentOthersChoose = new FragmentOthersChoose();
-        fragmentOthersChoose.setName(name);
-        fragmentManager.beginTransaction().replace(R.id.fragmentContainerView, fragmentOthersChoose, null).commit();
+        fragmentWaitingOthersGuess = new FragmentWaitingOthersGuess();
+        fragmentWaitingOthersGuess.setName(name);
+        fragmentManager.beginTransaction().replace(R.id.fragmentContainerView, fragmentWaitingOthersGuess, null).commit();
     }
 
     public void updateDocumentChanges(GameRoom g) {
@@ -62,7 +61,7 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
     public void everybodyDoneGuessingSong() {
         if (!next) {
             if (!AppUtilities.gameRoom.getEverybodyDone()) {
-                fragmentOthersChoose.writeNames();
+                fragmentWaitingOthersGuess.writeNames();
                 if (name.equals(AppUtilities.gameRoom.getActivePlayer()))
                     checkIfEverybodyDone();
             } else
@@ -95,7 +94,7 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
         }
 
 
-        else fragmentFinishScoring.writeNames();
+        else fragmentWaitingOthersScoring.writeNames();
     }
 
 
@@ -131,7 +130,7 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
 
     public void nextRound() {
         if (AppUtilities.gameRoom.getUpdated()) {
-            database.stopListeningAfterHummingChanges();
+            database.stopListeningDocumentChanges();
 
             Intent intent = new Intent(this, nextPlayer.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -141,7 +140,7 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
     }
 
     public void end() {
-        database.stopListeningAfterHummingChanges();
+        database.stopListeningDocumentChanges();
 
         Intent intent = new Intent(this, ScoreTable.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -233,7 +232,7 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
 
     public void submitRate(View view) {
         GameRoom gameRoom = AppUtilities.gameRoom;
-        fragmentManager.beginTransaction().replace(R.id.fragmentContainerView, fragmentFinishScoring, null).commit();
+        fragmentManager.beginTransaction().replace(R.id.fragmentContainerView, fragmentWaitingOthersScoring, null).commit();
         AppUtilities.gameRoom.getPlayers().get(AppUtilities.gameRoom.getPlayerIndex(name)).setDoneScoring(true);
 
         TextView textView = findViewById(R.id.points);
@@ -248,7 +247,7 @@ public class AfterHumming extends AppCompatActivity implements AfterHummingHandl
 
     public void submitScore(View view) {
         GameRoom gameRoom = AppUtilities.gameRoom;
-        fragmentManager.beginTransaction().replace(R.id.fragmentContainerView, fragmentFinishScoring, null).commit();
+        fragmentManager.beginTransaction().replace(R.id.fragmentContainerView, fragmentWaitingOthersScoring, null).commit();
         AppUtilities.gameRoom.getPlayers().get(AppUtilities.gameRoom.getPlayerIndex(name)).setDoneScoring(true);
 
         TextView textView = findViewById(R.id.pointsHum);

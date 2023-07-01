@@ -4,16 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AfterHumming">
+    tools:context=".Rate">
 
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView"
-        android:name="com.example.bzzing_last.FragmentOthersChoose"
+        android:name="com.example.bzzing_last.FragmentWaitingOthersGuess"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout="@layout/fragment_others_choose" />
+        tools:layout="@layout/fragment_waiting_others_guess" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
