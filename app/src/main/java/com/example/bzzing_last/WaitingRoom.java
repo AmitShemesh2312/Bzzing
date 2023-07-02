@@ -80,28 +80,7 @@ public class WaitingRoom extends AppCompatActivity implements WaitingRoomHandler
         showPlayerNum();
     }
 
-//    @Override
-//    protected void onStop() {//כאשר שחקן יוצא מן האפליקציה, אם השחקן האחרון יצא הוא נסגר, אם לא הפעולה תעדכן את החדר בהתאם
-//        super.onStop();
-//        if(!AppUtilities.gameRoom.getEverybodyReady())
-//        {
-//            GameRoom gameRoom = AppUtilities.gameRoom;
-//            ArrayList<Player> arr = gameRoom.getPlayers();
-//
-//            int index = getPlayerIndex();
-//            if (index != -1) {
-//                if (gameRoom.getPlayersNum() == 1) {
-//                    database.deleteGameRoom();
-//                }
-//                else {
-//                    arr.remove(index);
-//                    gameRoom.setPlayersNum(-1);
-//                    database.updateAll();
-//                }
-//            }
-//            finish();
-//        }
-//    }
+
 
 
     @Override
@@ -168,7 +147,7 @@ public class WaitingRoom extends AppCompatActivity implements WaitingRoomHandler
     public void goToGameStarted()//הפעולה מעבירה intent
     {
         database.stopListeningDocumentChanges();
-        Intent intent = new Intent(this, nextPlayer.class);
+        Intent intent = new Intent(this, NextPlayer.class);
         intent.putExtra("name", name);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);

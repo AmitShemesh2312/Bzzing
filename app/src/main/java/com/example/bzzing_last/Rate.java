@@ -132,7 +132,7 @@ public class Rate extends AppCompatActivity implements RateHandler {
         if (AppUtilities.gameRoom.getUpdated()) {
             database.stopListeningDocumentChanges();
 
-            Intent intent = new Intent(this, nextPlayer.class);
+            Intent intent = new Intent(this, NextPlayer.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             intent.putExtra("name", name);
             startActivity(intent);

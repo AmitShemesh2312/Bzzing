@@ -10,7 +10,7 @@ import android.widget.TextView;
 import android.graphics.Color;
 
 
-public class nextPlayer extends AppCompatActivity implements NextPlayerHandler {
+public class NextPlayer extends AppCompatActivity implements NextPlayerHandler {
 
     private String name;
     private DB database;

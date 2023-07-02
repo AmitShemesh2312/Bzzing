@@ -27,8 +27,6 @@ public class FragmentExpectations extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private MediaPlayer mediaPlayer;
-    DB database = new DB();
 
     public FragmentExpectations() {
         // Required empty public constructor
