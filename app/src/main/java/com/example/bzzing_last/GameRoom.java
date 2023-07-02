@@ -66,10 +66,6 @@ public class GameRoom{
         songs.add(new Song("Grenade", "Bruno Mars", "doo_wops_and_hooligans"));
         songs.add(new Song("Locked Out Of Heaven", "Bruno Mars", "unorthodox_jukebox"));
 
-
-
-
-
         Collections.shuffle(songs);
 
 
@@ -148,9 +144,6 @@ public class GameRoom{
     {
         this.updated = updated;
     }
-
-
-
 
 
 
@@ -260,7 +253,7 @@ public class GameRoom{
     }
 
 
-    public int getPlayerIndex(String name)//הפעולה מחזירה איזה מקום השחקן במערך השחקנים
+    public int getPlayerIndex(String name)
     {
         int index = -1;
         for (int i = 0; i < players.size(); i++) {
@@ -311,7 +304,7 @@ public class GameRoom{
         }
     }
 
-    public boolean everybodyReady()//הפעולה בודקת אם כל השחקנים מוכנים. במידה וכן, תעדכן את הGameRoom ותקרא לפעולה goToGameStarted()
+    public boolean everybodyReady()
     {
         GameRoom gameRoom = AppUtilities.gameRoom;
         boolean allReady = true;
@@ -328,7 +321,7 @@ public class GameRoom{
     public void addPlayer(Player p)
     {
         this.players.add(p);
-    }//מוסיף שחקן לרשימת השחקנים
+    }
 
     public void addGuesser(Guesser p){ this.guessers.add(p); }
 }

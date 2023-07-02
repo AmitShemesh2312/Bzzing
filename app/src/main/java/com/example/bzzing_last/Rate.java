@@ -124,7 +124,6 @@ public class Rate extends AppCompatActivity implements RateHandler {
         for (int i = 0; i < gameRoom.getPlayers().size(); i++) {
             gameRoom.getPlayers().get(i).setDoneScoring(false);
         }
-
         gameRoom.setUpdated(true);
     }
 
